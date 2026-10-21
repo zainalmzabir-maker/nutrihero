@@ -77,6 +77,14 @@
       box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
     }
 
+    /* Butang Apung Orientasi */
+    .floating-rotate-btn {
+      box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    }
+    .floating-rotate-btn:active {
+      transform: scale(0.92);
+    }
+
     .bar-sheen {
       position: relative;
       overflow: hidden;
@@ -93,6 +101,12 @@
 </head>
 <body class="text-white flex flex-col items-center justify-start p-1 sm:p-3 select-none">
 
+  <!-- BUTANG APUNG PINTAR: TUKAR MOD MELINTANG / PUSING SKRIN & SKRIN PENUH -->
+  <button id="btnFloatingOrient" onclick="toggleScreenOrientationMode()" class="floating-rotate-btn fixed top-14 right-2 sm:top-16 sm:right-4 z-40 bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-hud font-black text-[10px] sm:text-xs px-3 py-2 rounded-full border-2 border-cyan-300 flex items-center gap-1.5 shadow-2xl transition" title="Tukar Mod Melintang / Menegak">
+    <i id="floatingOrientIcon" class="fa-solid fa-arrows-rotate text-xs sm:text-sm animate-spin-slow"></i>
+    <span id="floatingOrientText">PUSING MELINTANG</span>
+  </button>
+
   <!-- Header Sekolah & Bar Kawalan -->
   <header class="w-full max-w-4xl flex items-center justify-between bg-slate-900/90 border border-cyan-500/40 rounded-2xl px-3 sm:px-4 py-2 my-1 backdrop-blur-md shadow-lg shadow-sky-950/60">
     <div class="flex items-center space-x-2 sm:space-x-3">
@@ -103,21 +117,28 @@
         <h1 class="text-xs sm:text-base font-black tracking-wider font-hud text-cyan-300 leading-tight">
           EJEN VITA-X: MISI KUASA NUTRISI
         </h1>
-        <p id="displaySchoolHeader" class="text-[10px] sm:text-xs font-bold text-sky-400 truncate max-w-[170px] sm:max-w-xs">
+        <p id="displaySchoolHeader" class="text-[10px] sm:text-xs font-bold text-sky-400 truncate max-w-[150px] sm:max-w-xs">
           SMK KAMARUL ARIFFIN
         </p>
       </div>
     </div>
     
     <div class="flex items-center gap-1.5 sm:gap-2">
-      <button onclick="togglePauseGame()" title="Jeda Permainan" class="w-8 h-8 sm:w-9 sm:h-9 bg-blue-950 hover:bg-blue-900 text-amber-300 border border-amber-400/50 rounded-xl text-xs font-bold font-hud transition flex items-center justify-center shadow">
+      <!-- Butang Refresh Header -->
+      <button onclick="refreshGamePage()" title="Muat Semula Laman (Refresh)" class="w-8 h-8 sm:w-9 sm:h-9 bg-blue-950 hover:bg-blue-900 text-cyan-300 border border-cyan-400/50 rounded-xl text-xs font-bold font-hud transition flex items-center justify-center shadow" aria-label="Refresh">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+      <!-- Butang Jeda (Pause) -->
+      <button onclick="togglePauseGame()" title="Jeda Permainan" class="w-8 h-8 sm:w-9 sm:h-9 bg-blue-950 hover:bg-blue-900 text-amber-300 border border-amber-400/50 rounded-xl text-xs font-bold font-hud transition flex items-center justify-center shadow" aria-label="Pause">
         <i id="pauseIcon" class="fa-solid fa-pause"></i>
       </button>
+      <!-- Butang Admin -->
       <button onclick="openAdminModal()" title="Panel Pentadbir" class="px-2.5 sm:px-3 py-1.5 bg-blue-950 hover:bg-blue-900 text-cyan-300 border border-cyan-500/40 rounded-xl text-[11px] sm:text-xs font-bold font-hud transition flex items-center gap-1 shadow">
         <i class="fa-solid fa-shield-halved text-amber-400"></i>
         <span>ADMIN</span>
       </button>
-      <button id="soundBtn" onclick="toggleSound()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-950 hover:bg-blue-900 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-xs transition">
+      <!-- Audio Toggle -->
+      <button id="soundBtn" onclick="toggleSound()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-950 hover:bg-blue-900 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-xs transition" aria-label="Audio">
         <i class="fa-solid fa-volume-high"></i>
       </button>
     </div>
@@ -128,7 +149,7 @@
     
     <div class="w-full game-border rounded-3xl bg-slate-950 p-2 sm:p-3 relative backdrop-blur-md overflow-hidden">
       
-      <!-- Top HUD Banner -->
+      <!-- Top HUD Banner[cite: 5] -->
       <div class="w-full hud-panel rounded-2xl px-2 sm:px-3 py-1.5 sm:py-2 mb-2 flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
         <div class="flex items-center space-x-1.5">
           <div class="bg-gradient-to-r from-blue-600 to-cyan-500 px-2 py-0.5 rounded-lg border border-cyan-300 font-hud font-extrabold text-[11px] sm:text-sm tracking-wider shadow">
@@ -211,7 +232,7 @@
         </div>
       </div>
 
-      <!-- PANEL KAWALAN SKRIN SENTUH TELEFON (VIRTUAL GAMEPAD) -->
+      <!-- PANEL KAWALAN SKRIN SENTUH TELEFON (VIRTUAL GAMEPAD)[cite: 4, 5] -->
       <div class="w-full flex items-center justify-between px-2 sm:px-6 pt-2 pb-1 select-none">
         <!-- Pad Arah Kiri -->
         <div class="flex items-center space-x-3 sm:space-x-4">
@@ -225,7 +246,7 @@
           </button>
         </div>
 
-        <!-- Pad Tindakan Kanan -->
+        <!-- Pad Tindakan Kanan[cite: 4, 5] -->
         <div class="flex items-center space-x-3 sm:space-x-4">
           <button id="btnScanTouch" class="touch-pad-btn action-scan-btn w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex flex-col items-center justify-center text-white shadow-xl active:scale-90" aria-label="Imbas Makanan">
             <i class="fa-solid fa-qrcode text-xl sm:text-2xl text-emerald-100"></i>
@@ -241,7 +262,7 @@
     </div>
   </main>
 
-  <!-- SKRIN MULA / START SCREEN (FIXED OVERLAY: BEBAS DARIPADA KANVAS, BOLEH DISKROL DI TELEFON) -->
+  <!-- SKRIN MULA / START SCREEN (FIXED OVERLAY: BOLEH DISKROL DENGAN BUTANG REFRESH) -->
   <div id="startScreen" class="fixed inset-0 bg-slate-950/95 z-50 backdrop-blur-md mobile-scroll-screen p-4 flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-sm flex flex-col items-center py-6 text-center">
       
@@ -255,7 +276,7 @@
         SMK KAMARUL ARIFFIN
       </p>
 
-      <div class="w-full space-y-3 mb-5 text-left">
+      <div class="w-full space-y-3 mb-4 text-left">
         <div>
           <label class="text-xs font-bold text-sky-300 font-hud">NAMA EJEN / PESERTA</label>
           <input type="text" id="inputPlayerName" placeholder="Contoh: Ejen Adam" class="w-full px-3.5 py-2.5 bg-slate-900 border-2 border-cyan-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
@@ -266,27 +287,36 @@
         </div>
       </div>
 
-      <!-- Butang Start Jelas & Mudah Ditekan -->
-      <button onclick="startGame()" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black font-hud text-base sm:text-lg rounded-2xl shadow-xl shadow-cyan-500/50 transition transform active:scale-95 flex items-center justify-center gap-2 border border-cyan-300/60">
-        <i class="fa-solid fa-play"></i>
-        <span>MULA MISI (START)</span>
-      </button>
+      <!-- Butang Tindakan Mula & Butang Refresh -->
+      <div class="w-full space-y-2 mb-3">
+        <button onclick="startGame()" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black font-hud text-base sm:text-lg rounded-2xl shadow-xl shadow-cyan-500/50 transition transform active:scale-95 flex items-center justify-center gap-2 border border-cyan-300/60">
+          <i class="fa-solid fa-play"></i>
+          <span>MULA MISI (START)</span>
+        </button>
 
-      <div class="mt-4 grid grid-cols-2 gap-2 text-[11px] text-sky-200/90 w-full text-left">
+        <!-- Butang Refresh Main Page -->
+        <button onclick="refreshGamePage()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-sky-300 font-hud font-bold text-xs sm:text-sm rounded-xl border border-cyan-500/40 shadow transition flex items-center justify-center gap-2 active:scale-95">
+          <i class="fa-solid fa-rotate-right text-cyan-400"></i>
+          <span>MUAT SEMULA LAMAN (REFRESH)</span>
+        </button>
+      </div>
+
+      <!-- Panduan Mod Melintang & Kawalan -->
+      <div class="mt-2 grid grid-cols-2 gap-2 text-[11px] text-sky-200/90 w-full text-left">
         <div class="bg-blue-950/70 p-2.5 rounded-xl border border-cyan-500/30">
-          <span class="text-cyan-400 font-extrabold block">📱 Di Telefon:</span>
-          Gunakan butang sentuh di bawah untuk gerak, imbas & lompat.
+          <span class="text-cyan-400 font-extrabold block">🔄 Pusing Skrin:</span>
+          Tekan butang apung di penjuru kanan atas untuk mod melintang penuh.
         </div>
         <div class="bg-blue-950/70 p-2.5 rounded-xl border border-cyan-500/30">
           <span class="text-amber-400 font-extrabold block">🎯 Misi Anda:</span>
-          Imbas 4 makanan berkhasiat & masuk ke portal penamat.
+          Imbas 4 makanan berkhasiat & masuk ke portal penamat[cite: 5].
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- POP-UP MODAL PENGIMBAS NUTRISI (FIXED OVERLAY) -->
+  <!-- POP-UP MODAL PENGIMBAS NUTRISI (FIXED OVERLAY)[cite: 5] -->
   <div id="modalPengimbas" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 p-4 mobile-scroll-screen flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-lg bg-slate-900 border-2 border-cyan-400 rounded-3xl p-4 sm:p-6 shadow-2xl relative text-left">
       
@@ -303,7 +333,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 mb-4">
         <div class="sm:col-span-3 space-y-2">
           <p id="quizQuestion" class="text-xs sm:text-sm font-bold text-white mb-2">
-            Apakah fungsi utama karbohidrat?
+            Apakah fungsi utama karbohidrat?[cite: 5]
           </p>
           <div id="quizOptionsContainer" class="space-y-1.5"></div>
         </div>
@@ -312,7 +342,7 @@
           <div>
             <span class="font-hud font-bold text-amber-300 block mb-1">MAKLUMAT:</span>
             <p id="quizFactText" class="text-[10px] sm:text-[11px] text-sky-200 leading-tight">
-              Karbohidrat ialah sumber tenaga utama badan.
+              Karbohidrat ialah sumber tenaga utama badan[cite: 5].
             </p>
           </div>
           <div id="quizResultStatus" class="mt-2 text-center font-hud font-bold text-[11px] py-1 px-2 rounded-xl bg-black/40 text-sky-300">
@@ -330,14 +360,14 @@
     </div>
   </div>
 
-  <!-- SKRIN KEJAYAAN (FIXED OVERLAY) -->
+  <!-- SKRIN KEJAYAAN (FIXED OVERLAY)[cite: 4] -->
   <div id="victoryScreen" class="hidden fixed inset-0 bg-slate-950/95 z-50 backdrop-blur-md mobile-scroll-screen p-4 flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-xs flex flex-col items-center py-6 text-center">
       <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-400 text-2xl mb-1 animate-bounce">
         🏆
       </div>
-      <h3 class="text-xl sm:text-2xl font-black font-hud text-amber-300 mb-0.5">TAHNIAH! MISI BERJAYA!</h3>
-      <p class="text-[11px] sm:text-xs text-emerald-400 font-bold mb-3">4 Kuasa Nutrien Berjaya Diaktifkan & Sampai ke Portal</p>
+      <h3 class="text-xl sm:text-2xl font-black font-hud text-amber-300 mb-0.5">TAHNIAH! MISI BERJAYA![cite: 4]</h3>
+      <p class="text-[11px] sm:text-xs text-emerald-400 font-bold mb-3">4 Kuasa Nutrien Berjaya Diaktifkan & Sampai ke Portal[cite: 4, 5]</p>
       
       <div class="w-full bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-3 mb-4 text-xs text-left">
         <div class="flex justify-between py-1 border-b border-slate-800">
@@ -436,7 +466,7 @@
   </div>
 
   <footer class="mt-2 text-[10px] sm:text-[11px] text-sky-400/70 text-center font-hud">
-    EJEN VITA-X Prototaip v1.0 &bull; RBT & Gamifikasi Digital &bull; SMK Kamarul Ariffin
+    EJEN VITA-X Prototaip v1.0 &bull; RBT & Gamifikasi Digital &bull; SMK Kamarul Ariffin[cite: 4]
   </footer>
 
   <!-- SISTEM AUDIO 8-BIT SINTETIK -->
@@ -604,7 +634,7 @@
     heroImg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(HERO_SVG.trim());
   </script>
 
-  <!-- ENJIN UTAMA PERMAINAN -->
+  <!-- ENJIN UTAMA PERMAINAN & SISTEM ORIENTASI SKRIN -->
   <script>
     const DEFAULT_CONFIG = {
       schoolName: "SMK KAMARUL ARIFFIN",
@@ -626,6 +656,71 @@
       document.getElementById('displaySchoolHeader').innerText = config.schoolName;
       document.getElementById('regSchoolName').innerText = config.schoolName;
     }
+
+    // FUNGSI MUAT SEMULA LAMAN (REFRESH)
+    function refreshGamePage() {
+      if (confirm("Adakah anda ingin memuat semula permainan?")) {
+        window.location.reload();
+      }
+    }
+
+    // SISTEM TUKAR MOD MELINTANG (LANDSCAPE) & SKRIN PENUH DENGAN BUTANG APUNG
+    let isLandscapeMode = false;
+
+    async function toggleScreenOrientationMode() {
+      triggerHaptic(25);
+      try {
+        if (!document.fullscreenElement) {
+          // Masuk ke Skrin Penuh
+          const docEl = document.documentElement;
+          if (docEl.requestFullscreen) {
+            await docEl.requestFullscreen();
+          } else if (docEl.webkitRequestFullscreen) {
+            await docEl.webkitRequestFullscreen();
+          }
+
+          // Kunci ke Mod Melintang (Landscape) jika disokong oleh pelayar peranti
+          if (screen.orientation && screen.orientation.lock) {
+            await screen.orientation.lock('landscape').catch(() => {});
+          }
+          isLandscapeMode = true;
+        } else {
+          // Keluar daripada Skrin Penuh
+          if (document.exitFullscreen) {
+            await document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+            await document.webkitExitFullscreen();
+          }
+
+          if (screen.orientation && screen.orientation.unlock) {
+            screen.orientation.unlock();
+          }
+          isLandscapeMode = false;
+        }
+      } catch (err) {
+        console.warn("Ralat pertukaran orientasi:", err);
+      }
+      kemaskiniButangApungUI();
+    }
+
+    function kemaskiniButangApungUI() {
+      const icon = document.getElementById('floatingOrientIcon');
+      const text = document.getElementById('floatingOrientText');
+      const isCurrentlyLandscape = window.innerWidth > window.innerHeight;
+
+      if (document.fullscreenElement || isCurrentlyLandscape) {
+        icon.className = 'fa-solid fa-mobile-screen text-xs sm:text-sm';
+        text.innerText = 'MOD MENEGAK';
+      } else {
+        icon.className = 'fa-solid fa-arrows-rotate text-xs sm:text-sm';
+        text.innerText = 'PUSING MELINTANG';
+      }
+    }
+
+    // Pantau perubahan saiz/orientasi skrin secara masa nyata
+    window.addEventListener('resize', kemaskiniButangApungUI);
+    window.addEventListener('orientationchange', kemaskiniButangApungUI);
+    document.addEventListener('fullscreenchange', kemaskiniButangApungUI);
 
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
@@ -656,13 +751,13 @@
         id: 'pisang',
         nama: 'PISANG (KARBOHIDRAT)',
         icon: '🍌',
-        soalan: 'Apakah fungsi utama karbohidrat dalam pemakanan seharian?',
+        soalan: 'Apakah fungsi utama karbohidrat dalam pemakanan seharian?[cite: 5]',
         pilihan: [
-          { text: 'A. Membekalkan tenaga utama untuk aktiviti', correct: true },
-          { text: 'B. Membina dan membaiki tisu otot yang luka', correct: false },
-          { text: 'C. Mengekalkan keseimbangan cecair badan sahaja', correct: false }
+          { text: 'A. Membekalkan tenaga utama untuk aktiviti[cite: 5]', correct: true },
+          { text: 'B. Membina dan membaiki tisu otot yang luka[cite: 5]', correct: false },
+          { text: 'C. Mengekalkan keseimbangan cecair badan sahaja[cite: 5]', correct: false }
         ],
-        fakta: 'Karbohidrat ialah sumber tenaga utama badan. Pisang memberi tenaga segera untuk kekal cergas!',
+        fakta: 'Karbohidrat ialah sumber tenaga utama badan. Pisang memberi tenaga segera untuk kekal cergas![cite: 5]',
         tenagaBonus: 20
       },
       telur: {
@@ -972,7 +1067,7 @@
         btnElement.classList.remove('border-cyan-500/40', 'bg-slate-800');
         btnElement.classList.add('border-green-400', 'bg-green-950/80', 'text-green-300');
         
-        statusEl.innerText = `✅ TAHNIAH! +${activeQuizNutrient.tenagaBonus} Tenaga & Kuasa Diaktifkan!`;
+        statusEl.innerText = `✅ TAHNIAH! +${activeQuizNutrient.tenagaBonus} Tenaga & Kuasa Diaktifkan![cite: 4, 5]`;
         statusEl.className = "mt-2 text-center font-hud font-bold text-xs py-1 px-2 rounded-xl bg-green-950 border border-green-500 text-green-300";
 
         player.energy = Math.min(100, player.energy + activeQuizNutrient.tenagaBonus);
@@ -982,7 +1077,7 @@
         const food = foodItems.find(f => f.id === activeQuizNutrient.id);
         if (food) food.scanned = true;
 
-        document.getElementById('vitaBotMsg').innerText = `Hebat! Kuasa ${activeQuizNutrient.nama} telah aktif. Teruskan ke portal penamat!`;
+        document.getElementById('vitaBotMsg').innerText = `Hebat! Kuasa ${activeQuizNutrient.nama} telah aktif. Teruskan ke portal penamat![cite: 5]`;
       } else {
         playSound('hurt');
         triggerHaptic(60);
@@ -1094,12 +1189,12 @@
             player.invincibleTimer = 1.2;
             playSound('hurt');
             triggerHaptic(50);
-            document.getElementById('vitaBotMsg').innerText = "Awas! Serangan Burger Mengurangkan 25 Tenaga!";
+            document.getElementById('vitaBotMsg').innerText = "Awas! Serangan Burger Mengurangkan 25 Tenaga![cite: 4]";
             if (player.energy <= 0) {
               player.hearts -= 1;
               player.energy = 40;
               if (player.hearts <= 0) {
-                triggerGameOver("Tewas akibat serangan raksasa burger!");
+                triggerGameOver("Tewas akibat serangan raksasa burger![cite: 4]");
                 return;
               }
             }
@@ -1121,7 +1216,7 @@
             triggerVictory();
             return;
           } else {
-            document.getElementById('vitaBotMsg').innerText = "Portal berkunci! Sila lengkapkan keempat-empat Kuasa Nutrien dahulu.";
+            document.getElementById('vitaBotMsg').innerText = "Portal berkunci! Sila lengkapkan keempat-empat Kuasa Nutrien dahulu.[cite: 4, 5]";
           }
         }
 
@@ -1170,7 +1265,7 @@
       ctx.save();
       ctx.translate(-cameraX, 0);
 
-      // Papan tanda Zon 1
+      // Papan tanda Zon 1[cite: 5]
       ctx.fillStyle = '#78350f';
       ctx.fillRect(50, 290, 8, 70);
       ctx.fillStyle = '#b45309';
@@ -1183,7 +1278,7 @@
       ctx.fillText('ZON 1', 62, 274);
       ctx.fillText('TAMAN NUTRISI', 62, 287);
 
-      // Platform
+      // Platform[cite: 5]
       for (let p of platforms) {
         if (p.x + p.w < cameraX - 50 || p.x > cameraX + V_WIDTH + 50) continue;
 
@@ -1216,7 +1311,7 @@
         }
       }
 
-      // Makanan & Lencana IMBAS
+      // Makanan & Lencana IMBAS[cite: 5]
       for (let f of foodItems) {
         if (!f.scanned && f.x > cameraX - 40 && f.x < cameraX + V_WIDTH + 40) {
           ctx.fillStyle = '#0284c7';
@@ -1239,7 +1334,7 @@
         }
       }
 
-      // Musuh Burger
+      // Musuh Burger[cite: 4, 5]
       for (let em of burgerEnemies) {
         if (em.x > cameraX - 40 && em.x < cameraX + V_WIDTH + 40) {
           ctx.drawImage(SPRITES.burgerEnemy, em.x - em.w / 2, em.y - em.h / 2, em.w, em.h);
@@ -1249,7 +1344,7 @@
         }
       }
 
-      // Portal
+      // Portal[cite: 4, 5]
       drawPortal(portal.x, portal.y, portal.w, portal.h);
 
       // Hero
@@ -1500,6 +1595,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       loadSettings();
       setupLevel();
+      kemaskiniButangApungUI();
     });
   </script>
 </body>
