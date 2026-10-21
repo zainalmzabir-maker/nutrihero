@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>NutriHero: Platformer Nutrisi Sihat</title>
-  <!-- Tailwind CSS CDN -->
+  <title>EJEN VITA-X: MISI KUASA NUTRISI</title>
+  
+  <!-- Tailwind CSS & Font Awesome -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- Google Fonts -->
+  
+  <!-- Google Fonts: Chakra Petch (Sci-fi HUD) & Nunito -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
@@ -21,29 +22,32 @@
     }
     body {
       font-family: 'Nunito', sans-serif;
-      background-color: #030d1a;
-      background-image: radial-gradient(circle at 50% 10%, rgba(14, 116, 144, 0.25) 0%, transparent 70%), linear-gradient(180deg, #02182b 0%, #010811 100%);
+      background-color: #031427;
+      background-image: radial-gradient(circle at 50% 10%, rgba(2, 132, 199, 0.25) 0%, transparent 75%), linear-gradient(180deg, #021a36 0%, #010a17 100%);
       overflow-x: hidden;
       min-height: 100vh;
     }
     .font-hud {
       font-family: 'Chakra Petch', sans-serif;
     }
-    /* Touch controls styling based on reference image */
-    .touch-btn {
-      background: linear-gradient(180deg, rgba(30, 58, 138, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
-      border: 3px solid rgba(96, 165, 250, 0.8);
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    .game-border {
+      border: 3px solid #00d2ff;
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.4), inset 0 0 15px rgba(0, 210, 255, 0.2);
     }
-    .touch-btn:active {
+    .hud-panel {
+      background: linear-gradient(180deg, rgba(7, 33, 68, 0.95) 0%, rgba(2, 16, 38, 0.98) 100%);
+      border: 2px solid #00e5ff;
+      box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+    }
+    .btn-touch {
+      background: linear-gradient(180deg, #0284c7 0%, #034275 100%);
+      border: 2.5px solid #38bdf8;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+    }
+    .btn-touch:active {
       transform: scale(0.92);
-      border-color: #38bdf8;
-      background: rgba(37, 99, 235, 0.9);
-    }
-    /* Cyber/Arcade frame */
-    .arcade-frame {
-      border: 3px solid #38bdf8;
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35), inset 0 0 15px rgba(56, 189, 248, 0.15);
+      background: #0284c7;
+      border-color: #7dd3fc;
     }
     .bar-sheen {
       position: relative;
@@ -53,24 +57,24 @@
       content: '';
       position: absolute;
       top: 0; left: -100%; width: 60%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
       animation: sheen 2.2s infinite;
     }
-    @keyframes sheen {
-      100% { left: 160%; }
-    }
+    @keyframes sheen { 100% { left: 160%; } }
   </style>
 </head>
-<body class="text-white flex flex-col items-center justify-start p-2 sm:p-4 select-none">
+<body class="text-white flex flex-col items-center justify-start p-1 sm:p-3 select-none">
 
   <!-- Header Sekolah & Bar Kawalan -->
-  <header class="w-full max-w-3xl flex items-center justify-between bg-slate-900/80 border border-cyan-500/40 rounded-2xl px-4 py-2 my-1 backdrop-blur-md shadow-lg shadow-blue-950/60">
+  <header class="w-full max-w-4xl flex items-center justify-between bg-slate-900/90 border border-cyan-500/40 rounded-2xl px-4 py-2 my-1 backdrop-blur-md shadow-lg shadow-sky-950/60">
     <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center shadow-md shadow-cyan-500/30">
-        <i class="fa-solid fa-gamepad text-white text-xl"></i>
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-md shadow-cyan-500/40 font-hud font-black text-lg text-white">
+        VX
       </div>
       <div>
-        <h1 class="text-lg font-black tracking-wider font-hud text-cyan-300 leading-tight">NUTRIHERO ADVENTURE</h1>
+        <h1 class="text-base sm:text-lg font-black tracking-wider font-hud text-cyan-300 leading-tight">
+          EJEN VITA-X: MISI KUASA NUTRISI
+        </h1>
         <p id="displaySchoolHeader" class="text-xs font-bold text-sky-400 truncate max-w-[200px] sm:max-w-xs">
           SMK KAMARUL ARIFFIN
         </p>
@@ -78,83 +82,181 @@
     </div>
     
     <div class="flex items-center gap-2">
-      <!-- Admin Button -->
-      <button onclick="openAdminModal()" title="Panel Pentadbir" class="px-3 py-1.5 bg-blue-950/70 hover:bg-blue-900 text-cyan-300 border border-cyan-500/40 rounded-xl text-xs font-bold font-hud transition flex items-center gap-1.5 shadow">
+      <button onclick="openAdminModal()" title="Panel Pentadbir" class="px-3 py-1.5 bg-blue-950 hover:bg-blue-900 text-cyan-300 border border-cyan-500/40 rounded-xl text-xs font-bold font-hud transition flex items-center gap-1.5">
         <i class="fa-solid fa-shield-halved text-amber-400"></i>
         <span>ADMIN</span>
       </button>
-      <!-- Audio Toggle Button -->
-      <button id="soundBtn" onclick="toggleSound()" class="w-9 h-9 rounded-xl bg-blue-950/70 hover:bg-blue-900 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-xs transition">
+      <button id="soundBtn" onclick="toggleSound()" class="w-9 h-9 rounded-xl bg-blue-950 hover:bg-blue-900 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-xs transition" title="Buka/Tutup Audio">
         <i class="fa-solid fa-volume-high text-sm"></i>
       </button>
     </div>
   </header>
 
   <!-- Container Utama Permainan -->
-  <main class="w-full max-w-3xl flex flex-col items-center">
+  <main class="w-full max-w-4xl flex flex-col items-center">
     
-    <div class="w-full arcade-frame rounded-3xl bg-slate-950 p-2 sm:p-3 relative backdrop-blur-md overflow-hidden">
+    <div class="w-full game-border rounded-3xl bg-slate-950 p-2 sm:p-3 relative backdrop-blur-md overflow-hidden">
       
-      <!-- Antara Muka (UI) - Persis Gambar Rujukan -->
-      <div class="w-full bg-blue-950/90 border-2 border-cyan-400/60 rounded-2xl px-3 py-2 mb-2 flex items-center justify-between shadow-lg">
+      <!-- Top HUD Banner (Persis Gambar g2.jpg) -->
+      <div class="w-full hud-panel rounded-2xl px-2 sm:px-3 py-2 mb-2 flex flex-wrap items-center justify-between gap-2">
         
-        <!-- Kiri: Bar Tenaga & 3 Hati -->
+        <!-- Kiri: Logo Ejen VITA-X -->
         <div class="flex items-center space-x-2">
-          <!-- 3 Hati HP -->
-          <div id="heartsContainer" class="flex items-center space-x-1 text-red-500 text-lg sm:text-xl drop-shadow-[0_2px_4px_rgba(239,68,68,0.7)]">
-            <i class="fa-solid fa-heart animate-pulse"></i>
-            <i class="fa-solid fa-heart animate-pulse"></i>
-            <i class="fa-solid fa-heart animate-pulse"></i>
+          <div class="bg-gradient-to-r from-blue-600 to-cyan-500 px-2 py-0.5 rounded-lg border border-cyan-300 font-hud font-extrabold text-xs sm:text-sm tracking-wider shadow">
+            EJEN <span class="text-amber-300">VITA-X</span>
           </div>
-          <!-- Bar Tenaga (Hijau Bertenaga) -->
-          <div class="w-24 sm:w-36 flex flex-col">
-            <span class="text-[9px] sm:text-[10px] font-hud font-extrabold text-green-300 uppercase leading-none mb-0.5">Bar Tenaga</span>
-            <div class="w-full h-3 sm:h-3.5 bg-black/70 rounded-full p-0.5 border border-green-400/50">
-              <div id="energyBar" class="h-full bg-gradient-to-r from-emerald-500 via-green-400 to-lime-300 rounded-full bar-sheen transition-all duration-200" style="width: 100%;"></div>
+        </div>
+
+        <!-- Tenaga & Nyawa Hati -->
+        <div class="flex items-center space-x-3">
+          <!-- Bar Tenaga -->
+          <div class="flex items-center space-x-1.5">
+            <span class="text-[10px] sm:text-xs font-hud font-bold text-sky-300">Tenaga:</span>
+            <div class="w-20 sm:w-28 h-3.5 bg-black/80 rounded-full p-0.5 border border-cyan-400/60 relative">
+              <div id="hudEnergyBar" class="h-full bg-gradient-to-r from-emerald-500 via-green-400 to-lime-300 rounded-full bar-sheen transition-all duration-200" style="width: 80%;"></div>
+            </div>
+            <span id="hudEnergyText" class="text-[10px] sm:text-xs font-hud font-bold text-green-300">80/100</span>
+          </div>
+
+          <!-- 3 Hati Nyawa -->
+          <div class="flex items-center space-x-1">
+            <span class="text-[10px] sm:text-xs font-hud font-bold text-sky-300 mr-0.5">Nyawa:</span>
+            <div id="heartsContainer" class="flex text-red-500 text-sm sm:text-base space-x-0.5">
+              <i class="fa-solid fa-heart animate-pulse"></i>
+              <i class="fa-solid fa-heart animate-pulse"></i>
+              <i class="fa-solid fa-heart animate-pulse"></i>
             </div>
           </div>
         </div>
 
-        <!-- Tengah: Skor Syiling Emas -->
-        <div class="flex items-center space-x-1.5 bg-black/50 px-3 py-1 rounded-xl border border-amber-400/40">
-          <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-amber-950 text-xs shadow-md">
-            <i class="fa-solid fa-coins"></i>
-          </div>
-          <span id="hudScore" class="font-hud font-extrabold text-amber-300 text-base sm:text-lg">0</span>
+        <!-- Skor Syiling -->
+        <div class="flex items-center space-x-1 bg-black/60 px-2.5 py-1 rounded-xl border border-amber-400/60">
+          <span class="text-amber-400 text-xs sm:text-sm">🪙</span>
+          <span id="hudScore" class="font-hud font-extrabold text-amber-300 text-xs sm:text-sm tracking-wider">0000</span>
         </div>
 
-        <!-- Kanan: Masa Randik (01:30) -->
-        <div class="flex items-center space-x-1.5 bg-black/50 px-3 py-1 rounded-xl border border-cyan-400/40">
-          <i class="fa-regular fa-clock text-cyan-300 text-sm sm:text-base"></i>
-          <span id="hudTime" class="font-hud font-extrabold text-white text-sm sm:text-base tracking-wider">01:30</span>
+        <!-- 4 Ikon Status Kuasa Nutrien (0/1) -->
+        <div class="flex items-center space-x-2 bg-black/60 px-2 py-1 rounded-xl border border-cyan-400/40">
+          <span class="text-[10px] font-hud font-bold text-sky-300 mr-1 hidden sm:inline">Kuasa:</span>
+          
+          <!-- 1. Karbohidrat (Pisang) -->
+          <div id="badgeNutri1" class="flex items-center space-x-0.5 opacity-40 transition-opacity" title="Tenaga: Pisang (Karbohidrat)">
+            <span class="text-xs sm:text-sm">🍌</span>
+            <span id="badgeCount1" class="text-[10px] font-hud font-bold text-white">0/1</span>
+          </div>
+          <!-- 2. Protein (Telur) -->
+          <div id="badgeNutri2" class="flex items-center space-x-0.5 opacity-40 transition-opacity" title="Kekuatan: Telur (Protein)">
+            <span class="text-xs sm:text-sm">🥚</span>
+            <span id="badgeCount2" class="text-[10px] font-hud font-bold text-white">0/1</span>
+          </div>
+          <!-- 3. Vitamin (Brokoli) -->
+          <div id="badgeNutri3" class="flex items-center space-x-0.5 opacity-40 transition-opacity" title="Perlindungan: Brokoli (Vitamin)">
+            <span class="text-xs sm:text-sm">🥦</span>
+            <span id="badgeCount3" class="text-[10px] font-hud font-bold text-white">0/1</span>
+          </div>
+          <!-- 4. Hidrasi (Air) -->
+          <div id="badgeNutri4" class="flex items-center space-x-0.5 opacity-40 transition-opacity" title="Hidrasi: Air">
+            <span class="text-xs sm:text-sm">💧</span>
+            <span id="badgeCount4" class="text-[10px] font-hud font-bold text-white">0/1</span>
+          </div>
+        </div>
+
+        <!-- Misi & Bar Jarak Portal -->
+        <div class="flex items-center space-x-2 bg-blue-900/60 px-2 py-1 rounded-xl border border-sky-400/40">
+          <div class="flex flex-col">
+            <span class="text-[9px] font-hud font-bold text-cyan-300 leading-tight">Misi 1: Taman Neo-City</span>
+            <div class="w-16 sm:w-20 h-1.5 bg-black/80 rounded-full overflow-hidden mt-0.5">
+              <div id="missionProgressBar" class="h-full bg-cyan-400" style="width: 5%;"></div>
+            </div>
+          </div>
+          <span class="text-xs">🌀</span>
         </div>
 
       </div>
 
       <!-- Skrin Kanvas Permainan -->
-      <div class="relative w-full aspect-[16/10] sm:aspect-[16/9] max-h-[500px] rounded-2xl overflow-hidden border-2 border-sky-500/50 bg-sky-950">
+      <div class="relative w-full aspect-[16/9] max-h-[480px] rounded-2xl overflow-hidden border-2 border-sky-500/50 bg-slate-950">
         <canvas id="gameCanvas" class="w-full h-full block"></canvas>
         
-        <!-- Notifikasi Mengambang -->
-        <div id="floatingNotify" class="pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 opacity-0 transition-all duration-300 font-hud font-extrabold text-xs sm:text-sm px-4 py-1.5 rounded-full border shadow-2xl z-10 text-center whitespace-nowrap"></div>
+        <!-- Papan Info VITA-BOT (Sebelah Kiri Skrin) -->
+        <div class="pointer-events-none absolute top-3 left-3 flex items-start space-x-2 max-w-[240px] sm:max-w-xs">
+          <img src="https://api.dicebear.com/7.x/bottts/svg?seed=VitaBot&backgroundColor=0284c7" alt="VITA-BOT" class="w-10 h-10 rounded-xl border-2 border-cyan-400 bg-slate-900/90 shadow-lg flex-shrink-0" />
+          <div class="bg-slate-900/90 border border-cyan-400/80 rounded-xl px-2.5 py-1.5 shadow-lg text-[10px] sm:text-[11px] text-cyan-200 leading-snug">
+            <span class="font-hud font-extrabold text-amber-300 block">VITA-BOT:</span>
+            <span id="vitaBotMsg">Kumpul 4 makanan berkhasiat, aktifkan kuasa nutrien dan masuk ke portal penamat!</span>
+          </div>
+        </div>
+
+        <!-- Petunjuk Tombol Imbas Mengambang (Floating Action Prompt) -->
+        <div id="promptImbasFloating" class="hidden pointer-events-none absolute font-hud font-black text-xs sm:text-sm px-3 py-1 rounded-full bg-cyan-500 text-slate-950 border-2 border-white shadow-xl animate-bounce -translate-x-1/2 -translate-y-full">
+          TEKAN [E] / BUTANG IMBAS!
+        </div>
+
+        <!-- Pop-Up Modal: Pengimbas Nutrisi (Sama Seperti Gambar g2.jpg) -->
+        <div id="modalPengimbas" class="hidden absolute inset-0 bg-slate-950/80 backdrop-blur-sm z-30 flex items-center justify-center p-3">
+          <div class="w-full max-w-lg bg-slate-900 border-2 border-cyan-400 rounded-3xl p-4 sm:p-5 shadow-2xl relative text-left">
+            
+            <div class="flex items-center space-x-2 pb-2 border-b border-cyan-500/40 mb-3">
+              <span id="quizIcon" class="text-2xl">🍌</span>
+              <div>
+                <h3 id="quizTitle" class="font-hud font-extrabold text-cyan-300 text-base sm:text-lg uppercase">
+                  PENGIMBAS NUTRISI: PISANG (KARBOHIDRAT)
+                </h3>
+                <p class="text-[11px] text-sky-400">Jawab soalan di bawah untuk mengaktifkan kuasa nutrien!</p>
+              </div>
+            </div>
+
+            <!-- Kandungan Soalan & Maklumat -->
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 mb-4">
+              <!-- Bahagian Kiri: Soalan Pilihan Berganda (3 Kolum) -->
+              <div class="sm:col-span-3 space-y-2">
+                <p id="quizQuestion" class="text-xs sm:text-sm font-bold text-white mb-2">
+                  Apakah fungsi utama karbohidrat dalam pemakanan seharian?
+                </p>
+                <div id="quizOptionsContainer" class="space-y-1.5">
+                  <!-- Pilihan Dijana Melalui JS -->
+                </div>
+              </div>
+
+              <!-- Bahagian Kanan: Kotak Maklumat & Status (2 Kolum) -->
+              <div class="sm:col-span-2 bg-blue-950/70 border border-cyan-500/30 rounded-2xl p-2.5 text-xs flex flex-col justify-between">
+                <div>
+                  <span class="font-hud font-bold text-amber-300 block mb-1">MAKLUMAT NUTRISI:</span>
+                  <p id="quizFactText" class="text-[11px] text-sky-200 leading-tight">
+                    Karbohidrat ialah sumber tenaga utama untuk pergerakan dan aktiviti seharian.
+                  </p>
+                </div>
+                <div id="quizResultStatus" class="mt-2 text-center font-hud font-bold text-xs py-1 px-2 rounded-xl bg-black/40 text-sky-300">
+                  Sila pilih jawapan.
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <button id="btnTutupQuiz" onclick="tutupPengimbasModal()" class="hidden px-5 py-2 bg-gradient-to-r from-emerald-500 to-green-400 text-slate-950 font-hud font-black text-xs sm:text-sm rounded-xl shadow-lg transition">
+                TERUSKAN MISI ➔
+              </button>
+            </div>
+
+          </div>
+        </div>
 
         <!-- Skrin Mula (Start Screen) -->
         <div id="startScreen" class="absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center p-4 text-center z-20 backdrop-blur-md">
-          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/40 mb-2 animate-bounce">
-            <i class="fa-solid fa-person-running text-white text-3xl"></i>
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/50 mb-2 font-hud font-black text-2xl text-white">
+            VITA-X
           </div>
           <h2 class="text-2xl sm:text-3xl font-black font-hud text-cyan-300 tracking-wider mb-0.5">
-            NUTRIHERO ADVENTURE
+            EJEN VITA-X: MISI KUASA NUTRISI
           </h2>
-          <p id="regSchoolName" class="text-xs font-bold text-sky-400 mb-4 tracking-wide font-hud">
+          <p id="regSchoolName" class="text-xs font-bold text-sky-400 mb-3 tracking-wide font-hud">
             SMK KAMARUL ARIFFIN
           </p>
 
-          <!-- Input Nama & Kelas Peserta -->
-          <div class="w-full max-w-xs space-y-2.5 mb-4 text-left">
+          <div class="w-full max-w-xs space-y-2 mb-4 text-left">
             <div>
-              <label class="text-[11px] font-bold text-sky-300 font-hud">NAMA PESERTA / MURID</label>
-              <input type="text" id="inputPlayerName" placeholder="Contoh: Muhammad Danial" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
+              <label class="text-[11px] font-bold text-sky-300 font-hud">NAMA EJEN / PESERTA</label>
+              <input type="text" id="inputPlayerName" placeholder="Contoh: Ejen Adam" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
             </div>
             <div>
               <label class="text-[11px] font-bold text-sky-300 font-hud">KELAS / TINGKATAN</label>
@@ -164,104 +266,101 @@
 
           <button onclick="startGame()" class="w-full max-w-xs py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black font-hud text-base sm:text-lg rounded-xl shadow-lg shadow-cyan-500/40 transition transform active:scale-95 flex items-center justify-center gap-2">
             <i class="fa-solid fa-play"></i>
-            <span>MULA PENGEMBARAAN</span>
+            <span>MULA MISI (START)</span>
           </button>
+        </div>
 
-          <!-- Panduan Ringkas -->
-          <div class="mt-4 grid grid-cols-3 gap-2 text-[10px] text-sky-200/90 max-w-xs text-center">
-            <div class="bg-blue-950/60 p-2 rounded-xl border border-cyan-500/30">
-              <span class="text-emerald-400 font-extrabold block">🥦 Brokoli</span> +Tenaga & Laju
+        <!-- Skrin Kejayaan (Victory Screen) -->
+        <div id="victoryScreen" class="hidden absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center p-4 text-center z-20 backdrop-blur-md">
+          <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-400 text-3xl mb-2 animate-bounce">
+            🏆
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-black font-hud text-amber-300 mb-0.5">TAHNIAH! MISI BERJAYA!</h3>
+          <p class="text-xs text-emerald-400 font-bold mb-2">Semua 4 Kuasa Nutrien Telah Diaktifkan & Sampai ke Portal</p>
+          
+          <div class="flex text-amber-300 text-xl space-x-1 mb-3">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+
+          <div class="w-full max-w-xs bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-3 mb-3 text-xs text-left">
+            <div class="flex justify-between py-1 border-b border-slate-800">
+              <span class="text-sky-300">Ejen:</span>
+              <span id="vicPlayerName" class="font-bold text-white">-</span>
             </div>
-            <div class="bg-blue-950/60 p-2 rounded-xl border border-red-500/30">
-              <span class="text-red-400 font-extrabold block">🍔 Junk Food</span> -Nyawa & Lambat
+            <div class="flex justify-between py-1 border-b border-slate-800">
+              <span class="text-sky-300">Skor Misi:</span>
+              <span id="vicFinalScore" class="font-hud font-bold text-amber-300 text-sm">0</span>
             </div>
-            <div class="bg-blue-950/60 p-2 rounded-xl border border-amber-500/30">
-              <span class="text-amber-400 font-extrabold block">⭐ Bintang</span> +Skor Tinggi
+            <div class="flex justify-between py-1 border-b border-slate-800">
+              <span class="text-sky-300">Masa Operasi:</span>
+              <span id="vicTimeTaken" class="font-bold text-white">0s</span>
             </div>
+            <div class="flex justify-between py-1">
+              <span class="text-sky-300">Status Google Sheet:</span>
+              <span id="vicSheetStatus" class="font-bold text-amber-300">Menghantar...</span>
+            </div>
+          </div>
+
+          <div class="flex gap-2 w-full max-w-xs">
+            <button onclick="restartGame()" class="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-white font-black font-hud text-sm rounded-xl shadow-lg transition">
+              MAIN SEMULA
+            </button>
+            <button onclick="backToMenu()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-bold font-hud text-sm rounded-xl transition">
+              MENU
+            </button>
           </div>
         </div>
 
-        <!-- Skrin Tamat (Game Over) -->
-        <div id="gameOverScreen" class="hidden absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-start p-4 text-center z-20 backdrop-blur-md overflow-y-auto">
-          <div class="my-auto w-full max-w-sm flex flex-col items-center py-2">
-            
-            <div class="w-12 h-12 rounded-2xl bg-red-600/30 border border-red-500/50 flex items-center justify-center text-red-400 mb-2">
-              <i class="fa-solid fa-trophy text-xl text-amber-400"></i>
-            </div>
+        <!-- Skrin Tamat / Misi Gagal (Game Over) -->
+        <div id="gameOverScreen" class="hidden absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center p-4 text-center z-20 backdrop-blur-md">
+          <div class="w-14 h-14 rounded-2xl bg-red-600/30 border border-red-500/50 flex items-center justify-center text-red-400 text-2xl mb-2 animate-pulse">
+            <i class="fa-solid fa-heart-crack"></i>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-black font-hud text-red-400 mb-0.5">MISI GAGAL!</h3>
+          <p id="failReasonText" class="text-xs text-amber-300 font-bold mb-3">Kehabisan Tenaga atau Terkena Serangan Makanan Rapu</p>
 
-            <h3 class="text-xl sm:text-2xl font-black font-hud text-white mb-0.5">MISI TAMAT!</h3>
-            <p id="deathReason" class="text-xs text-amber-300 font-bold mb-2">Masa Telah Tamat</p>
-
-            <!-- Skor Akhir -->
-            <div class="w-full bg-slate-900/80 border border-cyan-500/30 rounded-2xl p-2.5 mb-2.5 text-xs text-left">
-              <div class="flex justify-between py-1 border-b border-slate-800">
-                <span class="text-sky-300">Peserta:</span>
-                <span id="resNameClass" class="font-bold text-white">-</span>
-              </div>
-              <div class="flex justify-between py-1 border-b border-slate-800">
-                <span class="text-sky-300">Jumlah Skor:</span>
-                <span id="resFinalScore" class="font-hud font-bold text-amber-300 text-sm">0</span>
-              </div>
-              <div class="flex justify-between py-1 border-b border-slate-800">
-                <span class="text-sky-300">Jarak Diterokai:</span>
-                <span id="resDistance" class="font-bold text-white">0 Meter</span>
-              </div>
-              <div class="flex justify-between py-1">
-                <span class="text-sky-300">Status Google Sheet:</span>
-                <span id="resSheetStatus" class="font-bold text-amber-300">Menghantar...</span>
-              </div>
-            </div>
-
-            <!-- Leaderboard -->
-            <div class="w-full bg-black/60 border border-cyan-500/30 rounded-2xl p-2.5 mb-3 text-left">
-              <div class="flex items-center justify-between mb-2 pb-1 border-b border-cyan-500/20 text-xs font-hud font-bold text-amber-300">
-                <span><i class="fa-solid fa-ranking-star mr-1 text-amber-400"></i> KEDUDUKAN TERATAS</span>
-                <span id="boardSchoolTag" class="text-[10px] text-sky-400 truncate max-w-[120px]">SEMEKAR</span>
-              </div>
-              <div id="leaderboardList" class="space-y-1 text-xs max-h-28 overflow-y-auto pr-1"></div>
-            </div>
-
-            <!-- Butang Tindakan -->
-            <div class="flex gap-2 w-full">
-              <button onclick="restartGame()" class="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black font-hud text-sm rounded-xl shadow-lg transition">
-                <i class="fa-solid fa-rotate-right mr-1"></i> MAIN LAGI
-              </button>
-              <button onclick="backToMenu()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-bold font-hud text-sm rounded-xl transition">
-                MENU
-              </button>
-            </div>
-
+          <div class="flex gap-2 w-full max-w-xs">
+            <button onclick="restartGame()" class="flex-1 py-2.5 bg-gradient-to-r from-red-600 to-orange-500 text-white font-black font-hud text-sm rounded-xl shadow-lg transition">
+              CUBA LAGI
+            </button>
+            <button onclick="backToMenu()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-bold font-hud text-sm rounded-xl transition">
+              MENU
+            </button>
           </div>
         </div>
 
       </div>
 
-      <!-- Butang Kawalan Sentuh (Persis Gambar Rujukan: Kiri [←][→], Kanan [↑]) -->
+      <!-- Kawalan Butang Sentuh Pada Skrin (Sokongan Telefon & Tablet) -->
       <div class="w-full flex items-center justify-between px-2 pt-3 pb-1">
-        
-        <!-- Butang Kawalan Arah (Kiri & Kanan) -->
-        <div class="flex items-center space-x-3">
-          <button id="btnLeft" class="touch-btn w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl text-white shadow-xl transition" title="Gerak Kiri">
+        <!-- Arah Kiri & Kanan -->
+        <div class="flex items-center space-x-2.5">
+          <button id="btnLeft" class="btn-touch w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-xl text-white shadow-xl transition">
             <i class="fa-solid fa-arrow-left"></i>
           </button>
-          <button id="btnRight" class="touch-btn w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl text-white shadow-xl transition" title="Gerak Kanan">
+          <button id="btnRight" class="btn-touch w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-xl text-white shadow-xl transition">
             <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
-        <!-- Butang Lompat (Atas) -->
-        <div>
-          <button id="btnJump" class="touch-btn w-16 h-16 sm:w-18 sm:h-18 rounded-2xl flex items-center justify-center text-3xl text-white shadow-xl transition border-sky-400" title="Lompat">
+        <!-- Butang Imbas [E] & Melompat [↑] -->
+        <div class="flex items-center space-x-2.5">
+          <button id="btnScanTouch" class="btn-touch w-14 h-12 sm:w-16 sm:h-14 rounded-2xl flex flex-col items-center justify-center text-cyan-300 shadow-xl transition border-cyan-300" title="Imbas Makanan (E)">
+            <i class="fa-solid fa-qrcode text-base sm:text-lg"></i>
+            <span class="text-[9px] font-hud font-black uppercase">IMBAS [E]</span>
+          </button>
+          <button id="btnJump" class="btn-touch w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-2xl text-white shadow-xl transition border-sky-400" title="Melompat">
             <i class="fa-solid fa-arrow-up"></i>
           </button>
         </div>
-
       </div>
 
     </div>
   </main>
 
-  <!-- Admin Modal (Kata Laluan: adminnutrihero) -->
+  <!-- Panel Admin (Kata Laluan: adminnutrihero) -->
   <div id="adminModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="w-full max-w-md bg-slate-950 border-2 border-cyan-500 rounded-3xl p-5 shadow-2xl relative text-left">
       <div class="flex justify-between items-center pb-3 border-b border-cyan-500/30 mb-4">
@@ -275,12 +374,12 @@
       </div>
 
       <div id="adminAuthSection" class="space-y-3">
-        <p class="text-xs text-sky-300">Masukkan kata laluan admin untuk menetapkan konfigurasi:</p>
+        <p class="text-xs text-sky-300">Sila masukkan kata laluan admin:</p>
         <input type="password" id="adminPasswordInput" placeholder="Kata laluan admin" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/40 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400" />
         <button onclick="verifyAdminPassword()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold font-hud rounded-xl transition text-sm">
-          LOG MASUK ADMIN
+          LOG MASUK
         </button>
-        <p id="adminAuthError" class="text-xs text-red-400 font-bold hidden text-center">Kata laluan tidak tepat!</p>
+        <p id="adminAuthError" class="text-xs text-red-400 font-bold hidden text-center">Kata laluan tidak sah!</p>
       </div>
 
       <div id="adminConfigSection" class="hidden space-y-3 text-xs">
@@ -301,43 +400,28 @@
           <button onclick="saveAdminSettings()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black font-hud rounded-xl transition text-sm">
             SIMPAN TETAPAN
           </button>
-          <button onclick="clearLeaderboardData()" class="px-3 py-2 bg-red-950 hover:bg-red-800 text-red-300 font-bold rounded-xl transition">
-            Padam Rekod
-          </button>
         </div>
-        <p id="adminSaveSuccess" class="text-cyan-400 text-center font-bold hidden">Tetapan berjaya disimpan!</p>
+        <p id="adminSaveSuccess" class="text-cyan-400 text-center font-bold hidden">Tetapan berjaya dikemas kini!</p>
       </div>
-
     </div>
   </div>
 
-  <footer class="mt-2 text-[11px] text-sky-500/70 text-center font-hud">
-    NutriHero Platformer &copy; 2026 &bull; Modul RBT & Sains Nutrisi Tingkatan 1 &bull; GitHub Pages + Google Sheets
+  <footer class="mt-2 text-[11px] text-sky-400/70 text-center font-hud">
+    EJEN VITA-X Prototaip v1.0 &bull; RBT & Gamifikasi Digital &bull; SMK Kamarul Ariffin
   </footer>
 
-  <!-- 8-Bit Chiptune Platformer BGM & Sound Engine -->
+  <!-- SISTEM AUDIO 8-BIT SINTETIK -->
   <script>
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
     let soundEnabled = true;
-
     let bgmTimer = null;
     let bgmStep = 0;
     let isBgmPlaying = false;
 
-    // Melodi rancak tema Mario Platformer 8-bit (C Major / A Minor)
-    const BGM_MELODY = [
-      659.25, 659.25, 0, 659.25, 0, 523.25, 659.25, 0,
-      783.99, 0, 0, 0,           392.00, 0, 0, 0,
-      523.25, 0, 0, 392.00,      0, 0, 329.63, 0,
-      440.00, 0, 493.88, 0,      466.16, 440.00, 0, 392.00
-    ];
-
-    const BGM_BASS = [
-      261.63, 0, 261.63, 0, 196.00, 0, 196.00, 0,
-      220.00, 0, 220.00, 0, 164.81, 0, 164.81, 0,
-      174.61, 0, 174.61, 0, 196.00, 0, 196.00, 0,
-      261.63, 0, 196.00, 0, 261.63, 0, 0, 0
+    const BGM_NOTES = [
+      440, 0, 523.25, 659.25, 587.33, 0, 523.25, 440,
+      493.88, 0, 587.33, 659.25, 783.99, 0, 659.25, 587.33
     ];
 
     function initAudio() {
@@ -357,7 +441,7 @@
       }
     }
 
-    function playTone(freq, type, duration, vol) {
+    function playTone(freq, type, dur, vol) {
       if (!soundEnabled || !audioCtx || freq <= 0) return;
       try {
         const osc = audioCtx.createOscillator();
@@ -365,28 +449,21 @@
         osc.type = type;
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
         gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + duration);
+        osc.stop(audioCtx.currentTime + dur);
       } catch (e) {}
     }
 
     function tickBgm() {
       if (!isBgmPlaying || !soundEnabled) return;
-
-      const melNote = BGM_MELODY[bgmStep];
-      const bassNote = BGM_BASS[bgmStep];
-      const stepDuration = 0.13; // ~115 BPM Mario tempo
-
-      if (melNote > 0) playTone(melNote, 'square', stepDuration * 0.85, 0.04);
-      if (bassNote > 0) playTone(bassNote, 'triangle', stepDuration * 0.95, 0.07);
-
-      if (bgmStep % 4 === 2) playTone(120, 'noise', 0.03, 0.02);
-
-      bgmStep = (bgmStep + 1) % BGM_MELODY.length;
-      bgmTimer = setTimeout(tickBgm, stepDuration * 1000);
+      const note = BGM_NOTES[bgmStep];
+      if (note > 0) playTone(note, 'square', 0.12, 0.035);
+      if (bgmStep % 4 === 0) playTone(110, 'triangle', 0.18, 0.07);
+      bgmStep = (bgmStep + 1) % BGM_NOTES.length;
+      bgmTimer = setTimeout(tickBgm, 140);
     }
 
     function startBgm() {
@@ -399,10 +476,7 @@
 
     function stopBgm() {
       isBgmPlaying = false;
-      if (bgmTimer) {
-        clearTimeout(bgmTimer);
-        bgmTimer = null;
-      }
+      if (bgmTimer) { clearTimeout(bgmTimer); bgmTimer = null; }
     }
 
     function playSound(type) {
@@ -415,61 +489,101 @@
         osc.connect(gain);
         gain.connect(audioCtx.destination);
 
-        if (type === 'jump') { // Mario jump sound
+        if (type === 'jump') {
           osc.type = 'square';
-          osc.frequency.setValueAtTime(150, t);
-          osc.frequency.exponentialRampToValueAtTime(600, t + 0.15);
+          osc.frequency.setValueAtTime(160, t);
+          osc.frequency.exponentialRampToValueAtTime(580, t + 0.15);
           gain.gain.setValueAtTime(0.18, t);
-          gain.gain.linearRampToValueAtTime(0.01, t + 0.18);
+          gain.gain.linearRampToValueAtTime(0.01, t + 0.15);
           osc.start(t);
-          osc.stop(t + 0.18);
-        } else if (type === 'veggie') { // Power-up sound
+          osc.stop(t + 0.15);
+        } else if (type === 'scan') {
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(330, t);
-          osc.frequency.setValueAtTime(440, t + 0.08);
-          osc.frequency.setValueAtTime(660, t + 0.16);
+          osc.frequency.setValueAtTime(500, t);
+          osc.frequency.linearRampToValueAtTime(1000, t + 0.2);
           gain.gain.setValueAtTime(0.2, t);
-          gain.gain.linearRampToValueAtTime(0.01, t + 0.25);
+          gain.gain.linearRampToValueAtTime(0.01, t + 0.2);
           osc.start(t);
-          osc.stop(t + 0.25);
-        } else if (type === 'coin') { // Coin ping
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(987.77, t);
-          osc.frequency.setValueAtTime(1318.51, t + 0.08);
-          gain.gain.setValueAtTime(0.2, t);
-          gain.gain.linearRampToValueAtTime(0.01, t + 0.22);
-          osc.start(t);
-          osc.stop(t + 0.22);
-        } else if (type === 'star') { // Invincible star chime
+          osc.stop(t + 0.2);
+        } else if (type === 'correct') {
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(523, t);
-          osc.frequency.linearRampToValueAtTime(1046, t + 0.3);
-          gain.gain.setValueAtTime(0.25, t);
-          gain.gain.linearRampToValueAtTime(0.01, t + 0.35);
-          osc.start(t);
-          osc.stop(t + 0.35);
-        } else if (type === 'hurt') { // Debuff hurt buzz
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(220, t);
-          osc.frequency.linearRampToValueAtTime(60, t + 0.25);
+          osc.frequency.setValueAtTime(440, t);
+          osc.frequency.setValueAtTime(880, t + 0.1);
           gain.gain.setValueAtTime(0.25, t);
           gain.gain.linearRampToValueAtTime(0.01, t + 0.25);
           osc.start(t);
           osc.stop(t + 0.25);
-        } else if (type === 'gameover') {
+        } else if (type === 'hurt') {
           osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(400, t);
-          osc.frequency.exponentialRampToValueAtTime(40, t + 0.9);
-          gain.gain.setValueAtTime(0.3, t);
-          gain.gain.linearRampToValueAtTime(0.01, t + 0.9);
+          osc.frequency.setValueAtTime(240, t);
+          osc.frequency.linearRampToValueAtTime(70, t + 0.25);
+          gain.gain.setValueAtTime(0.25, t);
+          gain.gain.linearRampToValueAtTime(0.01, t + 0.25);
           osc.start(t);
-          osc.stop(t + 0.9);
+          osc.stop(t + 0.25);
+        } else if (type === 'win') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, t);
+          osc.frequency.setValueAtTime(554.37, t + 0.12);
+          osc.frequency.setValueAtTime(659.25, t + 0.24);
+          osc.frequency.setValueAtTime(880, t + 0.36);
+          gain.gain.setValueAtTime(0.3, t);
+          gain.gain.linearRampToValueAtTime(0.01, t + 0.6);
+          osc.start(t);
+          osc.stop(t + 0.6);
         }
       } catch (e) {}
     }
   </script>
 
-  <!-- Enjin Permainan Platformer 2D (Fizik Mario & Reka Bentuk Visual) -->
+  <!-- PENGURUS SPRITE DARI INTERNET (TWEMOJI CDN & VECTOR DATA URIS) -->
+  <script>
+    // Memuat ikon makanan dan aset dari Twemoji SVG CDN (Internet)
+    function loadSvgImage(url) {
+      const img = new Image();
+      img.src = url;
+      return img;
+    }
+
+    const SPRITES = {
+      banana: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f34c.svg'),
+      egg: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f95a.svg'),
+      broccoli: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f966.svg'),
+      water: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f4a7.svg'),
+      burgerEnemy: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f354.svg'),
+      coin: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1fa99.svg')
+    };
+
+    // Hero Anime Ejen Vita-X (Sut Biru Cyber & Visor)
+    const HERO_SVG = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" width="100" height="120">
+      <defs>
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Jejak Cyan -->
+      <path d="M10,95 Q25,100 40,95 Q20,110 5,105 Z" fill="#00e5ff" opacity="0.8" filter="url(#glow)"/>
+      <!-- Kaki -->
+      <rect x="26" y="70" width="14" height="28" rx="4" fill="#0f172a"/>
+      <rect x="46" y="70" width="14" height="28" rx="4" fill="#1e293b"/>
+      <line x1="28" y1="88" x2="38" y2="88" stroke="#00e5ff" stroke-width="3" filter="url(#glow)"/>
+      <line x1="48" y1="88" x2="58" y2="88" stroke="#00e5ff" stroke-width="3" filter="url(#glow)"/>
+      <!-- Badan -->
+      <path d="M30,42 L58,42 L54,72 L34,72 Z" fill="#0b1e36" stroke="#0284c7" stroke-width="2"/>
+      <path d="M34,48 L54,48 L50,62 L38,62 Z" fill="none" stroke="#00e5ff" stroke-width="2.5" filter="url(#glow)"/>
+      <!-- Kepala -->
+      <circle cx="44" cy="28" r="14" fill="#fed7aa"/>
+      <!-- Visor Cyan -->
+      <path d="M36,25 L58,25 L54,33 L38,33 Z" fill="#00e5ff" filter="url(#glow)"/>
+      <!-- Rambut Spiky Hitam -->
+      <path d="M28,24 C28,10 42,4 56,8 C64,12 62,24 58,24 L64,16 L54,20 L58,10 L44,14 L42,6 L36,18 Z" fill="#020617"/>
+    </svg>`;
+    const heroImg = new Image();
+    heroImg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(HERO_SVG.trim());
+  </script>
+
+  <!-- ENJIN PERMAINAN PLATFORMER EJEN VITA-X -->
   <script>
     const DEFAULT_CONFIG = {
       schoolName: "SMK KAMARUL ARIFFIN",
@@ -481,75 +595,141 @@
     let config = { ...DEFAULT_CONFIG };
 
     function loadSettings() {
-      const savedSchool = localStorage.getItem('nutrihero_school');
-      const savedGas = localStorage.getItem('nutrihero_gas');
-      const savedSheet = localStorage.getItem('nutrihero_sheet');
-      if (savedSchool) config.schoolName = savedSchool;
-      if (savedGas) config.gasUrl = savedGas;
-      if (savedSheet) config.sheetId = savedSheet;
+      const s = localStorage.getItem('vitax_school');
+      const g = localStorage.getItem('vitax_gas');
+      const sh = localStorage.getItem('vitax_sheet');
+      if (s) config.schoolName = s;
+      if (g) config.gasUrl = g;
+      if (sh) config.sheetId = sh;
 
       document.getElementById('displaySchoolHeader').innerText = config.schoolName;
       document.getElementById('regSchoolName').innerText = config.schoolName;
-      document.getElementById('boardSchoolTag').innerText = config.schoolName;
     }
 
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
-    // Resolusi tetap dalaman kanvas untuk konsistensi fizik
     const V_WIDTH = 800;
     const V_HEIGHT = 450;
     canvas.width = V_WIDTH;
     canvas.height = V_HEIGHT;
 
-    // Keadaan Karakter Hero (Seperti gambar: Sut Biru Gelap, Jejak Tenaga Biru)
-    let hero = {
-      x: 100,
+    // Keadaan Wira Ejen Vita-X
+    let player = {
+      x: 80,
       y: 280,
-      width: 38,
+      width: 40,
       height: 52,
       vx: 0,
       vy: 0,
       speed: 4.8,
       jumpForce: -12.2,
       isGrounded: false,
-      direction: 1, // 1: kanan, -1: kiri
+      direction: 1,
       hearts: 3,
-      energy: 100, // 0 - 100%
-      animTimer: 0,
-      trail: [], // Jejak tenaga cyan di belakang
-      invulnerableTimer: 0
+      energy: 80, // Default 80/100 seperti di g2.jpg
+      invincibleTimer: 0
     };
 
-    // Dunia & Kamera Permainan
+    // Bank Soalan Pengimbas Nutrisi (Berasaskan 4 Kuasa Nutrien g1 & g2)
+    const QUIZ_DATA = {
+      pisang: {
+        id: 'pisang',
+        nama: 'PISANG (KARBOHIDRAT)',
+        icon: '🍌',
+        kuasaIndex: 1,
+        soalan: 'Apakah fungsi utama karbohidrat dalam pemakanan seharian?',
+        pilihan: [
+          { text: 'A. Membekalkan tenaga utama untuk aktiviti', correct: true },
+          { text: 'B. Membina dan membaiki tisu otot yang luka', correct: false },
+          { text: 'C. Mengekalkan keseimbangan cecair badan sahaja', correct: false }
+        ],
+        fakta: 'Karbohidrat ialah sumber tenaga utama badan. Mengambil pisang memberikan tenaga segera untuk beraksi!',
+        tenagaBonus: 20
+      },
+      telur: {
+        id: 'telur',
+        nama: 'TELUR / AYAM (PROTEIN)',
+        icon: '🥚',
+        kuasaIndex: 2,
+        soalan: 'Apakah fungsi penting protein kepada tubuh badan seorang ejen?',
+        pilihan: [
+          { text: 'A. Melarutkan vitamin larut lemak', correct: false },
+          { text: 'B. Membina sel tisu dan memulihkan otot yang rosak', correct: true },
+          { text: 'C. Menjadi penebat haba di bawah kulit', correct: false }
+        ],
+        fakta: 'Protein penting untuk proses tumbesaran, pembinaan sel baharu dan kekuatan fizikal!',
+        tenagaBonus: 20
+      },
+      brokoli: {
+        id: 'brokoli',
+        nama: 'BROKOLI (VITAMIN & SERAT)',
+        icon: '🥦',
+        kuasaIndex: 3,
+        soalan: 'Mengapakah sayur-sayuran hijau seperti brokoli perlu dimakan?',
+        pilihan: [
+          { text: 'A. Mengandungi serat untuk pencernaan dan vitamin untuk ketahanan imuniti', correct: true },
+          { text: 'B. Menambah paras kolesterol dalam salur darah', correct: false },
+          { text: 'C. Menggantikan keperluan minum air kosong', correct: false }
+        ],
+        fakta: 'Sayuran kaya dengan antioksidan dan serat untuk sistem pencernaan lancar serta perlindungan penyakit!',
+        tenagaBonus: 20
+      },
+      air: {
+        id: 'air',
+        nama: 'BOTOL AIR (HIDRASI)',
+        icon: '💧',
+        kuasaIndex: 4,
+        soalan: 'Berapakah saranan pengambilan air kosong setiap hari untuk mengekalkan hidrasi?',
+        pilihan: [
+          { text: 'A. Hanya 1 cawan selepas makan malam', correct: false },
+          { text: 'B. 6 hingga 8 gelas sehari (sekitar 2 liter)', correct: true },
+          { text: 'C. Minum hanya apabila tekak terasa sangat perit', correct: false }
+        ],
+        fakta: 'Air mengangkut nutrien ke seluruh sel tubuh dan mengawal suhu badan agar kekal cergas bertenaga!',
+        tenagaBonus: 20
+      }
+    };
+
+    let isGameRunning = false;
     let cameraX = 0;
     let score = 0;
-    let timeRemaining = 90; // 01:30 pemasa undur (90 saat)
-    let isGameRunning = false;
+    let gameTime = 0;
     let lastTime = 0;
-    let animationFrameId = null;
+    let activeQuizNutrient = null;
+    let isQuizOpen = false;
 
-    let currentPlayerName = "Peserta";
-    let currentPlayerClass = "Tingkatan 1";
+    // 4 Kuasa Nutrien (Status 0/1)
+    let nutrientPowers = {
+      pisang: false,
+      telur: false,
+      brokoli: false,
+      air: false
+    };
 
-    let statsCollected = { veggies: 0, junk: 0, stars: 0, coins: 0 };
+    let currentPlayerName = "Ejen Adam";
+    let currentPlayerClass = "1 Wira";
 
-    // Senarai platform, item dan syiling
+    // Unsur Dunia
     let platforms = [];
-    let worldItems = [];
-    let worldCoins = [];
-    let worldStars = [];
-    let nextChunkX = 0;
+    let foodItems = [];
+    let burgerEnemies = [];
+    let coins = [];
+    let portal = { x: 2200, y: 280, w: 70, h: 90 };
 
-    // Kawalan Input
     let keys = { left: false, right: false, jump: false };
 
+    // Input Kawalan Keyboard
     window.addEventListener('keydown', (e) => {
+      if (isQuizOpen) return;
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
       if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
       if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
-        if (!keys.jump && hero.isGrounded) doJump();
+        if (!keys.jump && player.isGrounded) doJump();
         keys.jump = true;
+      }
+      if (e.key === 'e' || e.key === 'E') {
+        cubaImbasMakanan();
       }
     });
 
@@ -559,10 +739,11 @@
       if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') keys.jump = false;
     });
 
-    // Pautan Butang Sentuh Pada Skrin (Berdasarkan Gambar)
+    // Butang Sentuh Skrin
     const btnLeft = document.getElementById('btnLeft');
     const btnRight = document.getElementById('btnRight');
     const btnJump = document.getElementById('btnJump');
+    const btnScanTouch = document.getElementById('btnScanTouch');
 
     btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); keys.left = true; });
     btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); keys.left = false; });
@@ -570,102 +751,69 @@
     btnRight.addEventListener('touchend', (e) => { e.preventDefault(); keys.right = false; });
     btnJump.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      if (hero.isGrounded) doJump();
+      if (player.isGrounded) doJump();
       keys.jump = true;
     });
     btnJump.addEventListener('touchend', (e) => { e.preventDefault(); keys.jump = false; });
+    btnScanTouch.addEventListener('click', () => { cubaImbasMakanan(); });
 
     btnLeft.addEventListener('mousedown', () => { keys.left = true; });
     btnLeft.addEventListener('mouseup', () => { keys.left = false; });
     btnRight.addEventListener('mousedown', () => { keys.right = true; });
     btnRight.addEventListener('mouseup', () => { keys.right = false; });
     btnJump.addEventListener('mousedown', () => {
-      if (hero.isGrounded) doJump();
+      if (player.isGrounded) doJump();
       keys.jump = true;
     });
     btnJump.addEventListener('mouseup', () => { keys.jump = false; });
 
     function doJump() {
-      hero.vy = hero.jumpForce;
-      hero.isGrounded = false;
+      player.vy = player.jumpForce;
+      player.isGrounded = false;
       playSound('jump');
     }
 
-    // Penjana Dunia Procedural Gaya Mario (Tanah Berbatu, Balak Terapung, Jurang)
-    function generateWorldChunk(startX, width) {
-      const groundY = 360;
+    // Bina Peta Tahap (Level Design Zon 1 Taman Nutrisi)
+    function setupLevel() {
+      platforms = [
+        // Tanah Utama
+        { x: 0, y: 360, w: 750, h: 90, type: 'ground' },
+        { x: 830, y: 360, w: 600, h: 90, type: 'ground' },
+        { x: 1520, y: 360, w: 850, h: 90, type: 'ground' },
+        // Platform Kayu Balak & Rak Log
+        { x: 260, y: 260, w: 130, h: 26, type: 'log' },
+        { x: 500, y: 210, w: 140, h: 26, type: 'log' },
+        { x: 1020, y: 260, w: 150, h: 26, type: 'log' },
+        { x: 1300, y: 200, w: 140, h: 26, type: 'log' },
+        { x: 1750, y: 250, w: 150, h: 26, type: 'log' }
+      ];
 
-      // Bahagian tanah bawah dengan jurang rawak
-      let curX = startX;
-      while (curX < startX + width) {
-        const segWidth = 350 + Math.random() * 250;
-        platforms.push({
-          x: curX,
-          y: groundY,
-          w: segWidth,
-          h: 120,
-          type: 'ground' // Tanah berbatu + rumput atas
-        });
+      // 4 Item Makanan Berkhasiat
+      foodItems = [
+        { id: 'pisang', x: 320, y: 225, size: 34, scanned: false },
+        { id: 'brokoli', x: 650, y: 325, size: 34, scanned: false },
+        { id: 'telur', x: 1100, y: 225, size: 32, scanned: false },
+        { id: 'air', x: 1370, y: 165, size: 32, scanned: false }
+      ];
 
-        // Letak syiling & makanan atas tanah
-        for (let x = curX + 60; x < curX + segWidth - 60; x += 90) {
-          if (Math.random() < 0.4) {
-            worldCoins.push({ x: x, y: groundY - 26, collected: false });
-          } else if (Math.random() < 0.3) {
-            spawnNutriItem(x, groundY - 36);
-          }
-        }
+      // Musuh Raksasa Burger Bertinju (Mengurangkan 25 Tenaga jika berlanggar)
+      burgerEnemies = [
+        { x: 440, y: 325, w: 38, h: 36, minX: 400, maxX: 580, vx: 1.2, name: 'Burger' },
+        { x: 1180, y: 325, w: 38, h: 36, minX: 1140, maxX: 1380, vx: 1.5, name: 'Burger' },
+        { x: 1850, y: 325, w: 38, h: 36, minX: 1780, maxX: 1980, vx: 1.6, name: 'Burger' }
+      ];
 
-        // Platform kayu balak terapung (seperti gambar)
-        const logPlatformY = groundY - (75 + Math.random() * 50);
-        const logW = 110 + Math.random() * 50;
-        const logX = curX + 120 + Math.random() * (segWidth - 250);
-
-        platforms.push({
-          x: logX,
-          y: logPlatformY,
-          w: logW,
-          h: 28,
-          type: 'log' // Batang kayu balak dengan rumput di atas
-        });
-
-        // Di atas kayu balak: letak Bintang Emas atau Brokoli
-        if (Math.random() < 0.5) {
-          worldStars.push({ x: logX + logW / 2, y: logPlatformY - 45, collected: false });
-        } else {
-          spawnNutriItem(logX + logW / 2, logPlatformY - 34);
-        }
-
-        // Jurang (Pit) antara segmen
-        curX += segWidth + (80 + Math.random() * 50);
-      }
-
-      nextChunkX = curX;
-    }
-
-    function spawnNutriItem(x, y) {
-      const isHealthy = Math.random() < 0.65;
-      if (isHealthy) {
-        worldItems.push({
-          x: x,
-          y: y,
-          type: 'veggie',
-          emoji: '🥦',
-          name: 'Brokoli Sihat',
-          color: '#22c55e',
-          collected: false
-        });
-      } else {
-        worldItems.push({
-          x: x,
-          y: y,
-          type: 'junk',
-          emoji: '🍔',
-          name: 'Junk Food',
-          color: '#ef4444',
-          collected: false
-        });
-      }
+      // Syiling Emas Berterbangan
+      coins = [
+        { x: 180, y: 320, collected: false },
+        { x: 210, y: 320, collected: false },
+        { x: 240, y: 320, collected: false },
+        { x: 540, y: 170, collected: false },
+        { x: 570, y: 170, collected: false },
+        { x: 920, y: 320, collected: false },
+        { x: 950, y: 320, collected: false },
+        { x: 1650, y: 320, collected: false }
+      ];
     }
 
     function startGame() {
@@ -673,7 +821,7 @@
       const classInput = document.getElementById('inputPlayerClass').value.trim();
 
       if (!nameInput) {
-        alert("Sila masukkan nama peserta terlebih dahulu.");
+        alert("Sila masukkan nama ejen sebelum memulakan misi.");
         return;
       }
 
@@ -681,10 +829,11 @@
       startBgm();
 
       currentPlayerName = nameInput;
-      currentPlayerClass = classInput || "Tingkatan 1";
+      currentPlayerClass = classInput || "1 Wira";
 
       document.getElementById('startScreen').classList.add('hidden');
       document.getElementById('gameOverScreen').classList.add('hidden');
+      document.getElementById('victoryScreen').classList.add('hidden');
 
       resetGame();
       isGameRunning = true;
@@ -694,6 +843,7 @@
 
     function restartGame() {
       document.getElementById('gameOverScreen').classList.add('hidden');
+      document.getElementById('victoryScreen').classList.add('hidden');
       resetGame();
       startBgm();
       isGameRunning = true;
@@ -704,654 +854,590 @@
     function backToMenu() {
       stopBgm();
       document.getElementById('gameOverScreen').classList.add('hidden');
+      document.getElementById('victoryScreen').classList.add('hidden');
       document.getElementById('startScreen').classList.remove('hidden');
       resetGame();
     }
 
     function resetGame() {
-      hero.x = 80;
-      hero.y = 250;
-      hero.vx = 0;
-      hero.vy = 0;
-      hero.hearts = 3;
-      hero.energy = 100;
-      hero.isGrounded = false;
-      hero.direction = 1;
-      hero.trail = [];
-      hero.invulnerableTimer = 0;
+      player.x = 80;
+      player.y = 280;
+      player.vx = 0;
+      player.vy = 0;
+      player.hearts = 3;
+      player.energy = 80;
+      player.direction = 1;
+      player.invincibleTimer = 0;
 
       cameraX = 0;
       score = 0;
-      timeRemaining = 90; // 01:30
-      statsCollected = { veggies: 0, junk: 0, stars: 0, coins: 0 };
+      gameTime = 0;
 
-      platforms = [];
-      worldItems = [];
-      worldCoins = [];
-      worldStars = [];
-
-      // Cipta kawasan mula yang selamat
-      platforms.push({ x: 0, y: 360, w: 600, h: 120, type: 'ground' });
-      platforms.push({ x: 300, y: 260, w: 140, h: 28, type: 'log' });
-      worldStars.push({ x: 370, y: 215, collected: false });
-      worldItems.push({ x: 220, y: 325, type: 'veggie', emoji: '🥦', name: 'Brokoli Sihat', color: '#22c55e', collected: false });
-      worldItems.push({ x: 480, y: 325, type: 'junk', emoji: '🍔', name: 'Junk Food', color: '#ef4444', collected: false });
-
-      nextChunkX = 680;
-      generateWorldChunk(nextChunkX, 1500);
-
+      nutrientPowers = { pisang: false, telur: false, brokoli: false, air: false };
+      setupLevel();
       updateHUD();
     }
 
-    function showNotification(text, colorClass, bgClass) {
-      const banner = document.getElementById('floatingNotify');
-      banner.innerText = text;
-      banner.className = `pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 font-hud font-extrabold text-xs sm:text-sm px-4 py-1.5 rounded-full border shadow-2xl z-10 text-center whitespace-nowrap transition-all duration-300 opacity-100 ${colorClass} ${bgClass}`;
-      clearTimeout(banner.timer);
-      banner.timer = setTimeout(() => { banner.style.opacity = '0'; }, 1300);
+    // Mekanik Pengimbas Makanan (Imbas Makanan E)
+    function cubaImbasMakanan() {
+      if (!isGameRunning || isQuizOpen) return;
+
+      // Cari item makanan berhampiran
+      const hx = player.x;
+      const hy = player.y - player.height / 2;
+
+      let targetItem = null;
+      for (let item of foodItems) {
+        if (!item.scanned && Math.hypot(hx - item.x, hy - item.y) < 55) {
+          targetItem = item;
+          break;
+        }
+      }
+
+      if (targetItem) {
+        playSound('scan');
+        bukaPengimbasModal(targetItem.id);
+      }
     }
 
-    // Kitaran Utama Permainan (Game Loop)
+    function bukaPengimbasModal(nutrientId) {
+      isQuizOpen = true;
+      activeQuizNutrient = QUIZ_DATA[nutrientId];
+
+      const modal = document.getElementById('modalPengimbas');
+      document.getElementById('quizIcon').innerText = activeQuizNutrient.icon;
+      document.getElementById('quizTitle').innerText = `PENGIMBAS: ${activeQuizNutrient.nama}`;
+      document.getElementById('quizQuestion').innerText = activeQuizNutrient.soalan;
+      document.getElementById('quizFactText').innerText = activeQuizNutrient.fakta;
+      
+      const statusEl = document.getElementById('quizResultStatus');
+      statusEl.innerText = "Sila pilih jawapan yang betul:";
+      statusEl.className = "mt-2 text-center font-hud font-bold text-xs py-1 px-2 rounded-xl bg-black/40 text-sky-300";
+
+      document.getElementById('btnTutupQuiz').classList.add('hidden');
+
+      const container = document.getElementById('quizOptionsContainer');
+      container.innerHTML = '';
+
+      activeQuizNutrient.pilihan.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-2.5 rounded-xl border border-cyan-500/40 bg-slate-800 hover:bg-cyan-950 font-bold text-xs sm:text-sm text-white transition flex items-center justify-between";
+        btn.innerText = opt.text;
+        btn.onclick = () => jawabSoalan(opt.correct, btn);
+        container.appendChild(btn);
+      });
+
+      modal.classList.remove('hidden');
+    }
+
+    function jawabSoalan(isCorrect, btnElement) {
+      const statusEl = document.getElementById('quizResultStatus');
+      const allBtns = document.getElementById('quizOptionsContainer').querySelectorAll('button');
+      allBtns.forEach(b => b.disabled = true);
+
+      if (isCorrect) {
+        playSound('correct');
+        btnElement.classList.remove('border-cyan-500/40', 'bg-slate-800');
+        btnElement.classList.add('border-green-400', 'bg-green-950/80', 'text-green-300');
+        
+        statusEl.innerText = `✅ TAHNIAH! +${activeQuizNutrient.tenagaBonus} Tenaga & Kuasa Diaktifkan!`;
+        statusEl.className = "mt-2 text-center font-hud font-bold text-xs py-1 px-2 rounded-xl bg-green-950 border border-green-500 text-green-300";
+
+        // Tambah Tenaga (Maks 100) & Skor
+        player.energy = Math.min(100, player.energy + activeQuizNutrient.tenagaBonus);
+        score += 100;
+        nutrientPowers[activeQuizNutrient.id] = true;
+
+        // Tandakan makanan sebagai telah diimbas
+        const food = foodItems.find(f => f.id === activeQuizNutrient.id);
+        if (food) food.scanned = true;
+
+        document.getElementById('vitaBotMsg').innerText = `Hebat! Kuasa ${activeQuizNutrient.nama} telah aktif. Teruskan ke portal penamat!`;
+      } else {
+        playSound('hurt');
+        btnElement.classList.remove('border-cyan-500/40', 'bg-slate-800');
+        btnElement.classList.add('border-red-500', 'bg-red-950/80', 'text-red-300');
+
+        statusEl.innerText = "❌ Jawapan Kurang Tepat! Kuasa tetap diaktifkan untuk meneruskan misi.";
+        statusEl.className = "mt-2 text-center font-hud font-bold text-xs py-1 px-2 rounded-xl bg-red-950 border border-red-500 text-red-300";
+
+        nutrientPowers[activeQuizNutrient.id] = true;
+        const food = foodItems.find(f => f.id === activeQuizNutrient.id);
+        if (food) food.scanned = true;
+      }
+
+      updateHUD();
+      document.getElementById('btnTutupQuiz').classList.remove('hidden');
+    }
+
+    function tutupPengimbasModal() {
+      document.getElementById('modalPengimbas').classList.add('hidden');
+      isQuizOpen = false;
+      activeQuizNutrient = null;
+    }
+
+    // Kitaran Utama Fizik & Logik Permainan
     function gameLoop(timestamp) {
       if (!isGameRunning) return;
 
       const dt = Math.min((timestamp - lastTime) / 1000, 0.1);
       lastTime = timestamp;
 
-      // 1. Masa Randik Undur (01:30)
-      timeRemaining -= dt;
-      if (timeRemaining <= 0) {
-        timeRemaining = 0;
-        triggerGameOver("Masa 01:30 Telah Tamat!");
-        return;
-      }
+      if (!isQuizOpen) {
+        gameTime += dt;
 
-      // 2. Bar Tenaga (Menyusut perlahan secara semula jadi)
-      hero.energy = Math.max(0, hero.energy - dt * 2.5);
-      if (hero.energy <= 0) {
-        // Jika tenaga sifar, tolak nyawa perlahan
-        hero.hearts -= 1;
-        hero.energy = 50;
-        playSound('hurt');
-        showNotification("⚠️ KEHABISAN TENAGA! HATI TERTOLAK", "text-red-400", "bg-red-950/90 border-red-500");
-        if (hero.hearts <= 0) {
-          triggerGameOver("Kehabisan Tenaga & Nyawa!");
-          return;
+        // Pengurangan tenaga pasif perlahan (0.8 per saat)
+        player.energy = Math.max(0, player.energy - dt * 0.8);
+        if (player.energy <= 0) {
+          player.hearts -= 1;
+          player.energy = 50;
+          playSound('hurt');
+          if (player.hearts <= 0) {
+            triggerGameOver("Kehabisan Tenaga & Nyawa!");
+            return;
+          }
         }
+
+        if (player.invincibleTimer > 0) player.invincibleTimer -= dt;
+
+        // Pergerakan
+        if (keys.left) {
+          player.vx = -player.speed;
+          player.direction = -1;
+        } else if (keys.right) {
+          player.vx = player.speed;
+          player.direction = 1;
+        } else {
+          player.vx *= 0.72;
+        }
+
+        player.vy += 0.58; // Graviti
+        if (player.vy > 14) player.vy = 14;
+
+        player.x += player.vx;
+        player.y += player.vy;
+
+        // Perlanggaran Platform
+        player.isGrounded = false;
+        const pBox = {
+          left: player.x - player.width / 2,
+          right: player.x + player.width / 2,
+          top: player.y - player.height,
+          bottom: player.y
+        };
+
+        for (let plat of platforms) {
+          if (
+            pBox.right > plat.x &&
+            pBox.left < plat.x + plat.w &&
+            pBox.bottom >= plat.y &&
+            pBox.bottom - player.vy <= plat.y + 12 &&
+            player.vy >= 0
+          ) {
+            player.y = plat.y;
+            player.vy = 0;
+            player.isGrounded = true;
+            break;
+          }
+        }
+
+        // Jatuh ke jurang toksik
+        if (player.y > V_HEIGHT + 50) {
+          player.hearts -= 1;
+          playSound('hurt');
+          if (player.hearts <= 0) {
+            triggerGameOver("Terjatuh ke dalam jurang toksik!");
+            return;
+          } else {
+            player.x = Math.max(60, cameraX + 80);
+            player.y = 220;
+            player.vy = 0;
+          }
+        }
+
+        // Pergerakan Musuh Burger Bertinju
+        for (let em of burgerEnemies) {
+          em.x += em.vx;
+          if (em.x < em.minX || em.x > em.maxX) em.vx *= -1;
+
+          // Perlanggaran dengan wira (tenaga -= 25)
+          if (
+            player.invincibleTimer <= 0 &&
+            Math.abs(player.x - em.x) < 32 &&
+            Math.abs((player.y - player.height / 2) - em.y) < 32
+          ) {
+            player.energy = Math.max(0, player.energy - 25);
+            player.invincibleTimer = 1.2;
+            playSound('hurt');
+            document.getElementById('vitaBotMsg').innerText = "Awas! Serangan Burger Mengurangkan 25 Tenaga!";
+            if (player.energy <= 0) {
+              player.hearts -= 1;
+              player.energy = 40;
+              if (player.hearts <= 0) {
+                triggerGameOver("Tewas akibat serangan raksasa burger!");
+                return;
+              }
+            }
+          }
+        }
+
+        // Kutipan Syiling Emas
+        for (let c of coins) {
+          if (!c.collected && Math.hypot(player.x - c.x, (player.y - player.height / 2) - c.y) < 28) {
+            c.collected = true;
+            score += 10;
+            playSound('jump');
+          }
+        }
+
+        // Semak Syarat Kemenangan: Portal Penamat
+        // if semua_kuasa and sampai_portal: Menang!
+        const semuaKuasaLengkap = Object.values(nutrientPowers).every(v => v === true);
+        if (Math.hypot(player.x - (portal.x + portal.w / 2), player.y - (portal.y + portal.h / 2)) < 60) {
+          if (semuaKuasaLengkap) {
+            triggerVictory();
+            return;
+          } else {
+            document.getElementById('vitaBotMsg').innerText = "Portal berkunci! Sila lengkapkan keempat-empat Kuasa Nutrien dahulu.";
+          }
+        }
+
+        // Kamera Mengikut Ejen
+        const targetCamX = player.x - 220;
+        if (targetCamX > 0) {
+          cameraX += (targetCamX - cameraX) * 0.12;
+        }
+
+        // Semak jarak ke item untuk butang Imbas terapung
+        checkPromptImbas();
       }
 
-      if (hero.invulnerableTimer > 0) hero.invulnerableTimer -= dt;
+      render();
+      updateHUD();
 
-      // 3. Fizik Pergerakan Mendatar & Tenaga
-      let currentSpeed = hero.speed * (hero.energy > 30 ? 1.0 : 0.65);
-      if (keys.left) {
-        hero.vx = -currentSpeed;
-        hero.direction = -1;
-      } else if (keys.right) {
-        hero.vx = currentSpeed;
-        hero.direction = 1;
-      } else {
-        hero.vx *= 0.75;
-      }
+      requestAnimationFrame(gameLoop);
+    }
 
-      // Graviti
-      hero.vy += 0.58; // Graviti Mario
-      if (hero.vy > 14) hero.vy = 14;
+    function checkPromptImbas() {
+      const promptEl = document.getElementById('promptImbasFloating');
+      let nearItem = null;
 
-      hero.x += hero.vx;
-      hero.y += hero.vy;
-
-      // 4. Jejak Tenaga Biru (Dash Trail) di belakang wira
-      if (Math.abs(hero.vx) > 1.5 || !hero.isGrounded) {
-        hero.animTimer += dt * 12;
-        hero.trail.push({ x: hero.x, y: hero.y, alpha: 0.75, dir: hero.direction });
-      }
-      for (let i = hero.trail.length - 1; i >= 0; i--) {
-        hero.trail[i].alpha -= dt * 3.5;
-        if (hero.trail[i].alpha <= 0) hero.trail.splice(i, 1);
-      }
-
-      // 5. Perlanggaran Platform (AABB Collision)
-      hero.isGrounded = false;
-      const heroBox = {
-        left: hero.x - hero.width / 2,
-        right: hero.x + hero.width / 2,
-        top: hero.y - hero.height,
-        bottom: hero.y
-      };
-
-      for (let plat of platforms) {
-        // Periksa pendaratan di atas permukaan platform
-        if (
-          heroBox.right > plat.x &&
-          heroBox.left < plat.x + plat.w &&
-          heroBox.bottom >= plat.y &&
-          heroBox.bottom - hero.vy <= plat.y + 12 &&
-          hero.vy >= 0
-        ) {
-          hero.y = plat.y;
-          hero.vy = 0;
-          hero.isGrounded = true;
+      for (let f of foodItems) {
+        if (!f.scanned && Math.hypot(player.x - f.x, (player.y - player.height / 2) - f.y) < 65) {
+          nearItem = f;
           break;
         }
       }
 
-      // 6. Jatuh Ke Dalam Jurang Maut (Pit)
-      if (hero.y > V_HEIGHT + 60) {
-        hero.hearts -= 1;
-        playSound('hurt');
-        if (hero.hearts <= 0) {
-          triggerGameOver("Terjatuh Ke Dalam Jurang Maut!");
-          return;
-        } else {
-          // Respawn ke atas platform selamat terdekat
-          hero.y = 200;
-          hero.vy = 0;
-          hero.x = cameraX + 150;
-          showNotification("⚠️ TERJATUH! -1 NYAWA HATI", "text-red-400", "bg-red-950/90 border-red-500");
-        }
-      }
-
-      // 7. Kutipan Makanan & Syiling
-      checkItemCollisions();
-
-      // 8. Kamera Mengikut Wira (Side-scrolling Platformer)
-      const targetCamX = hero.x - 220;
-      if (targetCamX > cameraX) {
-        cameraX += (targetCamX - cameraX) * 0.12;
-      }
-
-      // Jana bahagian dunia baharu apabila kamera mara ke hadapan
-      if (cameraX + V_WIDTH + 400 > nextChunkX) {
-        generateWorldChunk(nextChunkX, 1200);
-      }
-
-      // Skor bertambah mengikut jarak langkah penerokaan
-      const distanceScore = Math.floor(hero.x / 20);
-      if (distanceScore > score) score = distanceScore;
-
-      // 9. Lukis & Kemas Kini HUD
-      render();
-      updateHUD();
-
-      animationFrameId = requestAnimationFrame(gameLoop);
-    }
-
-    // Perlanggaran Objek
-    function checkItemCollisions() {
-      const hx = hero.x;
-      const hy = hero.y - hero.height / 2;
-
-      // Syiling
-      for (let c of worldCoins) {
-        if (!c.collected && Math.hypot(hx - c.x, hy - c.y) < 32) {
-          c.collected = true;
-          score += 10;
-          statsCollected.coins++;
-          playSound('coin');
-        }
-      }
-
-      // Bintang Emas
-      for (let s of worldStars) {
-        if (!s.collected && Math.hypot(hx - s.x, hy - s.y) < 38) {
-          s.collected = true;
-          score += 100;
-          hero.energy = Math.min(100, hero.energy + 25);
-          statsCollected.stars++;
-          playSound('star');
-          showNotification("⭐ BINTANG EMAS! +100 MATA & TENAGA!", "text-yellow-300", "bg-amber-950/90 border-yellow-400");
-        }
-      }
-
-      // Makanan (Brokoli vs Junk Food)
-      for (let it of worldItems) {
-        if (!it.collected && Math.hypot(hx - it.x, hy - it.y) < 36) {
-          it.collected = true;
-          if (it.type === 'veggie') {
-            score += 35;
-            hero.energy = Math.min(100, hero.energy + 35);
-            statsCollected.veggies++;
-            playSound('veggie');
-            showNotification("🥦 BROKOLI SIHAT! +TENAGA PENUH & PANTAS!", "text-emerald-300", "bg-emerald-950/90 border-emerald-400");
-          } else {
-            hero.hearts -= 1;
-            hero.energy = Math.max(0, hero.energy - 30);
-            statsCollected.junk++;
-            playSound('hurt');
-            showNotification("🍔 JUNK FOOD! -1 NYAWA HATI & LESU!", "text-red-400", "bg-red-950/90 border-red-500");
-            if (hero.hearts <= 0) {
-              triggerGameOver("Kesihatan Merosot Akibat Makanan Tidak Sihat!");
-              return;
-            }
-          }
-        }
+      if (nearItem && !isQuizOpen) {
+        // Papar prompt mengambang tepat di atas kepala wira
+        const rect = canvas.getBoundingClientRect();
+        const screenX = (nearItem.x - cameraX) * (rect.width / V_WIDTH);
+        const screenY = (nearItem.y - 40) * (rect.height / V_HEIGHT);
+        
+        promptEl.style.left = `${screenX}px`;
+        promptEl.style.top = `${screenY}px`;
+        promptEl.classList.remove('hidden');
+      } else {
+        promptEl.classList.add('hidden');
       }
     }
 
-    // Render Keseluruhan Seni Bina Permainan (100% Mengikut Rujukan)
+    // Lukis Grafik di Atas Kanvas
     function render() {
       ctx.clearRect(0, 0, V_WIDTH, V_HEIGHT);
 
+      // 1. Latar Belakang Panorama Bandar Neo-City (Sama seperti g2.jpg)
+      drawNeoCityBackground(cameraX * 0.2);
+
       ctx.save();
-
-      // 1. Latar Belakang Langit Waktu Senja (Twilight Gradient)
-      const skyGrad = ctx.createLinearGradient(0, 0, 0, V_HEIGHT);
-      skyGrad.addColorStop(0, '#02182b');
-      skyGrad.addColorStop(0.55, '#073b61');
-      skyGrad.addColorStop(0.85, '#1e5f8a');
-      skyGrad.addColorStop(1, '#2c7aa0');
-      ctx.fillStyle = skyGrad;
-      ctx.fillRect(0, 0, V_WIDTH, V_HEIGHT);
-
-      // Bintang-bintang kecil di langit senja
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-      for (let i = 0; i < 20; i++) {
-        const sx = (i * 73 - (cameraX * 0.05)) % V_WIDTH;
-        const sy = (i * 23) % 140;
-        ctx.fillRect(sx < 0 ? sx + V_WIDTH : sx, sy, 2, 2);
-      }
-
-      // 2. Bandar Metropolitan Waktu Senja (Parallax Skyline)
-      drawCitySkyline(cameraX * 0.25);
-
-      // Gerakkan konteks mengikut Kamera Dunia
       ctx.translate(-cameraX, 0);
 
-      // 3. Lukis Platform (Tanah Batu Berumput & Batang Kayu Balak)
-      for (let plat of platforms) {
-        if (plat.x + plat.w < cameraX - 50 || plat.x > cameraX + V_WIDTH + 50) continue;
+      // 2. Lukis Papan Tanda "ZON 1 TAMAN NUTRISI"
+      ctx.fillStyle = '#78350f';
+      ctx.fillRect(50, 290, 8, 70);
+      ctx.fillStyle = '#b45309';
+      ctx.beginPath();
+      ctx.roundRect(15, 260, 95, 34, 6);
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 9px Chakra Petch';
+      ctx.textAlign = 'center';
+      ctx.fillText('ZON 1', 62, 274);
+      ctx.fillText('TAMAN NUTRISI', 62, 287);
 
-        if (plat.type === 'ground') {
-          // Batu bata tanah berwarna coklat gelap
+      // 3. Lukis Platform (Tanah Berbatu Rumput & Batang Kayu Balak)
+      for (let p of platforms) {
+        if (p.x + p.w < cameraX - 50 || p.x > cameraX + V_WIDTH + 50) continue;
+
+        if (p.type === 'ground') {
+          // Batu bata tanah coklat
           ctx.fillStyle = '#451a03';
-          ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
-
-          // Tekstur corak bata
+          ctx.fillRect(p.x, p.y, p.w, p.h);
           ctx.strokeStyle = '#291307';
           ctx.lineWidth = 2;
-          for (let by = plat.y + 16; by < plat.y + plat.h; by += 22) {
-            ctx.beginPath();
-            ctx.moveTo(plat.x, by);
-            ctx.lineTo(plat.x + plat.w, by);
-            ctx.stroke();
+          for (let by = p.y + 18; by < p.y + p.h; by += 22) {
+            ctx.beginPath(); ctx.moveTo(p.x, by); ctx.lineTo(p.x + p.w, by); ctx.stroke();
           }
-
-          // Lapisan Rumput Hijau Tebal di atas permukaan tanah
+          // Rumput hijau tebal
           ctx.fillStyle = '#22c55e';
-          ctx.fillRect(plat.x, plat.y, plat.w, 14);
-
-          // Hujung rumput berjurai
+          ctx.fillRect(p.x, p.y, p.w, 14);
           ctx.fillStyle = '#16a34a';
-          for (let gx = plat.x; gx < plat.x + plat.w; gx += 12) {
-            ctx.beginPath();
-            ctx.moveTo(gx, plat.y + 14);
-            ctx.lineTo(gx + 6, plat.y + 20);
-            ctx.lineTo(gx + 12, plat.y + 14);
-            ctx.fill();
+          for (let gx = p.x; gx < p.x + p.w; gx += 14) {
+            ctx.beginPath(); ctx.moveTo(gx, p.y + 14); ctx.lineTo(gx + 7, p.y + 20); ctx.lineTo(gx + 14, p.y + 14); ctx.fill();
           }
-        } else if (plat.type === 'log') {
-          // Platform Batang Kayu Balak (Wooden Log)
+        } else if (p.type === 'log') {
           ctx.fillStyle = '#78350f';
-          ctx.beginPath();
-          ctx.roundRect(plat.x, plat.y, plat.w, plat.h, 10);
-          ctx.fill();
-
-          // Keratan rentas bulat kayu di hujung kiri/kanan
-          ctx.fillStyle = '#b45309';
-          ctx.beginPath();
-          ctx.ellipse(plat.x + 8, plat.y + plat.h / 2, 6, plat.h / 2 - 2, 0, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Rumput hijau tebal di atas batang balak
+          ctx.beginPath(); ctx.roundRect(p.x, p.y, p.w, p.h, 8); ctx.fill();
           ctx.fillStyle = '#22c55e';
-          ctx.beginPath();
-          ctx.roundRect(plat.x, plat.y - 2, plat.w, 10, 4);
-          ctx.fill();
+          ctx.beginPath(); ctx.roundRect(p.x, p.y - 2, p.w, 8, 4); ctx.fill();
         }
       }
 
       // 4. Lukis Syiling Emas
-      for (let c of worldCoins) {
+      for (let c of coins) {
         if (!c.collected && c.x > cameraX - 30 && c.x < cameraX + V_WIDTH + 30) {
-          ctx.fillStyle = '#f59e0b';
-          ctx.beginPath();
-          ctx.arc(c.x, c.y, 9, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.fillStyle = '#fef08a';
-          ctx.beginPath();
-          ctx.arc(c.x, c.y, 6, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.drawImage(SPRITES.coin, c.x - 12, c.y - 12, 24, 24);
         }
       }
 
-      // 5. Lukis Bintang Emas Bersinar (Star)
-      for (let s of worldStars) {
-        if (!s.collected && s.x > cameraX - 40 && s.x < cameraX + V_WIDTH + 40) {
-          drawGlowStar(s.x, s.y);
-        }
-      }
+      // 5. Lukis Item Makanan & Label Terapung "IMBAS"
+      for (let f of foodItems) {
+        if (!f.scanned && f.x > cameraX - 40 && f.x < cameraX + V_WIDTH + 40) {
+          // Lukis Lencana Terapung "IMBAS" di atas makanan (Seperti dalam gambar g2.jpg)
+          ctx.fillStyle = '#0284c7';
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(f.x - 22, f.y - 42, 44, 18, 5);
+          ctx.fill();
+          ctx.stroke();
 
-      // 6. Lukis Item Makanan (Brokoli Sihat Bersinar & Junk Food)
-      for (let it of worldItems) {
-        if (!it.collected && it.x > cameraX - 40 && it.x < cameraX + V_WIDTH + 40) {
-          // Aura bercahaya
-          ctx.save();
-          ctx.shadowColor = it.color;
-          ctx.shadowBlur = 15;
-          ctx.font = '28px sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 9px Chakra Petch';
           ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(it.emoji, it.x, it.y);
-          ctx.restore();
-        }
-      }
+          ctx.fillText('IMBAS', f.x, f.y - 30);
 
-      // 7. Jejak Tenaga Cyan (Blue Dash Trails) di Belakang Wira
-      for (let tr of hero.trail) {
-        ctx.save();
-        ctx.globalAlpha = tr.alpha * 0.55;
-        drawAnimeHero(tr.x, tr.y, tr.dir, 0, true);
-        ctx.restore();
-      }
-
-      // 8. Lukis Watak Wira Anime (Sut Taktikal Biru-Hitam Seperti Gambar)
-      drawAnimeHero(hero.x, hero.y, hero.direction, hero.animTimer, false);
-
-      ctx.restore();
-    }
-
-    // Lukis Bandaraya Metropolitan Waktu Senja (City Skyline)
-    function drawCitySkyline(offset) {
-      const buildings = [
-        { x: 30, w: 75, h: 220 },
-        { x: 120, w: 90, h: 280 },
-        { x: 230, w: 65, h: 180 },
-        { x: 310, w: 100, h: 250 },
-        { x: 430, w: 85, h: 300 },
-        { x: 535, w: 70, h: 190 },
-        { x: 625, w: 95, h: 260 },
-        { x: 740, w: 80, h: 210 }
-      ];
-
-      ctx.save();
-      for (let b of buildings) {
-        let drawX = (b.x - offset) % (V_WIDTH + 150);
-        if (drawX < -100) drawX += V_WIDTH + 150;
-
-        // Bangunan biru gelap silhouette
-        ctx.fillStyle = '#0f2744';
-        ctx.fillRect(drawX, V_HEIGHT - b.h - 70, b.w, b.h);
-
-        // Bumbung menara runcing
-        ctx.fillStyle = '#16385e';
-        ctx.beginPath();
-        ctx.moveTo(drawX, V_HEIGHT - b.h - 70);
-        ctx.lineTo(drawX + b.w / 2, V_HEIGHT - b.h - 100);
-        ctx.lineTo(drawX + b.w, V_HEIGHT - b.h - 70);
-        ctx.fill();
-
-        // Tingkap bercahaya kuning/oren
-        ctx.fillStyle = '#fde047';
-        for (let wy = V_HEIGHT - b.h - 50; wy < V_HEIGHT - 90; wy += 26) {
-          for (let wx = drawX + 12; wx < drawX + b.w - 12; wx += 20) {
-            if ((wx + wy) % 3 === 0) {
-              ctx.fillRect(wx, wy, 8, 12);
-            }
+          // Lukis Ikon Makanan Sebenar daripada Twemoji CDN
+          const spriteImg = SPRITES[f.id];
+          if (spriteImg && spriteImg.complete) {
+            ctx.drawImage(spriteImg, f.x - f.size / 2, f.y - f.size / 2, f.size, f.size);
           }
         }
       }
-      ctx.restore();
-    }
 
-    // Lukisan Bintang Emas Terapung
-    function drawGlowStar(cx, cy) {
-      ctx.save();
-      ctx.shadowColor = '#facc15';
-      ctx.shadowBlur = 18;
-      ctx.fillStyle = '#fde047';
-
-      const spikes = 5;
-      const outerRadius = 18;
-      const innerRadius = 8;
-      let rot = Math.PI / 2 * 3;
-      let step = Math.PI / spikes;
-
-      ctx.beginPath();
-      ctx.moveTo(cx, cy - outerRadius);
-      for (let i = 0; i < spikes; i++) {
-        let x = cx + Math.cos(rot) * outerRadius;
-        let y = cy + Math.sin(rot) * outerRadius;
-        ctx.lineTo(x, y);
-        rot += step;
-
-        x = cx + Math.cos(rot) * innerRadius;
-        y = cy + Math.sin(rot) * innerRadius;
-        ctx.lineTo(x, y);
-        rot += step;
-      }
-      ctx.lineTo(cx, cy - outerRadius);
-      ctx.closePath();
-      ctx.fill();
-      ctx.restore();
-    }
-
-    // Lukisan Watak Wira Anime (Sut Taktikal Biru-Hitam Seperti Gambar Rujukan)
-    function drawAnimeHero(x, y, dir, anim, isGhost) {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.scale(dir, 1);
-
-      const legAnim = Math.sin(anim) * 10;
-
-      // 1. Kaki & But Taktikal
-      ctx.fillStyle = isGhost ? '#38bdf8' : '#091522';
-      // Kaki Belakang
-      ctx.fillRect(-12, -22, 9, 22 - legAnim);
-      // Kaki Depan
-      ctx.fillRect(3, -22, 9, 22 + legAnim);
-
-      // Jalur Neon Cyan Kasut
-      ctx.fillStyle = '#06b6d4';
-      ctx.fillRect(-12, -6 - legAnim, 9, 4);
-      ctx.fillRect(3, -6 + legAnim, 9, 4);
-
-      // 2. Badan (Sut Taktikal Hitam dengan Jalur Biru Bercahaya)
-      ctx.fillStyle = isGhost ? '#38bdf8' : '#0b192c';
-      ctx.beginPath();
-      ctx.roundRect(-12, -42, 24, 24, 5);
-      ctx.fill();
-
-      // Jalur Cyan Dada
-      ctx.fillStyle = '#38bdf8';
-      ctx.fillRect(-8, -34, 16, 4);
-      ctx.fillRect(-2, -38, 4, 12);
-
-      // 3. Tangan Berlari
-      ctx.fillStyle = isGhost ? '#38bdf8' : '#081320';
-      ctx.beginPath();
-      ctx.arc(14, -32 + legAnim, 5, 0, Math.PI * 2);
-      ctx.arc(-14, -32 - legAnim, 5, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 4. Kepala & Wajah Anime
-      ctx.fillStyle = isGhost ? '#e0f2fe' : '#fed7aa';
-      ctx.beginPath();
-      ctx.arc(0, -48, 11, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Mata Biru Anime
-      ctx.fillStyle = '#0284c7';
-      ctx.fillRect(3, -50, 3, 4);
-
-      // 5. Rambut Hitam Anime Berpacak (Spiky Anime Hair)
-      ctx.fillStyle = isGhost ? '#0284c7' : '#090d16';
-      ctx.beginPath();
-      ctx.arc(0, -52, 12, Math.PI, Math.PI * 2);
-      ctx.fill();
-      // Pacak Rambut Belakang & Depan
-      ctx.beginPath();
-      ctx.moveTo(-10, -54);
-      ctx.lineTo(-18, -58);
-      ctx.lineTo(-8, -48);
-      ctx.lineTo(8, -63);
-      ctx.lineTo(6, -50);
-      ctx.fill();
-
-      ctx.restore();
-    }
-
-    // Kemas Kini Paparan HUD
-    function updateHUD() {
-      // 1. Nyawa Hati
-      const heartsContainer = document.getElementById('heartsContainer');
-      let heartsHtml = '';
-      for (let i = 0; i < 3; i++) {
-        if (i < hero.hearts) {
-          heartsHtml += '<i class="fa-solid fa-heart animate-pulse"></i>';
-        } else {
-          heartsHtml += '<i class="fa-regular fa-heart text-slate-600"></i>';
+      // 6. Lukis Musuh Raksasa Burger Bertinju
+      for (let em of burgerEnemies) {
+        if (em.x > cameraX - 40 && em.x < cameraX + V_WIDTH + 40) {
+          ctx.drawImage(SPRITES.burgerEnemy, em.x - em.w / 2, em.y - em.h / 2, em.w, em.h);
+          // Sarung tangan tinju merah
+          ctx.fillStyle = '#dc2626';
+          ctx.beginPath(); ctx.arc(em.x - 16, em.y + 4, 7, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(em.x + 16, em.y + 4, 7, 0, Math.PI * 2); ctx.fill();
         }
       }
-      heartsContainer.innerHTML = heartsHtml;
 
-      // 2. Bar Tenaga Hijau
-      const energyPct = Math.round(hero.energy);
-      document.getElementById('energyBar').style.width = `${energyPct}%`;
+      // 7. Lukis Portal Penamat Bersinar (Biru/Neon Vortex)
+      drawPortal(portal.x, portal.y, portal.w, portal.h);
 
-      // 3. Skor
-      document.getElementById('hudScore').innerText = score;
+      // 8. Lukis Wira Ejen VITA-X
+      ctx.save();
+      ctx.translate(player.x, player.y);
+      if (player.direction === -1) ctx.scale(-1, 1);
+      if (player.invincibleTimer > 0 && Math.floor(Date.now() / 80) % 2 === 0) {
+        ctx.globalAlpha = 0.4;
+      }
+      ctx.drawImage(heroImg, -player.width / 2, -player.height, player.width, player.height);
+      ctx.restore();
 
-      // 4. Masa Randik (MM:SS)
-      const mins = Math.floor(timeRemaining / 60);
-      const secs = Math.floor(timeRemaining % 60);
-      const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-      document.getElementById('hudTime').innerText = timeStr;
+      ctx.restore();
     }
 
-    // Tamat Permainan (Game Over)
+    // Latar Belakang Kota Futuristik Neo-City
+    function drawNeoCityBackground(offset) {
+      const grad = ctx.createLinearGradient(0, 0, 0, V_HEIGHT);
+      grad.addColorStop(0, '#02182b');
+      grad.addColorStop(0.6, '#03395c');
+      grad.addColorStop(1, '#0e6288');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, V_WIDTH, V_HEIGHT);
+
+      // Bangunan Kota dengan Papan Tanda Kesihatan
+      const bldgs = [
+        { x: 30, w: 90, h: 260, text: 'MAKAN SIHAT' },
+        { x: 180, w: 110, h: 300, text: 'HIDUP SIHAT' },
+        { x: 360, w: 95, h: 240, text: 'GENERASI SIHAT' },
+        { x: 520, w: 100, h: 280, text: 'NEGARA KUAT' },
+        { x: 700, w: 120, h: 320, text: 'VITA-X' }
+      ];
+
+      for (let b of bldgs) {
+        let drawX = (b.x - offset) % (V_WIDTH + 200);
+        if (drawX < -150) drawX += V_WIDTH + 200;
+
+        ctx.fillStyle = '#0a233d';
+        ctx.fillRect(drawX, V_HEIGHT - b.h - 60, b.w, b.h);
+
+        // Papan tanda teks slogan pada bangunan (Seperti di g2.jpg)
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 9px Chakra Petch';
+        ctx.textAlign = 'center';
+        ctx.fillText(b.text, drawX + b.w / 2, V_HEIGHT - b.h - 20);
+
+        // Tingkap bercahaya
+        ctx.fillStyle = '#fde047';
+        for (let wy = V_HEIGHT - b.h; wy < V_HEIGHT - 80; wy += 32) {
+          for (let wx = drawX + 16; wx < drawX + b.w - 16; wx += 24) {
+            if ((wx + wy) % 5 === 0) ctx.fillRect(wx, wy, 8, 12);
+          }
+        }
+      }
+    }
+
+    // Portal Penamat Neon
+    function drawPortal(x, y, w, h) {
+      const semuaSiap = Object.values(nutrientPowers).every(v => v === true);
+      ctx.save();
+      ctx.strokeStyle = semuaSiap ? '#00e5ff' : '#64748b';
+      ctx.lineWidth = 4;
+      ctx.shadowColor = semuaSiap ? '#00e5ff' : '#000000';
+      ctx.shadowBlur = semuaSiap ? 20 : 0;
+      ctx.fillStyle = semuaSiap ? '#0284c7' : '#1e293b';
+
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 20);
+      ctx.fill();
+      ctx.stroke();
+
+      // Vortex berputar
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(x + w / 2, y + h / 2, 22, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 9px Chakra Petch';
+      ctx.textAlign = 'center';
+      ctx.fillText(semuaSiap ? 'PORTAL AKTIF' : 'KUNCI (0/4)', x + w / 2, y + h + 14);
+      ctx.restore();
+    }
+
+    function updateHUD() {
+      // 1. Bar Tenaga
+      const energyPct = Math.round(player.energy);
+      document.getElementById('hudEnergyBar').style.width = `${energyPct}%`;
+      document.getElementById('hudEnergyText').innerText = `${energyPct}/100`;
+
+      // 2. Hati Nyawa
+      const hContainer = document.getElementById('heartsContainer');
+      let hHtml = '';
+      for (let i = 0; i < 3; i++) {
+        hHtml += i < player.hearts 
+          ? '<i class="fa-solid fa-heart animate-pulse"></i>' 
+          : '<i class="fa-regular fa-heart text-slate-600"></i>';
+      }
+      hContainer.innerHTML = hHtml;
+
+      // 3. Skor Syiling
+      document.getElementById('hudScore').innerText = score.toString().padStart(4, '0');
+
+      // 4. Kuasa Nutrien (4 Ikon Status)
+      const nList = [
+        { id: 'pisang', badge: 'badgeNutri1', count: 'badgeCount1' },
+        { id: 'telur', badge: 'badgeNutri2', count: 'badgeCount2' },
+        { id: 'brokoli', badge: 'badgeNutri3', count: 'badgeCount3' },
+        { id: 'air', badge: 'badgeNutri4', count: 'badgeCount4' }
+      ];
+
+      nList.forEach(n => {
+        const el = document.getElementById(n.badge);
+        const cnt = document.getElementById(n.count);
+        if (nutrientPowers[n.id]) {
+          el.classList.remove('opacity-40');
+          el.classList.add('opacity-100');
+          cnt.innerText = '1/1';
+          cnt.className = 'text-[10px] font-hud font-bold text-green-300';
+        } else {
+          el.classList.add('opacity-40');
+          el.classList.remove('opacity-100');
+          cnt.innerText = '0/1';
+          cnt.className = 'text-[10px] font-hud font-bold text-white';
+        }
+      });
+
+      // 5. Bar Progres Misi
+      const progressPct = Math.min(100, Math.max(5, (player.x / portal.x) * 100));
+      document.getElementById('missionProgressBar').style.width = `${progressPct}%`;
+    }
+
     function triggerGameOver(reason) {
       isGameRunning = false;
-      cancelAnimationFrame(animationFrameId);
       stopBgm();
-      playSound('gameover');
+      playSound('hurt');
 
-      document.getElementById('deathReason').innerText = reason;
-      document.getElementById('resNameClass').innerText = `${currentPlayerName} (${currentPlayerClass})`;
-      document.getElementById('resFinalScore').innerText = score;
-      document.getElementById('resDistance').innerText = `${Math.floor(hero.x / 20)} Meter`;
-
+      document.getElementById('failReasonText').innerText = reason;
       document.getElementById('gameOverScreen').classList.remove('hidden');
 
-      saveLocalRecord(currentPlayerName, currentPlayerClass, score);
-      renderLeaderboard();
-      submitToGoogleSheet();
+      hantarKeGoogleSheet(false);
     }
 
-    function saveLocalRecord(name, cls, finalScore) {
-      const storageKey = `nutrihero_ranking_${config.schoolName.replace(/\s+/g, '_')}`;
-      let records = [];
-      try {
-        records = JSON.parse(localStorage.getItem(storageKey)) || [];
-      } catch (e) {
-        records = [];
-      }
+    function triggerVictory() {
+      isGameRunning = false;
+      stopBgm();
+      playSound('win');
 
-      records.push({
-        name: name,
-        class: cls,
-        score: finalScore,
-        date: new Date().toLocaleDateString('ms-MY')
-      });
+      document.getElementById('vicPlayerName').innerText = `${currentPlayerName} (${currentPlayerClass})`;
+      document.getElementById('vicFinalScore').innerText = score;
+      document.getElementById('vicTimeTaken').innerText = `${Math.round(gameTime)} Saat`;
+      document.getElementById('victoryScreen').classList.remove('hidden');
 
-      records.sort((a, b) => b.score - a.score);
-      records = records.slice(0, 15);
-      localStorage.setItem(storageKey, JSON.stringify(records));
+      hantarKeGoogleSheet(true);
     }
 
-    function renderLeaderboard() {
-      const storageKey = `nutrihero_ranking_${config.schoolName.replace(/\s+/g, '_')}`;
-      const listEl = document.getElementById('leaderboardList');
-      listEl.innerHTML = '';
-
-      let records = [];
-      try {
-        records = JSON.parse(localStorage.getItem(storageKey)) || [];
-      } catch (e) {
-        records = [];
+    function hantarKeGoogleSheet(isMenang) {
+      const statusEl = document.getElementById('vicSheetStatus');
+      if (statusEl) {
+        statusEl.innerText = "Sedang Dihantar...";
+        statusEl.className = "font-bold text-amber-300 animate-pulse";
       }
 
-      if (records.length === 0) {
-        listEl.innerHTML = '<p class="text-gray-400 text-center py-2">Tiada rekod lagi.</p>';
-        return;
-      }
-
-      records.forEach((rec, idx) => {
-        let badgeColor = 'text-gray-300';
-        let medal = `#${idx + 1}`;
-        if (idx === 0) { badgeColor = 'text-amber-300 font-extrabold'; medal = '🥇 #1'; }
-        else if (idx === 1) { badgeColor = 'text-slate-200 font-bold'; medal = '🥈 #2'; }
-        else if (idx === 2) { badgeColor = 'text-amber-600 font-bold'; medal = '🥉 #3'; }
-
-        const row = document.createElement('div');
-        row.className = `flex justify-between items-center py-1 px-1.5 rounded ${idx % 2 === 0 ? 'bg-white/5' : ''}`;
-        row.innerHTML = `
-          <div class="flex items-center gap-2 truncate">
-            <span class="w-8 font-hud ${badgeColor}">${medal}</span>
-            <span class="font-semibold text-white truncate max-w-[130px]">${rec.name}</span>
-            <span class="text-[10px] text-sky-400">(${rec.class})</span>
-          </div>
-          <div class="font-hud font-bold text-amber-300 ml-2">
-            ${rec.score} <span class="text-[10px] text-gray-400">mata</span>
-          </div>
-        `;
-        listEl.appendChild(row);
-      });
-    }
-
-    function submitToGoogleSheet() {
-      const statusEl = document.getElementById('resSheetStatus');
-      statusEl.innerText = "Sedang Dihantar...";
-      statusEl.className = "font-bold text-amber-400 animate-pulse";
-
-      if (!config.gasUrl) {
-        statusEl.innerText = "URL Apps Script Tiada";
-        statusEl.className = "font-bold text-red-400";
-        return;
-      }
+      const totalKuasa = Object.values(nutrientPowers).filter(v => v === true).length;
 
       const payload = {
-        action: "saveScore",
         sheetId: config.sheetId,
         sekolah: config.schoolName,
         nama: currentPlayerName,
         kelas: currentPlayerClass,
         skor: score,
-        masaBertahan: 90 - Math.floor(timeRemaining),
-        sayur: statsCollected.veggies,
-        buah: statsCollected.stars,
-        junk: statsCollected.junk,
-        timestamp: new Date().toISOString()
+        tenaga: Math.round(player.energy),
+        nyawa: player.hearts,
+        masaDiambil: Math.round(gameTime),
+        kuasaNutrien: `${totalKuasa}/4`,
+        keputusan: isMenang ? "Berjaya (Misi Selesai)" : "Gagal"
       };
 
       fetch(config.gasUrl, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
       .then(() => {
-        statusEl.innerText = "Berjaya Disimpan! ✅";
-        statusEl.className = "font-bold text-emerald-400";
+        if (statusEl) {
+          statusEl.innerText = "Berjaya Disimpan! ✅";
+          statusEl.className = "font-bold text-green-400";
+        }
       })
       .catch((err) => {
-        console.warn("Gagal simpan ke Sheet:", err);
-        statusEl.innerText = "Disimpan Dalam Peranti Sahaja ⚠️";
-        statusEl.className = "font-bold text-yellow-400";
+        if (statusEl) {
+          statusEl.innerText = "Disimpan Dalam Peranti Sahaja ⚠️";
+          statusEl.className = "font-bold text-yellow-400";
+        }
       });
     }
 
-    // Fungsi Admin
+    // Panel Admin
     function openAdminModal() {
       document.getElementById('adminModal').classList.remove('hidden');
       document.getElementById('adminAuthSection').classList.remove('hidden');
@@ -1365,8 +1451,8 @@
     }
 
     function verifyAdminPassword() {
-      const enteredPass = document.getElementById('adminPasswordInput').value;
-      if (enteredPass === config.adminPass) {
+      const pass = document.getElementById('adminPasswordInput').value;
+      if (pass === config.adminPass) {
         document.getElementById('adminAuthSection').classList.add('hidden');
         document.getElementById('adminConfigSection').classList.remove('hidden');
         document.getElementById('adminSchoolInput').value = config.schoolName;
@@ -1378,39 +1464,31 @@
     }
 
     function saveAdminSettings() {
-      const newSchool = document.getElementById('adminSchoolInput').value.trim() || DEFAULT_CONFIG.schoolName;
-      const newGas = document.getElementById('adminGasUrlInput').value.trim();
-      const newSheet = document.getElementById('adminSheetIdInput').value.trim();
+      const s = document.getElementById('adminSchoolInput').value.trim() || DEFAULT_CONFIG.schoolName;
+      const g = document.getElementById('adminGasUrlInput').value.trim();
+      const sh = document.getElementById('adminSheetIdInput').value.trim();
 
-      config.schoolName = newSchool;
-      config.gasUrl = newGas;
-      config.sheetId = newSheet;
+      config.schoolName = s;
+      config.gasUrl = g;
+      config.sheetId = sh;
 
-      localStorage.setItem('nutrihero_school', newSchool);
-      localStorage.setItem('nutrihero_gas', newGas);
-      localStorage.setItem('nutrihero_sheet', newSheet);
+      localStorage.setItem('vitax_school', s);
+      localStorage.setItem('vitax_gas', g);
+      localStorage.setItem('vitax_sheet', sh);
 
       loadSettings();
 
-      const successEl = document.getElementById('adminSaveSuccess');
-      successEl.classList.remove('hidden');
+      const success = document.getElementById('adminSaveSuccess');
+      success.classList.remove('hidden');
       setTimeout(() => {
-        successEl.classList.add('hidden');
+        success.classList.add('hidden');
         closeAdminModal();
       }, 1000);
     }
 
-    function clearLeaderboardData() {
-      if (confirm(`Adakah anda pasti mahu memadam rekod ranking bagi ${config.schoolName}?`)) {
-        const storageKey = `nutrihero_ranking_${config.schoolName.replace(/\s+/g, '_')}`;
-        localStorage.removeItem(storageKey);
-        renderLeaderboard();
-        alert("Semua rekod setempat berjaya dipadam.");
-      }
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
       loadSettings();
+      setupLevel();
     });
   </script>
 </body>
