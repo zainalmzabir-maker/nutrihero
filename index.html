@@ -250,7 +250,7 @@
     
     <div class="w-full game-border rounded-3xl bg-slate-950 p-2 sm:p-3 relative backdrop-blur-md overflow-hidden">
       
-      <!-- Top HUD Banner[cite: 5] -->
+      <!-- Top HUD Banner -->
       <div class="w-full hud-panel rounded-2xl px-2 sm:px-3 py-1 sm:py-1.5 mb-1.5 flex flex-wrap items-center justify-between gap-1 sm:gap-2">
         <div class="flex items-center space-x-1.5">
           <div class="bg-gradient-to-r from-blue-600 to-cyan-500 px-2 py-0.5 rounded-lg border border-cyan-300 font-hud font-extrabold text-[10px] sm:text-xs tracking-wider shadow">
@@ -287,7 +287,7 @@
           <span id="hudScore" class="font-hud font-extrabold text-amber-300 text-xs sm:text-sm tracking-wider">0000</span>
         </div>
 
-        <!-- 4 Ikon Status Kuasa Nutrien (0/1)[cite: 5] -->
+        <!-- 4 Ikon Status Kuasa Nutrien (0/1) -->
         <div class="flex items-center space-x-1.5 bg-black/60 px-2 py-0.5 rounded-xl border border-cyan-400/40">
           <span class="text-[9px] font-hud font-bold text-sky-300 hidden sm:inline">Kuasa:</span>
           
@@ -325,7 +325,7 @@
       <div class="canvas-container relative w-full aspect-[16/9] max-h-[460px] rounded-2xl overflow-hidden border-2 border-sky-500/50 bg-slate-950 flex items-center justify-center">
         <canvas id="gameCanvas" class="w-full h-full block"></canvas>
         
-        <!-- Papan Info VITA-BOT[cite: 5] -->
+        <!-- Papan Info VITA-BOT -->
         <div class="pointer-events-none absolute top-2 left-2 flex items-start space-x-2 max-w-[210px] sm:max-w-xs">
           <img src="https://api.dicebear.com/7.x/bottts/svg?seed=VitaBot&backgroundColor=0284c7" alt="VITA-BOT" class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl border border-cyan-400 bg-slate-900/90 shadow-lg flex-shrink-0" />
           <div class="bg-slate-900/90 border border-cyan-400/80 rounded-xl px-2 py-0.5 shadow-lg text-[8px] sm:text-[10px] text-cyan-200 leading-snug">
@@ -340,7 +340,7 @@
         </div>
       </div>
 
-      <!-- PANEL KAWALAN SKRIN SENTUH TELEFON[cite: 4, 5] -->
+      <!-- PANEL KAWALAN SKRIN SENTUH TELEFON -->
       <div class="controls-container w-full flex items-center justify-between px-2 sm:px-6 pt-2 pb-0.5 select-none">
         <div class="flex items-center space-x-2 sm:space-x-4">
           <button id="btnLeft" class="touch-pad-btn w-13 h-13 sm:w-16 sm:h-16 rounded-2xl flex flex-col items-center justify-center text-white text-2xl shadow-xl active:scale-90" aria-label="Gerak Kiri">
@@ -368,7 +368,7 @@
     </div>
   </main>
 
-  <!-- SKRIN MULA / START SCREEN (DENGAN ARAHAN STRUKTUR & MEKANIK PERMAINAN) -->
+  <!-- SKRIN MULA / START SCREEN -->
   <div id="startScreen" class="fixed inset-0 bg-slate-950/95 z-40 backdrop-blur-md mobile-scroll-screen p-3 sm:p-4 flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-md flex flex-col items-center py-4 text-center">
       
@@ -393,7 +393,7 @@
         SMK KAMARUL ARIFFIN
       </p>
 
-      <!-- KOTAK ARAHAN MEKANIK & STRUKTUR PERMAINAN (JELAS & RINGKAS) -->
+      <!-- KOTAK ARAHAN MEKANIK & STRUKTUR PERMAINAN -->
       <div class="w-full bg-slate-900/90 border-2 border-cyan-400/50 rounded-2xl p-2.5 mb-3 text-left shadow-xl">
         <div class="flex items-center justify-between pb-1.5 border-b border-cyan-500/30 text-xs font-hud font-extrabold text-amber-300">
           <span class="flex items-center gap-1.5">
@@ -403,7 +403,6 @@
         </div>
 
         <div class="grid grid-cols-2 gap-2 mt-2 text-[10px] sm:text-[11px] leading-tight">
-          <!-- Langkah 1 -->
           <div class="bg-blue-950/70 p-2 rounded-xl border border-cyan-500/30">
             <div class="font-hud font-bold text-cyan-300 flex items-center gap-1 mb-0.5">
               <span class="w-4 h-4 rounded-full bg-cyan-500 text-slate-950 text-[10px] flex items-center justify-center font-black">1</span>
@@ -412,7 +411,6 @@
             <p class="text-sky-200/90">Kumpul 🍌 Karbohidrat, 🥚 Protein, 🥦 Vitamin & 💧 Hidrasi.</p>
           </div>
 
-          <!-- Langkah 2 -->
           <div class="bg-blue-950/70 p-2 rounded-xl border border-emerald-500/40">
             <div class="font-hud font-bold text-emerald-300 flex items-center gap-1 mb-0.5">
               <span class="w-4 h-4 rounded-full bg-emerald-400 text-slate-950 text-[10px] flex items-center justify-center font-black">2</span>
@@ -421,7 +419,6 @@
             <p class="text-emerald-100/90">Dekati makanan, imbas & jawab kuiz untuk pulihkan tenaga.</p>
           </div>
 
-          <!-- Langkah 3 -->
           <div class="bg-blue-950/70 p-2 rounded-xl border border-red-500/40">
             <div class="font-hud font-bold text-red-300 flex items-center gap-1 mb-0.5">
               <span class="w-4 h-4 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-black">3</span>
@@ -430,7 +427,6 @@
             <p class="text-red-200/90">Awas raksasa 🍔🍟 & jurang! Sentuhan menolak 25 tenaga/nyawa.</p>
           </div>
 
-          <!-- Langkah 4 -->
           <div class="bg-blue-950/70 p-2 rounded-xl border border-amber-500/40">
             <div class="font-hud font-bold text-amber-300 flex items-center gap-1 mb-0.5">
               <span class="w-4 h-4 rounded-full bg-amber-400 text-slate-950 text-[10px] flex items-center justify-center font-black">4</span>
@@ -463,7 +459,7 @@
         </div>
 
         <div id="levelGridContainer" class="grid grid-cols-5 gap-1.5 sm:gap-2 max-h-40 overflow-y-auto p-1">
-          <!-- Dijana Secara Dinamik Oleh JavaScript -->
+          <!-- Dijana Secara Dinamik -->
         </div>
 
         <div class="mt-2 pt-1.5 border-t border-cyan-500/20 flex items-center justify-between text-[11px] font-hud">
@@ -499,14 +495,14 @@
     </div>
   </div>
 
-  <!-- SKRIN TAHNIAH SELESAI LEVEL (PERALIHAN LEVEL 1 -> 20)[cite: 4] -->
+  <!-- SKRIN TAHNIAH SELESAI LEVEL -->
   <div id="levelClearScreen" class="hidden fixed inset-0 bg-slate-950/95 z-50 backdrop-blur-md mobile-scroll-screen p-4 flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-sm flex flex-col items-center py-6 text-center">
       <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-400 to-yellow-300 border-2 border-yellow-200 flex items-center justify-center text-slate-950 text-2xl mb-1 shadow-lg shadow-yellow-500/40 animate-bounce">
         ⭐
       </div>
       <h3 id="lvlClearTitle" class="text-xl sm:text-2xl font-black font-hud text-amber-300 mb-0.5">LEVEL 1 SELESAI!</h3>
-      <p id="lvlClearSub" class="text-xs text-emerald-400 font-bold mb-3">Portal Aktif & Semua 4 Nutrien Berjaya Diimbas![cite: 4, 5]</p>
+      <p id="lvlClearSub" class="text-xs text-emerald-400 font-bold mb-3">Portal Aktif & Semua 4 Nutrien Berjaya Diimbas!</p>
       
       <div class="w-full bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-3 mb-4 text-xs text-left">
         <div class="flex justify-between py-1 border-b border-slate-800">
@@ -539,7 +535,7 @@
     </div>
   </div>
 
-  <!-- POP-UP MODAL PENGIMBAS NUTRISI[cite: 5] -->
+  <!-- POP-UP MODAL PENGIMBAS NUTRISI -->
   <div id="modalPengimbas" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 p-4 mobile-scroll-screen flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-lg bg-slate-900 border-2 border-cyan-400 rounded-3xl p-4 sm:p-6 shadow-2xl relative text-left">
       
@@ -583,14 +579,14 @@
     </div>
   </div>
 
-  <!-- SKRIN KEMENANGAN AKHIR LEVEL 20[cite: 4] -->
+  <!-- SKRIN KEMENANGAN AKHIR LEVEL 20 -->
   <div id="victoryScreen" class="hidden fixed inset-0 bg-slate-950/95 z-50 backdrop-blur-md mobile-scroll-screen p-4 flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-sm flex flex-col items-center py-6 text-center">
       <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-400 text-3xl mb-2 animate-bounce">
         🏆
       </div>
-      <h3 class="text-2xl sm:text-3xl font-black font-hud text-amber-300 mb-0.5">TAHNIAH! SEMUA 20 LEVEL TAMAT![cite: 4]</h3>
-      <p class="text-xs text-emerald-400 font-bold mb-3">Anda adalah Wira Nutrisi Sejati EJEN VITA-X![cite: 4]</p>
+      <h3 class="text-2xl sm:text-3xl font-black font-hud text-amber-300 mb-0.5">TAHNIAH! SEMUA 20 LEVEL TAMAT!</h3>
+      <p class="text-xs text-emerald-400 font-bold mb-3">Anda adalah Wira Nutrisi Sejati EJEN VITA-X!</p>
       
       <div class="w-full bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-3 mb-4 text-xs text-left">
         <div class="flex justify-between py-1 border-b border-slate-800">
@@ -638,8 +634,8 @@
     </div>
   </div>
 
-  <!-- PANEL ADMIN (DENGAN LAPISAN Z-[70] TERTINGGI) -->
-  <div id="adminModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[70] p-4 mobile-scroll-screen flex flex-col items-center justify-start sm:justify-center">
+  <!-- PANEL ADMIN -->
+  <div id="adminModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-[70] p-4 mobile-scroll-screen flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-md bg-slate-950 border-2 border-cyan-400 rounded-3xl p-5 shadow-2xl relative text-left">
       <div class="flex justify-between items-center pb-3 border-b border-cyan-500/30 mb-4">
         <div class="flex items-center gap-2 text-amber-300 font-hud font-bold text-lg">
@@ -700,7 +696,7 @@
   </div>
 
   <footer class="mt-2 text-[10px] sm:text-[11px] text-sky-400/70 text-center font-hud">
-    EJEN VITA-X Prototaip v1.0 &bull; Modul Gamifikasi Sains & RBT Tingkatan 1[cite: 2, 4] &bull; SMK Kamarul Ariffin
+    EJEN VITA-X Prototaip v1.0 &bull; Modul Gamifikasi Sains & RBT Tingkatan 1 &bull; SMK Kamarul Ariffin
   </footer>
 
   <!-- SISTEM AUDIO SINTETIK 8-BIT -->
@@ -718,8 +714,10 @@
     ];
 
     function initAudio() {
-      if (!audioCtx) audioCtx = new AudioContext();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
+      try {
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+      } catch (e) {}
     }
 
     function toggleSound() {
@@ -872,6 +870,22 @@
     </svg>`;
     const heroImg = new Image();
     heroImg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(HERO_SVG.trim());
+
+    // FUNGSI LUKIS IMEJ KANVAS KALIS RALAT (ELAKKAN KANVAS TERGENDALA / FREEZE)
+    function safeDrawImage(img, x, y, w, h, fallbackEmoji) {
+      if (img && img.complete && img.naturalWidth > 0) {
+        try {
+          ctx.drawImage(img, x, y, w, h);
+          return;
+        } catch (e) {}
+      }
+      if (fallbackEmoji) {
+        ctx.font = `${Math.round(h * 0.85)}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(fallbackEmoji, x + w / 2, y + h / 2);
+      }
+    }
   </script>
 
   <!-- DATA 20 LEVEL & SISTEM LEVEL LOCK / UNLOCK -->
@@ -1363,6 +1377,7 @@
     let score = 0;
     let gameTime = 0;
     let lastTime = 0;
+    let animationFrameId = null;
     let activeQuizNutrient = null;
     let isQuizOpen = false;
 
@@ -1460,31 +1475,35 @@
       }
     }
 
+    // PENGATURAN LEVEL BERSIH DENGAN PLATFORM KUKUH DI BAWAH PORTAL
     function setupLevel(lvlNum) {
       currentLevel = lvlNum;
       const lvlData = GAME_LEVELS[lvlNum - 1] || GAME_LEVELS[0];
 
-      portal.x = lvlData.portalX;
+      const pX = lvlData.portalX;
+      portal.x = pX;
       portal.y = 280;
 
+      // Platform bawah berterusan agar portal sentiasa berada di atas tanah
       platforms = [
         { x: 0, y: 360, w: 750, h: 90, type: 'ground' },
         { x: 830, y: 360, w: 650, h: 90, type: 'ground' },
-        { x: 1560, y: 360, w: 700, h: 90, type: 'ground' },
-        { x: 2340, y: 360, w: 1000, h: 90, type: 'ground' },
+        { x: 1560, y: 360, w: 650, h: 90, type: 'ground' },
+        { x: 2280, y: 360, w: Math.max(1200, pX - 2280 + 350), h: 90, type: 'ground' },
+        // Platform kayu terapung:
         { x: 260, y: 260, w: 130, h: 26, type: 'log' },
         { x: 500, y: 210, w: 140, h: 26, type: 'log' },
         { x: 1020, y: 260, w: 150, h: 26, type: 'log' },
         { x: 1280, y: 210, w: 140, h: 26, type: 'log' },
         { x: 1750, y: 260, w: 150, h: 26, type: 'log' },
-        { x: 2000, y: 210, w: 140, h: 26, type: 'log' }
+        { x: Math.min(2100, pX - 200), y: 210, w: 140, h: 26, type: 'log' }
       ];
 
       foodItems = [
         { id: 'pisang', x: 320, y: 225, size: 34, scanned: false, info: lvlData.quizzes[0] },
         { id: 'telur', x: 1100, y: 225, size: 32, scanned: false, info: lvlData.quizzes[1] },
         { id: 'brokoli', x: 1820, y: 225, size: 34, scanned: false, info: lvlData.quizzes[2] },
-        { id: 'air', x: 2070, y: 175, size: 32, scanned: false, info: lvlData.quizzes[3] }
+        { id: 'air', x: Math.min(2150, pX - 180), y: 175, size: 32, scanned: false, info: lvlData.quizzes[3] }
       ];
 
       document.getElementById('badgeIcon1').innerText = lvlData.quizzes[0].icon;
@@ -1521,6 +1540,23 @@
       document.getElementById('hudMissionTitle').innerText = `Lvl ${lvlNum}: ${lvlData.title}`;
     }
 
+    // PENGURUSAN KITARAN GAME LOOP TANPA KEMUNGKINAN MEMBEKU (FREEZE-PROOF)
+    function startGameLoop() {
+      stopGameLoop();
+      isGameRunning = true;
+      isGamePaused = false;
+      lastTime = performance.now();
+      animationFrameId = requestAnimationFrame(gameLoop);
+    }
+
+    function stopGameLoop() {
+      isGameRunning = false;
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    }
+
     function startGame() {
       const nameInput = document.getElementById('inputPlayerName').value.trim();
       const classInput = document.getElementById('inputPlayerClass').value.trim();
@@ -1548,10 +1584,7 @@
 
       score = 0;
       resetGameForLevel(selectedStartLevel);
-      isGameRunning = true;
-      isGamePaused = false;
-      lastTime = performance.now();
-      requestAnimationFrame(gameLoop);
+      startGameLoop();
     }
 
     function resetGameForLevel(lvlNum) {
@@ -1566,44 +1599,51 @@
 
       cameraX = 0;
       gameTime = 0;
+      isQuizOpen = false;
+      isGamePaused = false;
+      activeQuizNutrient = null;
+      keys = { left: false, right: false, jump: false };
+
+      const modal = document.getElementById('modalPengimbas');
+      if (modal) modal.classList.add('hidden');
 
       setupLevel(lvlNum);
       updateHUD();
-      document.getElementById('vitaBotMsg').innerText = `Selamat datang ke ${GAME_LEVELS[lvlNum-1].title}! Kumpul 4 nutrien dan masuk ke portal.`;
+      const msgEl = document.getElementById('vitaBotMsg');
+      if (msgEl) msgEl.innerText = `Selamat datang ke ${GAME_LEVELS[lvlNum-1].title}! Kumpul 4 nutrien dan masuk ke portal.`;
     }
 
     function restartCurrentLevel() {
       document.getElementById('gameOverScreen').classList.add('hidden');
       resetGameForLevel(currentLevel);
       startBgm();
-      isGameRunning = true;
-      isGamePaused = false;
-      lastTime = performance.now();
-      requestAnimationFrame(gameLoop);
+      startGameLoop();
     }
 
+    // FUNGSI PERALIHAN KE LEVEL SETERUSNYA YANG KALIS FREEZE
     function goToNextLevel() {
-      document.getElementById('levelClearScreen').classList.add('hidden');
+      const clearScreen = document.getElementById('levelClearScreen');
+      if (clearScreen) clearScreen.classList.add('hidden');
+
       if (currentLevel < 20) {
-        selectedStartLevel = currentLevel + 1;
-        resetGameForLevel(currentLevel + 1);
+        const nextLvl = currentLevel + 1;
+        selectedStartLevel = nextLvl;
+        resetGameForLevel(nextLvl);
+        renderLevelGridUI();
         startBgm();
-        isGameRunning = true;
-        isGamePaused = false;
-        lastTime = performance.now();
-        requestAnimationFrame(gameLoop);
+        startGameLoop();
       } else {
         triggerMegaVictory();
       }
     }
 
     function backToMenu() {
+      stopGameLoop();
       stopBgm();
       document.getElementById('gameOverScreen').classList.add('hidden');
       document.getElementById('victoryScreen').classList.add('hidden');
       document.getElementById('levelClearScreen').classList.add('hidden');
       document.getElementById('startScreen').classList.remove('hidden');
-      isGameRunning = false;
       renderLevelGridUI();
     }
 
@@ -1703,7 +1743,10 @@
     }
 
     function gameLoop(timestamp) {
-      if (!isGameRunning) return;
+      if (!isGameRunning) {
+        animationFrameId = null;
+        return;
+      }
 
       const dt = Math.min((timestamp - lastTime) / 1000, 0.1);
       lastTime = timestamp;
@@ -1810,6 +1853,7 @@
           }
         }
 
+        // Semak Syarat Kemenangan Level
         const semuaKuasaLengkap = Object.values(nutrientPowers).every(v => v === true);
         if (Math.hypot(player.x - (portal.x + portal.w / 2), player.y - (portal.y + portal.h / 2)) < 60) {
           if (semuaKuasaLengkap) {
@@ -1831,11 +1875,16 @@
       render();
       updateHUD();
 
-      requestAnimationFrame(gameLoop);
+      if (isGameRunning) {
+        animationFrameId = requestAnimationFrame(gameLoop);
+      } else {
+        animationFrameId = null;
+      }
     }
 
     function checkPromptImbas() {
       const promptEl = document.getElementById('promptImbasFloating');
+      if (!promptEl) return;
       let nearItem = null;
 
       for (let f of foodItems) {
@@ -1858,6 +1907,7 @@
       }
     }
 
+    // RENDER GRAFIK DENGAN PENGESAHAN IMEJ KALIS CRASH
     function render() {
       ctx.clearRect(0, 0, V_WIDTH, V_HEIGHT);
       drawNeoCityBackground(cameraX * 0.2);
@@ -1865,6 +1915,7 @@
       ctx.save();
       ctx.translate(-cameraX, 0);
 
+      // Papan tanda Zon
       ctx.fillStyle = '#78350f';
       ctx.fillRect(50, 290, 8, 70);
       ctx.fillStyle = '#b45309';
@@ -1902,12 +1953,14 @@
         }
       }
 
+      // Syiling
       for (let c of coins) {
         if (!c.collected && c.x > cameraX - 30 && c.x < cameraX + V_WIDTH + 30) {
-          ctx.drawImage(SPRITES.coin, c.x - 12, c.y - 12, 24, 24);
+          safeDrawImage(SPRITES.coin, c.x - 12, c.y - 12, 24, 24, '🪙');
         }
       }
 
+      // 4 Makanan Berkhasiat
       for (let f of foodItems) {
         if (!f.scanned && f.x > cameraX - 40 && f.x < cameraX + V_WIDTH + 40) {
           ctx.fillStyle = '#0284c7';
@@ -1925,15 +1978,14 @@
 
           const spriteKey = f.info.sprite;
           const spriteImg = SPRITES[spriteKey] || SPRITES.banana;
-          if (spriteImg && spriteImg.complete) {
-            ctx.drawImage(spriteImg, f.x - f.size / 2, f.y - f.size / 2, f.size, f.size);
-          }
+          safeDrawImage(spriteImg, f.x - f.size / 2, f.y - f.size / 2, f.size, f.size, f.info.icon);
         }
       }
 
+      // Musuh Junk Food
       for (let em of burgerEnemies) {
         if (em.x > cameraX - 40 && em.x < cameraX + V_WIDTH + 40) {
-          ctx.drawImage(em.sprite, em.x - em.w / 2, em.y - em.h / 2, em.w, em.h);
+          safeDrawImage(em.sprite, em.x - em.w / 2, em.y - em.h / 2, em.w, em.h, '🍔');
           ctx.fillStyle = '#dc2626';
           ctx.beginPath(); ctx.arc(em.x - 16, em.y + 4, 7, 0, Math.PI * 2); ctx.fill();
           ctx.beginPath(); ctx.arc(em.x + 16, em.y + 4, 7, 0, Math.PI * 2); ctx.fill();
@@ -1948,7 +2000,7 @@
       if (player.invincibleTimer > 0 && Math.floor(Date.now() / 80) % 2 === 0) {
         ctx.globalAlpha = 0.4;
       }
-      ctx.drawImage(heroImg, -player.width / 2, -player.height, player.width, player.height);
+      safeDrawImage(heroImg, -player.width / 2, -player.height, player.width, player.height, '🏃');
       ctx.restore();
 
       if (isGamePaused) {
@@ -2072,7 +2124,7 @@
     }
 
     function triggerGameOver(reason) {
-      isGameRunning = false;
+      stopGameLoop();
       stopBgm();
       playSound('hurt');
       triggerHaptic([60, 40, 100]);
@@ -2084,7 +2136,7 @@
     }
 
     function triggerLevelClear() {
-      isGameRunning = false;
+      stopGameLoop();
       stopBgm();
       playSound('win');
       triggerHaptic([40, 30, 40, 30, 80]);
@@ -2097,6 +2149,7 @@
         unlockedLevel = currentLevel + 1;
       }
       saveLevelProgress();
+      renderLevelGridUI();
 
       hantarKeGoogleSheet(true, currentLevel);
 
@@ -2120,45 +2173,50 @@
     }
 
     function hantarKeGoogleSheet(isMenang, lvlNum) {
-      const statusEl = document.getElementById('vicSheetStatus');
-      if (statusEl) {
-        statusEl.innerText = "Sedang Dihantar...";
-        statusEl.className = "font-bold text-amber-300 animate-pulse";
+      try {
+        const statusEl = document.getElementById('vicSheetStatus');
+        if (statusEl) {
+          statusEl.innerText = "Sedang Dihantar...";
+          statusEl.className = "font-bold text-amber-300 animate-pulse";
+        }
+
+        if (!config.gasUrl) return;
+
+        const totalKuasa = Object.values(nutrientPowers).filter(v => v === true).length;
+        const payload = {
+          sheetId: config.sheetId,
+          sekolah: config.schoolName,
+          nama: currentPlayerName,
+          kelas: currentPlayerClass,
+          skor: score,
+          tenaga: Math.round(player.energy),
+          nyawa: player.hearts,
+          masaDiambil: Math.round(gameTime),
+          kuasaNutrien: `${totalKuasa}/4`,
+          keputusan: isMenang ? `Berjaya Selesai (Level ${lvlNum})` : `Gagal (Level ${lvlNum})`
+        };
+
+        fetch(config.gasUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(() => {
+          if (statusEl) {
+            statusEl.innerText = "Berjaya Disimpan! ✅";
+            statusEl.className = "font-bold text-green-400";
+          }
+        })
+        .catch(() => {
+          if (statusEl) {
+            statusEl.innerText = "Disimpan Dalam Peranti Sahaja ⚠️";
+            statusEl.className = "font-bold text-yellow-400";
+          }
+        });
+      } catch (err) {
+        console.warn("Ralat Sheet:", err);
       }
-
-      const totalKuasa = Object.values(nutrientPowers).filter(v => v === true).length;
-
-      const payload = {
-        sheetId: config.sheetId,
-        sekolah: config.schoolName,
-        nama: currentPlayerName,
-        kelas: currentPlayerClass,
-        skor: score,
-        tenaga: Math.round(player.energy),
-        nyawa: player.hearts,
-        masaDiambil: Math.round(gameTime),
-        kuasaNutrien: `${totalKuasa}/4`,
-        keputusan: isMenang ? `Berjaya Selesai (Level ${lvlNum})` : `Gagal (Level ${lvlNum})`
-      };
-
-      fetch(config.gasUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(() => {
-        if (statusEl) {
-          statusEl.innerText = "Berjaya Disimpan! ✅";
-          statusEl.className = "font-bold text-green-400";
-        }
-      })
-      .catch(() => {
-        if (statusEl) {
-          statusEl.innerText = "Disimpan Dalam Peranti Sahaja ⚠️";
-          statusEl.className = "font-bold text-yellow-400";
-        }
-      });
     }
 
     function openAdminModal() {
