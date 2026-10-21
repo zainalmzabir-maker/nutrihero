@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>NutriHero: Pemburu Nutrisi Sihat</title>
+  <title>NutriHero: Platformer Nutrisi Sihat</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome Icons -->
@@ -11,7 +11,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700;800&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -21,25 +21,29 @@
     }
     body {
       font-family: 'Nunito', sans-serif;
-      background-color: #030d07;
-      background-image: 
-        radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.15) 0%, transparent 60%),
-        linear-gradient(180deg, #021208 0%, #010603 100%);
+      background-color: #030d1a;
+      background-image: radial-gradient(circle at 50% 10%, rgba(14, 116, 144, 0.25) 0%, transparent 70%), linear-gradient(180deg, #02182b 0%, #010811 100%);
       overflow-x: hidden;
       min-height: 100vh;
     }
     .font-hud {
       font-family: 'Chakra Petch', sans-serif;
     }
-    .cyber-frame {
-      border: 3px solid #10b981;
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), inset 0 0 15px rgba(16, 185, 129, 0.2);
+    /* Touch controls styling based on reference image */
+    .touch-btn {
+      background: linear-gradient(180deg, rgba(30, 58, 138, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 3px solid rgba(96, 165, 250, 0.8);
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
     }
-    .neon-text-green {
-      text-shadow: 0 0 10px rgba(52, 211, 153, 0.8), 0 0 20px rgba(16, 185, 129, 0.5);
+    .touch-btn:active {
+      transform: scale(0.92);
+      border-color: #38bdf8;
+      background: rgba(37, 99, 235, 0.9);
     }
-    .neon-text-yellow {
-      text-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+    /* Cyber/Arcade frame */
+    .arcade-frame {
+      border: 3px solid #38bdf8;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35), inset 0 0 15px rgba(56, 189, 248, 0.15);
     }
     .bar-sheen {
       position: relative;
@@ -49,29 +53,25 @@
       content: '';
       position: absolute;
       top: 0; left: -100%; width: 60%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      animation: sheen 2.5s infinite;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+      animation: sheen 2.2s infinite;
     }
     @keyframes sheen {
       100% { left: 160%; }
-    }
-    /* Dynamic blur on canvas container when vision degrades */
-    #gameCanvas {
-      transition: filter 0.2s ease-out;
     }
   </style>
 </head>
 <body class="text-white flex flex-col items-center justify-start p-2 sm:p-4 select-none">
 
-  <!-- Header & School Bar -->
-  <header class="w-full max-w-2xl flex items-center justify-between bg-emerald-950/70 border border-emerald-500/40 rounded-2xl px-4 py-2.5 my-2 backdrop-blur-md shadow-lg shadow-emerald-950/50">
+  <!-- Header Sekolah & Bar Kawalan -->
+  <header class="w-full max-w-3xl flex items-center justify-between bg-slate-900/80 border border-cyan-500/40 rounded-2xl px-4 py-2 my-1 backdrop-blur-md shadow-lg shadow-blue-950/60">
     <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-green-400 flex items-center justify-center shadow-md shadow-emerald-500/30">
-        <i class="fa-solid fa-apple-whole text-emerald-950 text-xl font-bold"></i>
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center shadow-md shadow-cyan-500/30">
+        <i class="fa-solid fa-gamepad text-white text-xl"></i>
       </div>
       <div>
-        <h1 class="text-lg font-black tracking-wide font-hud text-emerald-300 leading-tight">NUTRIHERO</h1>
-        <p id="displaySchoolHeader" class="text-xs font-semibold text-emerald-400/90 truncate max-w-[200px] sm:max-w-xs">
+        <h1 class="text-lg font-black tracking-wider font-hud text-cyan-300 leading-tight">NUTRIHERO ADVENTURE</h1>
+        <p id="displaySchoolHeader" class="text-xs font-bold text-sky-400 truncate max-w-[200px] sm:max-w-xs">
           SMK KAMARUL ARIFFIN
         </p>
       </div>
@@ -79,197 +79,154 @@
     
     <div class="flex items-center gap-2">
       <!-- Admin Button -->
-      <button onclick="openAdminModal()" title="Panel Pentadbir" class="px-3 py-1.5 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-bold font-hud transition flex items-center gap-1.5 shadow">
+      <button onclick="openAdminModal()" title="Panel Pentadbir" class="px-3 py-1.5 bg-blue-950/70 hover:bg-blue-900 text-cyan-300 border border-cyan-500/40 rounded-xl text-xs font-bold font-hud transition flex items-center gap-1.5 shadow">
         <i class="fa-solid fa-shield-halved text-amber-400"></i>
         <span>ADMIN</span>
       </button>
-      <!-- Audio Toggle -->
-      <button id="soundBtn" onclick="toggleSound()" class="w-8 h-8 rounded-xl bg-emerald-900/60 hover:bg-emerald-800 border border-emerald-500/40 text-emerald-300 flex items-center justify-center text-xs transition">
-        <i class="fa-solid fa-volume-high"></i>
+      <!-- Audio Toggle Button -->
+      <button id="soundBtn" onclick="toggleSound()" class="w-9 h-9 rounded-xl bg-blue-950/70 hover:bg-blue-900 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-xs transition">
+        <i class="fa-solid fa-volume-high text-sm"></i>
       </button>
     </div>
   </header>
 
-  <!-- Main Game Container -->
-  <main class="w-full max-w-2xl flex flex-col items-center">
+  <!-- Container Utama Permainan -->
+  <main class="w-full max-w-3xl flex flex-col items-center">
     
-    <div class="w-full cyber-frame rounded-3xl bg-emerald-950/80 p-3 sm:p-4 relative backdrop-blur-md overflow-hidden">
+    <div class="w-full arcade-frame rounded-3xl bg-slate-950 p-2 sm:p-3 relative backdrop-blur-md overflow-hidden">
       
-      <!-- Top Title Panel -->
-      <div class="text-center pb-2 border-b border-emerald-500/30 mb-3">
-        <h2 class="text-sm sm:text-base font-extrabold font-hud tracking-wider text-amber-300 neon-text-yellow uppercase">
-          1. SISTEM BAR TENAGA & NUTRIENT BUFFS
-        </h2>
-        <div class="flex items-center justify-center gap-3 sm:gap-4 text-[11px] sm:text-xs text-emerald-300 font-semibold mt-1 flex-wrap">
-          <span class="bg-emerald-900/80 px-2 py-0.5 rounded-full border border-emerald-500/30">
-            <i class="fa-solid fa-user text-xs mr-1 text-emerald-400"></i> <span id="hudPlayerName">-</span> (<span id="hudPlayerClass">-</span>)
-          </span>
-          <span class="bg-emerald-900/80 px-2 py-0.5 rounded-full border border-emerald-500/30">
-            <i class="fa-solid fa-trophy text-amber-400 mr-1"></i> SKOR: <span id="hudScore" class="font-hud font-bold text-amber-300 text-sm">0</span>
-          </span>
-        </div>
-      </div>
-
-      <!-- HUD Vitals (HP, Stamina, Tempo & Vision) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-3 bg-black/50 p-2.5 rounded-2xl border border-emerald-500/20">
+      <!-- Antara Muka (UI) - Persis Gambar Rujukan -->
+      <div class="w-full bg-blue-950/90 border-2 border-cyan-400/60 rounded-2xl px-3 py-2 mb-2 flex items-center justify-between shadow-lg">
         
-        <!-- HP Bar -->
+        <!-- Kiri: Bar Tenaga & 3 Hati -->
         <div class="flex items-center space-x-2">
-          <div class="w-8 h-8 rounded-xl bg-red-600/30 border border-red-500/50 flex items-center justify-center text-red-400 flex-shrink-0">
-            <i class="fa-solid fa-heart text-base animate-pulse"></i>
+          <!-- 3 Hati HP -->
+          <div id="heartsContainer" class="flex items-center space-x-1 text-red-500 text-lg sm:text-xl drop-shadow-[0_2px_4px_rgba(239,68,68,0.7)]">
+            <i class="fa-solid fa-heart animate-pulse"></i>
+            <i class="fa-solid fa-heart animate-pulse"></i>
+            <i class="fa-solid fa-heart animate-pulse"></i>
           </div>
-          <div class="flex-1">
-            <div class="flex justify-between text-[11px] font-bold font-hud text-red-300 mb-0.5">
-              <span>KESIHATAN (HP)</span>
-              <span id="hpValue">100%</span>
-            </div>
-            <div class="w-full h-3 bg-gray-900 rounded-full p-0.5 border border-red-500/30">
-              <div id="hpBar" class="h-full bg-gradient-to-r from-red-600 via-orange-500 to-amber-400 rounded-full bar-sheen transition-all duration-200" style="width: 100%;"></div>
+          <!-- Bar Tenaga (Hijau Bertenaga) -->
+          <div class="w-24 sm:w-36 flex flex-col">
+            <span class="text-[9px] sm:text-[10px] font-hud font-extrabold text-green-300 uppercase leading-none mb-0.5">Bar Tenaga</span>
+            <div class="w-full h-3 sm:h-3.5 bg-black/70 rounded-full p-0.5 border border-green-400/50">
+              <div id="energyBar" class="h-full bg-gradient-to-r from-emerald-500 via-green-400 to-lime-300 rounded-full bar-sheen transition-all duration-200" style="width: 100%;"></div>
             </div>
           </div>
         </div>
 
-        <!-- Stamina Bar -->
-        <div class="flex items-center space-x-2">
-          <div class="w-8 h-8 rounded-xl bg-amber-500/30 border border-amber-400/50 flex items-center justify-center text-amber-300 flex-shrink-0">
-            <i class="fa-solid fa-bolt text-base"></i>
+        <!-- Tengah: Skor Syiling Emas -->
+        <div class="flex items-center space-x-1.5 bg-black/50 px-3 py-1 rounded-xl border border-amber-400/40">
+          <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-amber-950 text-xs shadow-md">
+            <i class="fa-solid fa-coins"></i>
           </div>
-          <div class="flex-1">
-            <div class="flex justify-between text-[11px] font-bold font-hud text-amber-300 mb-0.5">
-              <span>STAMINA (TENAGA)</span>
-              <span id="staminaValue">100%</span>
-            </div>
-            <div class="w-full h-3 bg-gray-900 rounded-full p-0.5 border border-amber-500/30">
-              <div id="staminaBar" class="h-full bg-gradient-to-r from-emerald-500 via-lime-400 to-yellow-300 rounded-full bar-sheen transition-all duration-200" style="width: 100%;"></div>
-            </div>
-          </div>
+          <span id="hudScore" class="font-hud font-extrabold text-amber-300 text-base sm:text-lg">0</span>
         </div>
 
-        <!-- Dynamic Game Speed & Vision Status -->
-        <div class="col-span-1 sm:col-span-2 grid grid-cols-2 gap-2 pt-1 border-t border-emerald-900/50 text-[11px] font-bold font-hud">
-          <!-- Game Speed Indicator -->
-          <div class="flex items-center justify-between bg-black/40 px-2 py-1 rounded-xl border border-emerald-500/20">
-            <span class="text-amber-400 flex items-center gap-1">
-              <i class="fa-solid fa-gauge-high"></i> TEMPO PERMAINAN:
-            </span>
-            <span id="gamePaceValue" class="text-yellow-300 font-extrabold text-xs">1.0x (Selesa)</span>
-          </div>
-
-          <!-- Vision Indicator -->
-          <div class="flex items-center justify-between bg-black/40 px-2 py-1 rounded-xl border border-emerald-500/20">
-            <span class="text-cyan-400 flex items-center gap-1">
-              <i class="fa-solid fa-eye"></i> PENGLIHATAN:
-            </span>
-            <span id="visionText" class="text-cyan-300 font-extrabold text-xs">100% (Jelas)</span>
-          </div>
+        <!-- Kanan: Masa Randik (01:30) -->
+        <div class="flex items-center space-x-1.5 bg-black/50 px-3 py-1 rounded-xl border border-cyan-400/40">
+          <i class="fa-regular fa-clock text-cyan-300 text-sm sm:text-base"></i>
+          <span id="hudTime" class="font-hud font-extrabold text-white text-sm sm:text-base tracking-wider">01:30</span>
         </div>
 
       </div>
 
-      <!-- Canvas Box & Vision Overlay -->
-      <div class="relative w-full aspect-[4/5] sm:aspect-[16/11] max-h-[480px] rounded-2xl overflow-hidden border-2 border-emerald-500/40 bg-slate-950">
+      <!-- Skrin Kanvas Permainan -->
+      <div class="relative w-full aspect-[16/10] sm:aspect-[16/9] max-h-[500px] rounded-2xl overflow-hidden border-2 border-sky-500/50 bg-sky-950">
         <canvas id="gameCanvas" class="w-full h-full block"></canvas>
         
-        <!-- Fog of War / Penglihatan Gelap Overlay -->
-        <div id="fogOverlay" class="pointer-events-none absolute inset-0 transition-opacity duration-200" style="opacity: 0.05; background: radial-gradient(circle at 50% 90%, transparent 15%, rgba(2, 6, 23, 0.96) 80%);"></div>
+        <!-- Notifikasi Mengambang -->
+        <div id="floatingNotify" class="pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 opacity-0 transition-all duration-300 font-hud font-extrabold text-xs sm:text-sm px-4 py-1.5 rounded-full border shadow-2xl z-10 text-center whitespace-nowrap"></div>
 
-        <!-- Danger Speed Warning Border (Triggers when pace >= 3.0x) -->
-        <div id="dangerPaceBorder" class="pointer-events-none absolute inset-0 border-4 border-red-500/0 transition-all duration-200"></div>
-
-        <!-- Shield Effect Overlay -->
-        <div id="shieldOverlay" class="pointer-events-none absolute inset-0 border-4 border-cyan-400/0 rounded-2xl transition-all duration-200"></div>
-
-        <!-- Floating Notification Banner -->
-        <div id="floatingBuffNotify" class="pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 opacity-0 transition-all duration-300 font-hud font-extrabold text-xs sm:text-sm px-4 py-1.5 rounded-full border shadow-2xl z-10 text-center whitespace-nowrap"></div>
-
-        <!-- Start Screen -->
-        <div id="startScreen" class="absolute inset-0 bg-emerald-950/95 flex flex-col items-center justify-center p-4 text-center z-20 backdrop-blur-sm">
-          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-green-300 flex items-center justify-center shadow-lg shadow-emerald-500/40 mb-2 animate-bounce">
-            <i class="fa-solid fa-person-running text-emerald-950 text-3xl"></i>
+        <!-- Skrin Mula (Start Screen) -->
+        <div id="startScreen" class="absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-center p-4 text-center z-20 backdrop-blur-md">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/40 mb-2 animate-bounce">
+            <i class="fa-solid fa-person-running text-white text-3xl"></i>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-black font-hud text-amber-300 neon-text-yellow mb-1 tracking-wider">
-            NUTRIHERO
+          <h2 class="text-2xl sm:text-3xl font-black font-hud text-cyan-300 tracking-wider mb-0.5">
+            NUTRIHERO ADVENTURE
           </h2>
-          <p id="regSchoolName" class="text-xs font-bold text-emerald-300 mb-3 tracking-wide font-hud">
+          <p id="regSchoolName" class="text-xs font-bold text-sky-400 mb-4 tracking-wide font-hud">
             SMK KAMARUL ARIFFIN
           </p>
 
-          <!-- Input Nama & Kelas -->
-          <div class="w-full max-w-xs space-y-2 mb-4 text-left">
+          <!-- Input Nama & Kelas Peserta -->
+          <div class="w-full max-w-xs space-y-2.5 mb-4 text-left">
             <div>
-              <label class="text-[11px] font-bold text-emerald-300 font-hud">NAMA PESERTA / MURID</label>
-              <input type="text" id="inputPlayerName" placeholder="Contoh: Muhammad Adam" class="w-full px-3 py-2 bg-black/60 border border-emerald-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
+              <label class="text-[11px] font-bold text-sky-300 font-hud">NAMA PESERTA / MURID</label>
+              <input type="text" id="inputPlayerName" placeholder="Contoh: Muhammad Danial" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
             </div>
             <div>
-              <label class="text-[11px] font-bold text-emerald-300 font-hud">KELAS / TINGKATAN</label>
-              <input type="text" id="inputPlayerClass" placeholder="Contoh: 2 Bestari / Tingkatan 2" class="w-full px-3 py-2 bg-black/60 border border-emerald-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
+              <label class="text-[11px] font-bold text-sky-300 font-hud">KELAS / TINGKATAN</label>
+              <input type="text" id="inputPlayerClass" placeholder="Contoh: 1 Wira / Tingkatan 1" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
             </div>
           </div>
 
-          <button onclick="startGame()" class="w-full max-w-xs py-3 bg-gradient-to-r from-emerald-500 to-green-400 hover:from-emerald-400 hover:to-green-300 text-emerald-950 font-black font-hud text-base sm:text-lg rounded-xl shadow-lg shadow-emerald-500/40 transition transform active:scale-95 flex items-center justify-center gap-2">
+          <button onclick="startGame()" class="w-full max-w-xs py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black font-hud text-base sm:text-lg rounded-xl shadow-lg shadow-cyan-500/40 transition transform active:scale-95 flex items-center justify-center gap-2">
             <i class="fa-solid fa-play"></i>
-            <span>MULA BERMAIN</span>
+            <span>MULA PENGEMBARAAN</span>
           </button>
 
-          <!-- Core Mechanics Overview -->
-          <div class="mt-4 grid grid-cols-2 gap-2 text-[10px] text-emerald-200/90 max-w-xs text-left">
-            <div class="bg-black/50 p-2 rounded-xl border border-emerald-500/30">
-              <span class="text-emerald-400 font-extrabold block">🥦 Sayur & Buah:</span> 
-              Perlahankan tempo, pulih HP & jernihkan pandangan.
+          <!-- Panduan Ringkas -->
+          <div class="mt-4 grid grid-cols-3 gap-2 text-[10px] text-sky-200/90 max-w-xs text-center">
+            <div class="bg-blue-950/60 p-2 rounded-xl border border-cyan-500/30">
+              <span class="text-emerald-400 font-extrabold block">🥦 Brokoli</span> +Tenaga & Laju
             </div>
-            <div class="bg-black/50 p-2 rounded-xl border border-red-500/30">
-              <span class="text-red-400 font-extrabold block">🍟 Junk Food:</span> 
-              Kelajuan meledak bertambah laju & kabur gelap!
+            <div class="bg-blue-950/60 p-2 rounded-xl border border-red-500/30">
+              <span class="text-red-400 font-extrabold block">🍔 Junk Food</span> -Nyawa & Lambat
+            </div>
+            <div class="bg-blue-950/60 p-2 rounded-xl border border-amber-500/30">
+              <span class="text-amber-400 font-extrabold block">⭐ Bintang</span> +Skor Tinggi
             </div>
           </div>
         </div>
 
-        <!-- Game Over Screen -->
+        <!-- Skrin Tamat (Game Over) -->
         <div id="gameOverScreen" class="hidden absolute inset-0 bg-slate-950/95 flex flex-col items-center justify-start p-4 text-center z-20 backdrop-blur-md overflow-y-auto">
           <div class="my-auto w-full max-w-sm flex flex-col items-center py-2">
             
             <div class="w-12 h-12 rounded-2xl bg-red-600/30 border border-red-500/50 flex items-center justify-center text-red-400 mb-2">
-              <i class="fa-solid fa-heart-crack text-xl animate-bounce"></i>
+              <i class="fa-solid fa-trophy text-xl text-amber-400"></i>
             </div>
 
-            <h3 class="text-xl sm:text-2xl font-black font-hud text-red-400 mb-0.5">PERMAINAN TAMAT!</h3>
-            <p id="deathReason" class="text-xs text-amber-300 font-bold mb-2">Kelajuan Melampau & HP Sifar</p>
+            <h3 class="text-xl sm:text-2xl font-black font-hud text-white mb-0.5">MISI TAMAT!</h3>
+            <p id="deathReason" class="text-xs text-amber-300 font-bold mb-2">Masa Telah Tamat</p>
 
-            <!-- Final Stats Box -->
-            <div class="w-full bg-emerald-950/60 border border-emerald-500/30 rounded-2xl p-2.5 mb-2.5 text-xs">
-              <div class="flex justify-between py-1 border-b border-emerald-900/40">
-                <span class="text-emerald-400">Peserta:</span>
+            <!-- Skor Akhir -->
+            <div class="w-full bg-slate-900/80 border border-cyan-500/30 rounded-2xl p-2.5 mb-2.5 text-xs text-left">
+              <div class="flex justify-between py-1 border-b border-slate-800">
+                <span class="text-sky-300">Peserta:</span>
                 <span id="resNameClass" class="font-bold text-white">-</span>
               </div>
-              <div class="flex justify-between py-1 border-b border-emerald-900/40">
-                <span class="text-emerald-400">Jumlah Skor:</span>
+              <div class="flex justify-between py-1 border-b border-slate-800">
+                <span class="text-sky-300">Jumlah Skor:</span>
                 <span id="resFinalScore" class="font-hud font-bold text-amber-300 text-sm">0</span>
               </div>
-              <div class="flex justify-between py-1 border-b border-emerald-900/40">
-                <span class="text-emerald-400">Masa Bertahan:</span>
-                <span id="resTimeAlive" class="font-bold text-white">0s</span>
+              <div class="flex justify-between py-1 border-b border-slate-800">
+                <span class="text-sky-300">Jarak Diterokai:</span>
+                <span id="resDistance" class="font-bold text-white">0 Meter</span>
               </div>
               <div class="flex justify-between py-1">
-                <span class="text-emerald-400">Status Google Sheet:</span>
+                <span class="text-sky-300">Status Google Sheet:</span>
                 <span id="resSheetStatus" class="font-bold text-amber-300">Menghantar...</span>
               </div>
             </div>
 
             <!-- Leaderboard -->
-            <div class="w-full bg-black/60 border border-emerald-500/30 rounded-2xl p-2.5 mb-3 text-left">
-              <div class="flex items-center justify-between mb-2 pb-1 border-b border-emerald-500/20 text-xs font-hud font-bold text-amber-300">
+            <div class="w-full bg-black/60 border border-cyan-500/30 rounded-2xl p-2.5 mb-3 text-left">
+              <div class="flex items-center justify-between mb-2 pb-1 border-b border-cyan-500/20 text-xs font-hud font-bold text-amber-300">
                 <span><i class="fa-solid fa-ranking-star mr-1 text-amber-400"></i> KEDUDUKAN TERATAS</span>
-                <span id="boardSchoolTag" class="text-[10px] text-emerald-400 truncate max-w-[120px]">SEMEKAR</span>
+                <span id="boardSchoolTag" class="text-[10px] text-sky-400 truncate max-w-[120px]">SEMEKAR</span>
               </div>
               <div id="leaderboardList" class="space-y-1 text-xs max-h-28 overflow-y-auto pr-1"></div>
             </div>
 
-            <!-- Action Buttons -->
+            <!-- Butang Tindakan -->
             <div class="flex gap-2 w-full">
-              <button onclick="restartGame()" class="flex-1 py-2.5 bg-gradient-to-r from-emerald-500 to-green-400 hover:from-emerald-400 hover:to-green-300 text-emerald-950 font-black font-hud text-sm rounded-xl shadow-lg transition">
+              <button onclick="restartGame()" class="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black font-hud text-sm rounded-xl shadow-lg transition">
                 <i class="fa-solid fa-rotate-right mr-1"></i> MAIN LAGI
               </button>
-              <button onclick="backToMenu()" class="px-4 py-2.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 font-bold font-hud text-sm rounded-xl transition">
+              <button onclick="backToMenu()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-bold font-hud text-sm rounded-xl transition">
                 MENU
               </button>
             </div>
@@ -279,30 +236,26 @@
 
       </div>
 
-      <!-- Mobile Touch Controls -->
-      <div class="grid grid-cols-2 gap-3 mt-3 sm:hidden">
-        <button id="btnLeft" class="py-3 bg-emerald-900/80 active:bg-emerald-700 border border-emerald-500/40 rounded-2xl flex items-center justify-center text-xl text-emerald-300 shadow active:scale-95 transition">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <button id="btnRight" class="py-3 bg-emerald-900/80 active:bg-emerald-700 border border-emerald-500/40 rounded-2xl flex items-center justify-center text-xl text-emerald-300 shadow active:scale-95 transition">
-          <i class="fa-solid fa-arrow-right"></i>
-        </button>
-      </div>
+      <!-- Butang Kawalan Sentuh (Persis Gambar Rujukan: Kiri [←][→], Kanan [↑]) -->
+      <div class="w-full flex items-center justify-between px-2 pt-3 pb-1">
+        
+        <!-- Butang Kawalan Arah (Kiri & Kanan) -->
+        <div class="flex items-center space-x-3">
+          <button id="btnLeft" class="touch-btn w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl text-white shadow-xl transition" title="Gerak Kiri">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button id="btnRight" class="touch-btn w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl text-white shadow-xl transition" title="Gerak Kanan">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
 
-      <!-- Legend Notes -->
-      <div class="mt-3 bg-black/40 border border-emerald-500/20 rounded-2xl p-2.5 text-[11px] sm:text-xs text-emerald-200/90 space-y-1">
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span><b>Sayur & Buah:</b> Mengurangkan kelajuan jatuh, memulihkan stamina & menjernihkan skrin.</span>
+        <!-- Butang Lompat (Atas) -->
+        <div>
+          <button id="btnJump" class="touch-btn w-16 h-16 sm:w-18 sm:h-18 rounded-2xl flex items-center justify-center text-3xl text-white shadow-xl transition border-sky-400" title="Lompat">
+            <i class="fa-solid fa-arrow-up"></i>
+          </button>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-red-500"></span>
-          <span><b>Junk Food:</b> Kelajuan bertambah mendadak (*Sugar Rush*), HP terjejas & pandangan kabur.</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
-          <span><b>Mekanisma Penamat:</b> Semakin lama bertahan, hujan makanan menjadi semakin laju sehingga ekstrem!</span>
-        </div>
+
       </div>
 
     </div>
@@ -310,21 +263,21 @@
 
   <!-- Admin Modal (Kata Laluan: adminnutrihero) -->
   <div id="adminModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="w-full max-w-md bg-emerald-950 border-2 border-emerald-500 rounded-3xl p-5 shadow-2xl relative text-left">
-      <div class="flex justify-between items-center pb-3 border-b border-emerald-500/30 mb-4">
+    <div class="w-full max-w-md bg-slate-950 border-2 border-cyan-500 rounded-3xl p-5 shadow-2xl relative text-left">
+      <div class="flex justify-between items-center pb-3 border-b border-cyan-500/30 mb-4">
         <div class="flex items-center gap-2 text-amber-300 font-hud font-bold text-lg">
           <i class="fa-solid fa-user-gear"></i>
           <span>PANEL PENTADBIR (ADMIN)</span>
         </div>
-        <button onclick="closeAdminModal()" class="text-emerald-400 hover:text-white text-xl">
+        <button onclick="closeAdminModal()" class="text-cyan-400 hover:text-white text-xl">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
       <div id="adminAuthSection" class="space-y-3">
-        <p class="text-xs text-emerald-300">Masukkan kata laluan admin untuk menetapkan sekolah dan pautan data:</p>
-        <input type="password" id="adminPasswordInput" placeholder="Kata laluan admin" class="w-full px-3 py-2 bg-black/60 border border-emerald-500/40 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400" />
-        <button onclick="verifyAdminPassword()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold font-hud rounded-xl transition text-sm">
+        <p class="text-xs text-sky-300">Masukkan kata laluan admin untuk menetapkan konfigurasi:</p>
+        <input type="password" id="adminPasswordInput" placeholder="Kata laluan admin" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/40 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400" />
+        <button onclick="verifyAdminPassword()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold font-hud rounded-xl transition text-sm">
           LOG MASUK ADMIN
         </button>
         <p id="adminAuthError" class="text-xs text-red-400 font-bold hidden text-center">Kata laluan tidak tepat!</p>
@@ -332,41 +285,60 @@
 
       <div id="adminConfigSection" class="hidden space-y-3 text-xs">
         <div>
-          <label class="font-bold text-emerald-300 font-hud">NAMA SEKOLAH</label>
-          <input type="text" id="adminSchoolInput" class="w-full px-3 py-2 bg-black/60 border border-emerald-500/40 rounded-xl text-white text-sm mt-1 focus:outline-none focus:border-amber-400" />
+          <label class="font-bold text-sky-300 font-hud">NAMA SEKOLAH</label>
+          <input type="text" id="adminSchoolInput" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/40 rounded-xl text-white text-sm mt-1 focus:outline-none focus:border-amber-400" />
         </div>
         <div>
-          <label class="font-bold text-emerald-300 font-hud">URL GOOGLE APPS SCRIPT WEBAPP</label>
-          <input type="text" id="adminGasUrlInput" class="w-full px-3 py-2 bg-black/60 border border-emerald-500/40 rounded-xl text-white text-xs mt-1 font-mono focus:outline-none focus:border-amber-400" />
+          <label class="font-bold text-sky-300 font-hud">URL GOOGLE APPS SCRIPT WEBAPP</label>
+          <input type="text" id="adminGasUrlInput" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/40 rounded-xl text-white text-xs mt-1 font-mono focus:outline-none focus:border-amber-400" />
         </div>
         <div>
-          <label class="font-bold text-emerald-300 font-hud">GOOGLE SHEET ID</label>
-          <input type="text" id="adminSheetIdInput" class="w-full px-3 py-2 bg-black/60 border border-emerald-500/40 rounded-xl text-white text-xs mt-1 font-mono focus:outline-none focus:border-amber-400" />
+          <label class="font-bold text-sky-300 font-hud">GOOGLE SHEET ID</label>
+          <input type="text" id="adminSheetIdInput" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/40 rounded-xl text-white text-xs mt-1 font-mono focus:outline-none focus:border-amber-400" />
         </div>
 
         <div class="pt-2 flex gap-2">
-          <button onclick="saveAdminSettings()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-emerald-950 font-black font-hud rounded-xl transition text-sm">
+          <button onclick="saveAdminSettings()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black font-hud rounded-xl transition text-sm">
             SIMPAN TETAPAN
           </button>
-          <button onclick="clearLeaderboardData()" class="px-3 py-2 bg-red-900/60 hover:bg-red-800 text-red-300 font-bold rounded-xl transition">
+          <button onclick="clearLeaderboardData()" class="px-3 py-2 bg-red-950 hover:bg-red-800 text-red-300 font-bold rounded-xl transition">
             Padam Rekod
           </button>
         </div>
-        <p id="adminSaveSuccess" class="text-emerald-400 text-center font-bold hidden">Tetapan berjaya disimpan!</p>
+        <p id="adminSaveSuccess" class="text-cyan-400 text-center font-bold hidden">Tetapan berjaya disimpan!</p>
       </div>
 
     </div>
   </div>
 
-  <footer class="mt-3 text-[11px] text-emerald-500/70 text-center font-hud">
-    NutriHero &copy; 2026 &bull; Modul Gamifikasi Nutrisi &bull; GitHub Pages + Google Sheets
+  <footer class="mt-2 text-[11px] text-sky-500/70 text-center font-hud">
+    NutriHero Platformer &copy; 2026 &bull; Modul RBT & Sains Nutrisi Tingkatan 1 &bull; GitHub Pages + Google Sheets
   </footer>
 
-  <!-- Audio Synthesizer -->
+  <!-- 8-Bit Chiptune Platformer BGM & Sound Engine -->
   <script>
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
     let soundEnabled = true;
+
+    let bgmTimer = null;
+    let bgmStep = 0;
+    let isBgmPlaying = false;
+
+    // Melodi rancak tema Mario Platformer 8-bit (C Major / A Minor)
+    const BGM_MELODY = [
+      659.25, 659.25, 0, 659.25, 0, 523.25, 659.25, 0,
+      783.99, 0, 0, 0,           392.00, 0, 0, 0,
+      523.25, 0, 0, 392.00,      0, 0, 329.63, 0,
+      440.00, 0, 493.88, 0,      466.16, 440.00, 0, 392.00
+    ];
+
+    const BGM_BASS = [
+      261.63, 0, 261.63, 0, 196.00, 0, 196.00, 0,
+      220.00, 0, 220.00, 0, 164.81, 0, 164.81, 0,
+      174.61, 0, 174.61, 0, 196.00, 0, 196.00, 0,
+      261.63, 0, 196.00, 0, 261.63, 0, 0, 0
+    ];
 
     function initAudio() {
       if (!audioCtx) audioCtx = new AudioContext();
@@ -377,9 +349,59 @@
       soundEnabled = !soundEnabled;
       const icon = document.querySelector('#soundBtn i');
       if (soundEnabled) {
-        icon.className = 'fa-solid fa-volume-high';
+        icon.className = 'fa-solid fa-volume-high text-sm';
+        if (isGameRunning) startBgm();
       } else {
-        icon.className = 'fa-solid fa-volume-xmark text-red-400';
+        icon.className = 'fa-solid fa-volume-xmark text-sm text-red-400';
+        stopBgm();
+      }
+    }
+
+    function playTone(freq, type, duration, vol) {
+      if (!soundEnabled || !audioCtx || freq <= 0) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function tickBgm() {
+      if (!isBgmPlaying || !soundEnabled) return;
+
+      const melNote = BGM_MELODY[bgmStep];
+      const bassNote = BGM_BASS[bgmStep];
+      const stepDuration = 0.13; // ~115 BPM Mario tempo
+
+      if (melNote > 0) playTone(melNote, 'square', stepDuration * 0.85, 0.04);
+      if (bassNote > 0) playTone(bassNote, 'triangle', stepDuration * 0.95, 0.07);
+
+      if (bgmStep % 4 === 2) playTone(120, 'noise', 0.03, 0.02);
+
+      bgmStep = (bgmStep + 1) % BGM_MELODY.length;
+      bgmTimer = setTimeout(tickBgm, stepDuration * 1000);
+    }
+
+    function startBgm() {
+      if (!soundEnabled) return;
+      initAudio();
+      stopBgm();
+      isBgmPlaying = true;
+      tickBgm();
+    }
+
+    function stopBgm() {
+      isBgmPlaying = false;
+      if (bgmTimer) {
+        clearTimeout(bgmTimer);
+        bgmTimer = null;
       }
     }
 
@@ -387,60 +409,67 @@
       if (!soundEnabled) return;
       initAudio();
       try {
+        const t = audioCtx.currentTime;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-        const t = audioCtx.currentTime;
 
-        if (type === 'veggie') { // Melodic soothing chime (speed reduction)
+        if (type === 'jump') { // Mario jump sound
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(150, t);
+          osc.frequency.exponentialRampToValueAtTime(600, t + 0.15);
+          gain.gain.setValueAtTime(0.18, t);
+          gain.gain.linearRampToValueAtTime(0.01, t + 0.18);
+          osc.start(t);
+          osc.stop(t + 0.18);
+        } else if (type === 'veggie') { // Power-up sound
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(600, t);
-          osc.frequency.exponentialRampToValueAtTime(400, t + 0.2);
-          gain.gain.setValueAtTime(0.25, t);
+          osc.frequency.setValueAtTime(330, t);
+          osc.frequency.setValueAtTime(440, t + 0.08);
+          osc.frequency.setValueAtTime(660, t + 0.16);
+          gain.gain.setValueAtTime(0.2, t);
           gain.gain.linearRampToValueAtTime(0.01, t + 0.25);
           osc.start(t);
           osc.stop(t + 0.25);
-        } else if (type === 'fruit') { // Healing chime
+        } else if (type === 'coin') { // Coin ping
           osc.type = 'sine';
+          osc.frequency.setValueAtTime(987.77, t);
+          osc.frequency.setValueAtTime(1318.51, t + 0.08);
+          gain.gain.setValueAtTime(0.2, t);
+          gain.gain.linearRampToValueAtTime(0.01, t + 0.22);
+          osc.start(t);
+          osc.stop(t + 0.22);
+        } else if (type === 'star') { // Invincible star chime
+          osc.type = 'triangle';
           osc.frequency.setValueAtTime(523, t);
-          osc.frequency.exponentialRampToValueAtTime(784, t + 0.2);
-          gain.gain.setValueAtTime(0.25, t);
-          gain.gain.linearRampToValueAtTime(0.01, t + 0.25);
-          osc.start(t);
-          osc.stop(t + 0.25);
-        } else if (type === 'fish') { // Shield sound
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(320, t);
-          osc.frequency.linearRampToValueAtTime(880, t + 0.3);
+          osc.frequency.linearRampToValueAtTime(1046, t + 0.3);
           gain.gain.setValueAtTime(0.25, t);
           gain.gain.linearRampToValueAtTime(0.01, t + 0.35);
           osc.start(t);
           osc.stop(t + 0.35);
-        } else if (type === 'junk') { // Screeching speed rush sound
+        } else if (type === 'hurt') { // Debuff hurt buzz
           osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(200, t);
-          osc.frequency.exponentialRampToValueAtTime(950, t + 0.25);
-          gain.gain.setValueAtTime(0.35, t);
-          gain.gain.linearRampToValueAtTime(0.01, t + 0.3);
+          osc.frequency.setValueAtTime(220, t);
+          osc.frequency.linearRampToValueAtTime(60, t + 0.25);
+          gain.gain.setValueAtTime(0.25, t);
+          gain.gain.linearRampToValueAtTime(0.01, t + 0.25);
           osc.start(t);
-          osc.stop(t + 0.3);
+          osc.stop(t + 0.25);
         } else if (type === 'gameover') {
           osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(350, t);
-          osc.frequency.exponentialRampToValueAtTime(35, t + 0.9);
-          gain.gain.setValueAtTime(0.35, t);
+          osc.frequency.setValueAtTime(400, t);
+          osc.frequency.exponentialRampToValueAtTime(40, t + 0.9);
+          gain.gain.setValueAtTime(0.3, t);
           gain.gain.linearRampToValueAtTime(0.01, t + 0.9);
           osc.start(t);
           osc.stop(t + 0.9);
         }
-      } catch (e) {
-        console.warn("Audio exception", e);
-      }
+      } catch (e) {}
     }
   </script>
 
-  <!-- Game Logic Engine -->
+  <!-- Enjin Permainan Platformer 2D (Fizik Mario & Reka Bentuk Visual) -->
   <script>
     const DEFAULT_CONFIG = {
       schoolName: "SMK KAMARUL ARIFFIN",
@@ -467,183 +496,177 @@
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-    }
-    window.addEventListener('resize', resizeCanvas);
+    // Resolusi tetap dalaman kanvas untuk konsistensi fizik
+    const V_WIDTH = 800;
+    const V_HEIGHT = 450;
+    canvas.width = V_WIDTH;
+    canvas.height = V_HEIGHT;
 
-    // Hero Character State
-    let player = {
-      x: 0,
-      y: 0,
-      width: 44,
+    // Keadaan Karakter Hero (Seperti gambar: Sut Biru Gelap, Jejak Tenaga Biru)
+    let hero = {
+      x: 100,
+      y: 280,
+      width: 38,
       height: 52,
-      baseSpeed: 5.2,
-      hp: 100,
-      stamina: 100,
-      vision: 100, // 100 = Clear, <40 = Heavy Blur & Fog
-      shieldTime: 0,
-      movingLeft: false,
-      movingRight: false,
-      faceDirection: 1,
-      stepAnim: 0
+      vx: 0,
+      vy: 0,
+      speed: 4.8,
+      jumpForce: -12.2,
+      isGrounded: false,
+      direction: 1, // 1: kanan, -1: kiri
+      hearts: 3,
+      energy: 100, // 0 - 100%
+      animTimer: 0,
+      trail: [], // Jejak tenaga cyan di belakang
+      invulnerableTimer: 0
     };
 
-    // Game Progression Variables
-    let isGameRunning = false;
+    // Dunia & Kamera Permainan
+    let cameraX = 0;
     let score = 0;
-    let items = [];
-    let itemSpawnCounter = 0;
-    let gameTime = 0;
+    let timeRemaining = 90; // 01:30 pemasa undur (90 saat)
+    let isGameRunning = false;
     let lastTime = 0;
     let animationFrameId = null;
-
-    // Tempo / Kelajuan Permainan: Bermula 1.0x dan meningkat tanpa had
-    let gamePace = 1.0; 
 
     let currentPlayerName = "Peserta";
     let currentPlayerClass = "Tingkatan 1";
 
-    let statsCollected = {
-      veggies: 0,
-      fruits: 0,
-      junk: 0,
-      fish: 0
-    };
+    let statsCollected = { veggies: 0, junk: 0, stars: 0, coins: 0 };
 
-    // Items Definitions
-    const ITEM_TYPES = [
-      {
-        id: 'veggie_broccoli',
-        name: 'Brokoli',
-        category: 'veggie',
-        emoji: '🥦',
-        desc: 'Sayur: Perlahankan Tempo (-0.4x) & Mata Tajam',
-        hp: +10,
-        stamina: +15,
-        visionBoost: +45,
-        paceChange: -0.40, // Memperlahankan permainan
-        sound: 'veggie',
-        weight: 24
-      },
-      {
-        id: 'veggie_carrot',
-        name: 'Lobak Merah',
-        category: 'veggie',
-        emoji: '🥕',
-        desc: 'Sayur: Jernihkan Pandangan & Kawal Kelajuan (-0.35x)',
-        hp: +10,
-        stamina: +15,
-        visionBoost: +50,
-        paceChange: -0.35,
-        sound: 'veggie',
-        weight: 24
-      },
-      {
-        id: 'fruit_apple',
-        name: 'Epal Segar',
-        category: 'fruit',
-        emoji: '🍎',
-        desc: 'Buah: +25 HP, +30 Stamina & Tenangkan Tempo (-0.25x)',
-        hp: +25,
-        stamina: +30,
-        visionBoost: +20,
-        paceChange: -0.25,
-        sound: 'fruit',
-        weight: 25
-      },
-      {
-        id: 'fruit_banana',
-        name: 'Pisang Tenaga',
-        category: 'fruit',
-        emoji: '🍌',
-        desc: 'Buah: Pulih Tenaga Penuh & -0.20x Kelajuan',
-        hp: +20,
-        stamina: +40,
-        visionBoost: +15,
-        paceChange: -0.20,
-        sound: 'fruit',
-        weight: 22
-      },
-      {
-        id: 'protein_fish',
-        name: 'Ikan Omega-3',
-        category: 'fish',
-        emoji: '🐟',
-        desc: 'Protein: Perisai Imuniti Kebal Racun 8s',
-        hp: +15,
-        stamina: +25,
-        visionBoost: +25,
-        paceChange: -0.15,
-        shield: 8,
-        sound: 'fish',
-        weight: 12
-      },
-      {
-        id: 'junk_soda',
-        name: 'Air Soda Berkarbonat',
-        category: 'junk',
-        emoji: '🥤',
-        desc: 'Junk: Lonjakan Gula Mendadak (+0.55x Laju & Kabur!)',
-        hp: -15,
-        stamina: -20,
-        visionBoost: -35,
-        paceChange: +0.55, // Lonjakan laju ekstrem!
-        sound: 'junk',
-        weight: 24
-      },
-      {
-        id: 'junk_burger',
-        name: 'Burger Berminyak',
-        category: 'junk',
-        emoji: '🍔',
-        desc: 'Junk: +0.50x Kelajuan Melampau & Pandangan Gelap',
-        hp: -20,
-        stamina: -25,
-        visionBoost: -35,
-        paceChange: +0.50,
-        sound: 'junk',
-        weight: 22
-      },
-      {
-        id: 'hazard_toxic',
-        name: 'Sisa Toksik',
-        category: 'toxic',
-        emoji: '🧪',
-        desc: 'Bahaya: Tolak -35 HP & Menghilangkan Pandangan!',
-        hp: -35,
-        stamina: -30,
-        visionBoost: -45,
-        paceChange: +0.35,
-        sound: 'junk',
-        weight: 14
-      }
-    ];
+    // Senarai platform, item dan syiling
+    let platforms = [];
+    let worldItems = [];
+    let worldCoins = [];
+    let worldStars = [];
+    let nextChunkX = 0;
 
-    // Controls
+    // Kawalan Input
+    let keys = { left: false, right: false, jump: false };
+
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') player.movingLeft = true;
-      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') player.movingRight = true;
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = true;
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = true;
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') {
+        if (!keys.jump && hero.isGrounded) doJump();
+        keys.jump = true;
+      }
     });
 
     window.addEventListener('keyup', (e) => {
-      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') player.movingLeft = false;
-      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') player.movingRight = false;
+      if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.left = false;
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.right = false;
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === ' ') keys.jump = false;
     });
 
+    // Pautan Butang Sentuh Pada Skrin (Berdasarkan Gambar)
     const btnLeft = document.getElementById('btnLeft');
     const btnRight = document.getElementById('btnRight');
-    btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); player.movingLeft = true; });
-    btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); player.movingLeft = false; });
-    btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); player.movingRight = true; });
-    btnRight.addEventListener('touchend', (e) => { e.preventDefault(); player.movingRight = false; });
+    const btnJump = document.getElementById('btnJump');
 
-    btnLeft.addEventListener('mousedown', () => { player.movingLeft = true; });
-    btnLeft.addEventListener('mouseup', () => { player.movingLeft = false; });
-    btnRight.addEventListener('mousedown', () => { player.movingRight = true; });
-    btnRight.addEventListener('mouseup', () => { player.movingRight = false; });
+    btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); keys.left = true; });
+    btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); keys.left = false; });
+    btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); keys.right = true; });
+    btnRight.addEventListener('touchend', (e) => { e.preventDefault(); keys.right = false; });
+    btnJump.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (hero.isGrounded) doJump();
+      keys.jump = true;
+    });
+    btnJump.addEventListener('touchend', (e) => { e.preventDefault(); keys.jump = false; });
+
+    btnLeft.addEventListener('mousedown', () => { keys.left = true; });
+    btnLeft.addEventListener('mouseup', () => { keys.left = false; });
+    btnRight.addEventListener('mousedown', () => { keys.right = true; });
+    btnRight.addEventListener('mouseup', () => { keys.right = false; });
+    btnJump.addEventListener('mousedown', () => {
+      if (hero.isGrounded) doJump();
+      keys.jump = true;
+    });
+    btnJump.addEventListener('mouseup', () => { keys.jump = false; });
+
+    function doJump() {
+      hero.vy = hero.jumpForce;
+      hero.isGrounded = false;
+      playSound('jump');
+    }
+
+    // Penjana Dunia Procedural Gaya Mario (Tanah Berbatu, Balak Terapung, Jurang)
+    function generateWorldChunk(startX, width) {
+      const groundY = 360;
+
+      // Bahagian tanah bawah dengan jurang rawak
+      let curX = startX;
+      while (curX < startX + width) {
+        const segWidth = 350 + Math.random() * 250;
+        platforms.push({
+          x: curX,
+          y: groundY,
+          w: segWidth,
+          h: 120,
+          type: 'ground' // Tanah berbatu + rumput atas
+        });
+
+        // Letak syiling & makanan atas tanah
+        for (let x = curX + 60; x < curX + segWidth - 60; x += 90) {
+          if (Math.random() < 0.4) {
+            worldCoins.push({ x: x, y: groundY - 26, collected: false });
+          } else if (Math.random() < 0.3) {
+            spawnNutriItem(x, groundY - 36);
+          }
+        }
+
+        // Platform kayu balak terapung (seperti gambar)
+        const logPlatformY = groundY - (75 + Math.random() * 50);
+        const logW = 110 + Math.random() * 50;
+        const logX = curX + 120 + Math.random() * (segWidth - 250);
+
+        platforms.push({
+          x: logX,
+          y: logPlatformY,
+          w: logW,
+          h: 28,
+          type: 'log' // Batang kayu balak dengan rumput di atas
+        });
+
+        // Di atas kayu balak: letak Bintang Emas atau Brokoli
+        if (Math.random() < 0.5) {
+          worldStars.push({ x: logX + logW / 2, y: logPlatformY - 45, collected: false });
+        } else {
+          spawnNutriItem(logX + logW / 2, logPlatformY - 34);
+        }
+
+        // Jurang (Pit) antara segmen
+        curX += segWidth + (80 + Math.random() * 50);
+      }
+
+      nextChunkX = curX;
+    }
+
+    function spawnNutriItem(x, y) {
+      const isHealthy = Math.random() < 0.65;
+      if (isHealthy) {
+        worldItems.push({
+          x: x,
+          y: y,
+          type: 'veggie',
+          emoji: '🥦',
+          name: 'Brokoli Sihat',
+          color: '#22c55e',
+          collected: false
+        });
+      } else {
+        worldItems.push({
+          x: x,
+          y: y,
+          type: 'junk',
+          emoji: '🍔',
+          name: 'Junk Food',
+          color: '#ef4444',
+          collected: false
+        });
+      }
+    }
 
     function startGame() {
       const nameInput = document.getElementById('inputPlayerName').value.trim();
@@ -655,16 +678,15 @@
       }
 
       initAudio();
-      currentPlayerName = nameInput;
-      currentPlayerClass = classInput || "Umum";
+      startBgm();
 
-      document.getElementById('hudPlayerName').innerText = currentPlayerName;
-      document.getElementById('hudPlayerClass').innerText = currentPlayerClass;
+      currentPlayerName = nameInput;
+      currentPlayerClass = classInput || "Tingkatan 1";
 
       document.getElementById('startScreen').classList.add('hidden');
       document.getElementById('gameOverScreen').classList.add('hidden');
 
-      resetGameState();
+      resetGame();
       isGameRunning = true;
       lastTime = performance.now();
       requestAnimationFrame(gameLoop);
@@ -672,471 +694,561 @@
 
     function restartGame() {
       document.getElementById('gameOverScreen').classList.add('hidden');
-      resetGameState();
+      resetGame();
+      startBgm();
       isGameRunning = true;
       lastTime = performance.now();
       requestAnimationFrame(gameLoop);
     }
 
     function backToMenu() {
+      stopBgm();
       document.getElementById('gameOverScreen').classList.add('hidden');
       document.getElementById('startScreen').classList.remove('hidden');
-      resetGameState();
+      resetGame();
     }
 
-    function resetGameState() {
-      resizeCanvas();
-      player.x = canvas.width / 2 - player.width / 2;
-      player.y = canvas.height - player.height - 18;
-      player.hp = 100;
-      player.stamina = 100;
-      player.vision = 100;
-      player.shieldTime = 0;
-      
-      gamePace = 1.0; // Mula perlahan
+    function resetGame() {
+      hero.x = 80;
+      hero.y = 250;
+      hero.vx = 0;
+      hero.vy = 0;
+      hero.hearts = 3;
+      hero.energy = 100;
+      hero.isGrounded = false;
+      hero.direction = 1;
+      hero.trail = [];
+      hero.invulnerableTimer = 0;
+
+      cameraX = 0;
       score = 0;
-      items = [];
-      itemSpawnCounter = 0;
-      gameTime = 0;
-      statsCollected = { veggies: 0, fruits: 0, junk: 0, fish: 0 };
+      timeRemaining = 90; // 01:30
+      statsCollected = { veggies: 0, junk: 0, stars: 0, coins: 0 };
+
+      platforms = [];
+      worldItems = [];
+      worldCoins = [];
+      worldStars = [];
+
+      // Cipta kawasan mula yang selamat
+      platforms.push({ x: 0, y: 360, w: 600, h: 120, type: 'ground' });
+      platforms.push({ x: 300, y: 260, w: 140, h: 28, type: 'log' });
+      worldStars.push({ x: 370, y: 215, collected: false });
+      worldItems.push({ x: 220, y: 325, type: 'veggie', emoji: '🥦', name: 'Brokoli Sihat', color: '#22c55e', collected: false });
+      worldItems.push({ x: 480, y: 325, type: 'junk', emoji: '🍔', name: 'Junk Food', color: '#ef4444', collected: false });
+
+      nextChunkX = 680;
+      generateWorldChunk(nextChunkX, 1500);
 
       updateHUD();
-      updateVisualFilters();
-    }
-
-    function spawnFallingItem() {
-      const totalWeight = ITEM_TYPES.reduce((sum, item) => sum + item.weight, 0);
-      let rand = Math.random() * totalWeight;
-      let chosen = ITEM_TYPES[0];
-
-      for (let item of ITEM_TYPES) {
-        if (rand < item.weight) {
-          chosen = item;
-          break;
-        }
-        rand -= item.weight;
-      }
-
-      const size = 34;
-      const x = Math.random() * (canvas.width - size - 24) + 12;
-      // Kelajuan asas objek didarab terus dengan gamePace semasa
-      const baseFallingSpeed = (2.2 + Math.random() * 1.0);
-
-      items.push({
-        ...chosen,
-        x: x,
-        y: -size,
-        size: size,
-        baseSpeed: baseFallingSpeed,
-        rotation: 0,
-        rotSpeed: (Math.random() - 0.5) * 0.08
-      });
     }
 
     function showNotification(text, colorClass, bgClass) {
-      const banner = document.getElementById('floatingBuffNotify');
+      const banner = document.getElementById('floatingNotify');
       banner.innerText = text;
       banner.className = `pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 font-hud font-extrabold text-xs sm:text-sm px-4 py-1.5 rounded-full border shadow-2xl z-10 text-center whitespace-nowrap transition-all duration-300 opacity-100 ${colorClass} ${bgClass}`;
-      
       clearTimeout(banner.timer);
-      banner.timer = setTimeout(() => {
-        banner.style.opacity = '0';
-      }, 1500);
+      banner.timer = setTimeout(() => { banner.style.opacity = '0'; }, 1300);
     }
 
-    // Main Game Loop
+    // Kitaran Utama Permainan (Game Loop)
     function gameLoop(timestamp) {
       if (!isGameRunning) return;
 
-      const dt = (timestamp - lastTime) / 1000;
+      const dt = Math.min((timestamp - lastTime) / 1000, 0.1);
       lastTime = timestamp;
-      gameTime += dt;
 
-      // 1. Mekanisma Peningkatan Kelajuan Automatik Mengikut Masa
-      // Setiap saat, kelajuan meningkat sedikit demi sedikit secara konsisten
-      gamePace += dt * 0.045; // Bertambah ~1.0x setiap 22 saat jika tiada sayur dimakan
-
-      // Pengurangan penglihatan perlahan secara pasif jika tidak makan sayur
-      player.vision = Math.max(15, player.vision - (dt * 1.5));
-
-      // 2. Shield Timer
-      if (player.shieldTime > 0) {
-        player.shieldTime -= dt;
-        document.getElementById('shieldOverlay').classList.remove('border-cyan-400/0');
-        document.getElementById('shieldOverlay').classList.add('border-cyan-400/80', 'shadow-[inset_0_0_20px_rgba(6,182,212,0.5)]');
-      } else {
-        document.getElementById('shieldOverlay').classList.remove('border-cyan-400/80', 'shadow-[inset_0_0_20px_rgba(6,182,212,0.5)]');
-        document.getElementById('shieldOverlay').classList.add('border-cyan-400/0');
-      }
-
-      // 3. Pergerakan Karakter Hero
-      let heroSpeed = player.baseSpeed + (gamePace * 0.6); // Hero turut boleh bergerak lebih pantas seiring tempo
-      if (player.stamina <= 0) heroSpeed *= 0.45; // Keletihan melambatkan wira
-
-      let isMoving = false;
-      if (player.movingLeft) {
-        player.x -= heroSpeed;
-        player.faceDirection = -1;
-        isMoving = true;
-      }
-      if (player.movingRight) {
-        player.x += heroSpeed;
-        player.faceDirection = 1;
-        isMoving = true;
-      }
-
-      // Sempadan skrin
-      if (player.x < 10) player.x = 10;
-      if (player.x > canvas.width - player.width - 10) player.x = canvas.width - player.width - 10;
-
-      // Penggunaan Stamina
-      if (isMoving) {
-        player.stamina = Math.max(0, player.stamina - (dt * 4.0));
-        player.stepAnim += dt * (8 + gamePace * 2);
-      } else {
-        player.stamina = Math.max(0, player.stamina - (dt * 0.8));
-      }
-
-      // 4. Mekanisma Kematian Karakter
-      // A. Jika stamina = 0 (kelesuan melampau), HP susut berterusan
-      if (player.stamina <= 0) {
-        player.hp -= dt * 10.0;
-      }
-
-      // B. Kematian HP 0%
-      if (player.hp <= 0) {
-        player.hp = 0;
-        const deathMsg = (player.stamina <= 0) 
-          ? "Kehabisan Tenaga & Kelesuan Melampau!" 
-          : (gamePace >= 3.0 ? "Terhempas Akibat Kelajuan Ekstrem!" : "Kesihatan (HP) Telah Habis!");
-        triggerGameOver(deathMsg);
+      // 1. Masa Randik Undur (01:30)
+      timeRemaining -= dt;
+      if (timeRemaining <= 0) {
+        timeRemaining = 0;
+        triggerGameOver("Masa 01:30 Telah Tamat!");
         return;
       }
 
-      // 5. Spawning Makanan (Kekerapan spawn bertambah cepat mengikut gamePace)
-      itemSpawnCounter += dt;
-      const spawnInterval = Math.max(0.35, 1.3 / Math.sqrt(gamePace));
-      if (itemSpawnCounter >= spawnInterval) {
-        spawnFallingItem();
-        itemSpawnCounter = 0;
+      // 2. Bar Tenaga (Menyusut perlahan secara semula jadi)
+      hero.energy = Math.max(0, hero.energy - dt * 2.5);
+      if (hero.energy <= 0) {
+        // Jika tenaga sifar, tolak nyawa perlahan
+        hero.hearts -= 1;
+        hero.energy = 50;
+        playSound('hurt');
+        showNotification("⚠️ KEHABISAN TENAGA! HATI TERTOLAK", "text-red-400", "bg-red-950/90 border-red-500");
+        if (hero.hearts <= 0) {
+          triggerGameOver("Kehabisan Tenaga & Nyawa!");
+          return;
+        }
       }
 
-      // 6. Kemas kini Pergerakan Objek Jatuh
-      for (let i = items.length - 1; i >= 0; i--) {
-        const item = items[i];
-        // Kelajuan sebenar objek = baseSpeed * gamePace
-        item.y += item.baseSpeed * gamePace;
-        item.rotation += item.rotSpeed * gamePace;
+      if (hero.invulnerableTimer > 0) hero.invulnerableTimer -= dt;
 
-        // Collision Check dengan Hero
+      // 3. Fizik Pergerakan Mendatar & Tenaga
+      let currentSpeed = hero.speed * (hero.energy > 30 ? 1.0 : 0.65);
+      if (keys.left) {
+        hero.vx = -currentSpeed;
+        hero.direction = -1;
+      } else if (keys.right) {
+        hero.vx = currentSpeed;
+        hero.direction = 1;
+      } else {
+        hero.vx *= 0.75;
+      }
+
+      // Graviti
+      hero.vy += 0.58; // Graviti Mario
+      if (hero.vy > 14) hero.vy = 14;
+
+      hero.x += hero.vx;
+      hero.y += hero.vy;
+
+      // 4. Jejak Tenaga Biru (Dash Trail) di belakang wira
+      if (Math.abs(hero.vx) > 1.5 || !hero.isGrounded) {
+        hero.animTimer += dt * 12;
+        hero.trail.push({ x: hero.x, y: hero.y, alpha: 0.75, dir: hero.direction });
+      }
+      for (let i = hero.trail.length - 1; i >= 0; i--) {
+        hero.trail[i].alpha -= dt * 3.5;
+        if (hero.trail[i].alpha <= 0) hero.trail.splice(i, 1);
+      }
+
+      // 5. Perlanggaran Platform (AABB Collision)
+      hero.isGrounded = false;
+      const heroBox = {
+        left: hero.x - hero.width / 2,
+        right: hero.x + hero.width / 2,
+        top: hero.y - hero.height,
+        bottom: hero.y
+      };
+
+      for (let plat of platforms) {
+        // Periksa pendaratan di atas permukaan platform
         if (
-          player.x < item.x + item.size &&
-          player.x + player.width > item.x &&
-          player.y < item.y + item.size &&
-          player.y + player.height > item.y
+          heroBox.right > plat.x &&
+          heroBox.left < plat.x + plat.w &&
+          heroBox.bottom >= plat.y &&
+          heroBox.bottom - hero.vy <= plat.y + 12 &&
+          hero.vy >= 0
         ) {
-          handleItemCollection(item);
-          items.splice(i, 1);
-          continue;
-        }
-
-        // Terkeluar daripada bahagian bawah
-        if (item.y > canvas.height + 40) {
-          items.splice(i, 1);
+          hero.y = plat.y;
+          hero.vy = 0;
+          hero.isGrounded = true;
+          break;
         }
       }
 
-      // 7. Render & Visual
+      // 6. Jatuh Ke Dalam Jurang Maut (Pit)
+      if (hero.y > V_HEIGHT + 60) {
+        hero.hearts -= 1;
+        playSound('hurt');
+        if (hero.hearts <= 0) {
+          triggerGameOver("Terjatuh Ke Dalam Jurang Maut!");
+          return;
+        } else {
+          // Respawn ke atas platform selamat terdekat
+          hero.y = 200;
+          hero.vy = 0;
+          hero.x = cameraX + 150;
+          showNotification("⚠️ TERJATUH! -1 NYAWA HATI", "text-red-400", "bg-red-950/90 border-red-500");
+        }
+      }
+
+      // 7. Kutipan Makanan & Syiling
+      checkItemCollisions();
+
+      // 8. Kamera Mengikut Wira (Side-scrolling Platformer)
+      const targetCamX = hero.x - 220;
+      if (targetCamX > cameraX) {
+        cameraX += (targetCamX - cameraX) * 0.12;
+      }
+
+      // Jana bahagian dunia baharu apabila kamera mara ke hadapan
+      if (cameraX + V_WIDTH + 400 > nextChunkX) {
+        generateWorldChunk(nextChunkX, 1200);
+      }
+
+      // Skor bertambah mengikut jarak langkah penerokaan
+      const distanceScore = Math.floor(hero.x / 20);
+      if (distanceScore > score) score = distanceScore;
+
+      // 9. Lukis & Kemas Kini HUD
       render();
       updateHUD();
-      updateVisualFilters();
 
       animationFrameId = requestAnimationFrame(gameLoop);
     }
 
-    // Menguruskan Kutipan Makanan & Logik Perubahan Kelajuan
-    function handleItemCollection(item) {
-      playSound(item.sound);
+    // Perlanggaran Objek
+    function checkItemCollisions() {
+      const hx = hero.x;
+      const hy = hero.y - hero.height / 2;
 
-      // Jika ada Perisai Kebal (Shield), Junk/Toxic tidak mencederakan
-      if (player.shieldTime > 0 && (item.category === 'junk' || item.category === 'toxic')) {
-        showNotification("🛡️ PERISAI MENYERAP RACUN!", "text-cyan-300", "bg-cyan-950/90 border-cyan-400");
-        score += 10;
-        return;
-      }
-
-      // Kesan Kesihatan (HP), Stamina & Penglihatan
-      player.hp = Math.min(100, Math.max(0, player.hp + item.hp));
-      player.stamina = Math.min(100, Math.max(0, player.stamina + item.stamina));
-      player.vision = Math.min(100, Math.max(15, player.vision + item.visionBoost));
-
-      // Kesan Perubahan Kelajuan (Game Pace)
-      gamePace += item.paceChange;
-      // Had paling perlahan permainan ialah 1.0x
-      if (gamePace < 1.0) gamePace = 1.0;
-
-      if (item.category === 'veggie') {
-        score += 25;
-        statsCollected.veggies++;
-        showNotification(`🥦 ${item.name.toUpperCase()}: TEMPO PERLAHAN (-${Math.abs(item.paceChange)}x) & PANDANGAN JERNIH!`, "text-emerald-300", "bg-emerald-950/95 border-emerald-400");
-      } else if (item.category === 'fruit') {
-        score += 20;
-        statsCollected.fruits++;
-        showNotification(`🍎 ${item.name.toUpperCase()}: +PULIH HP/STAMINA & -${Math.abs(item.paceChange)}x LAJU!`, "text-amber-300", "bg-red-950/95 border-red-400");
-      } else if (item.category === 'fish') {
-        player.shieldTime = item.shield;
-        score += 30;
-        statsCollected.fish++;
-        showNotification("🐟 PERISAI IMUNITI DIAKTIFKAN!", "text-cyan-300", "bg-cyan-950/95 border-cyan-400");
-      } else if (item.category === 'junk') {
-        score = Math.max(0, score - 20);
-        statsCollected.junk++;
-        showNotification(`⚠️ ${item.name.toUpperCase()}: SUGAR RUSH (+${item.paceChange}x LAJU & PANDANGAN KABUR!)`, "text-red-400", "bg-amber-950/95 border-red-500");
-      } else if (item.category === 'toxic') {
-        score = Math.max(0, score - 35);
-        showNotification("☠️ RACUN BERBAHAYA! HP TERTOLAK TINGGI!", "text-red-400", "bg-red-950 border-red-500");
-      }
-    }
-
-    // Render Canvas & Mekanik Penglihatan
-    function render() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Cyber Grid Background
-      drawCyberBackground();
-
-      // Lukis Makanan Yang Jatuh (Menghormati Penglihatan Kabus)
-      items.forEach(item => {
-        const normalizedY = item.y / canvas.height;
-        const visionFactor = player.vision / 100; // 0.15 hingga 1.0
-        
-        // Makanan di atas hanya nampak jika penglihatan tinggi!
-        let itemAlpha = 1.0;
-        if (normalizedY < 0.65) {
-          itemAlpha = Math.max(0.05, (normalizedY / 0.65) * 0.8 + (visionFactor * 0.85));
+      // Syiling
+      for (let c of worldCoins) {
+        if (!c.collected && Math.hypot(hx - c.x, hy - c.y) < 32) {
+          c.collected = true;
+          score += 10;
+          statsCollected.coins++;
+          playSound('coin');
         }
-        itemAlpha = Math.min(1.0, Math.max(0.04, itemAlpha));
-
-        ctx.save();
-        ctx.globalAlpha = itemAlpha;
-        ctx.translate(item.x + item.size / 2, item.y + item.size / 2);
-        ctx.rotate(item.rotation);
-
-        ctx.font = `${item.size}px sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(item.emoji, 0, 0);
-
-        ctx.restore();
-      });
-
-      // Lukis Superhero Cilik Berpandukan Imej Rujukan
-      drawSuperhero(player.x, player.y, player.width, player.height, player.faceDirection, player.stepAnim);
-    }
-
-    // Dynamic Visual Filters: Fog of War, Motion Blur & Red Danger Warning
-    function updateVisualFilters() {
-      // 1. Kesan Kabur (CSS Blur) pada kanvas mengikut penglihatan
-      if (player.vision < 75) {
-        const blurAmount = ((75 - player.vision) * 0.08).toFixed(1);
-        canvas.style.filter = `blur(${blurAmount}px)`;
-      } else {
-        canvas.style.filter = 'none';
       }
 
-      // 2. Ketebalan Kabus Gelap (Fog Overlay)
-      const fogOpacity = Math.max(0.05, ((100 - player.vision) / 100) * 0.95);
-      document.getElementById('fogOverlay').style.opacity = fogOpacity.toFixed(2);
+      // Bintang Emas
+      for (let s of worldStars) {
+        if (!s.collected && Math.hypot(hx - s.x, hy - s.y) < 38) {
+          s.collected = true;
+          score += 100;
+          hero.energy = Math.min(100, hero.energy + 25);
+          statsCollected.stars++;
+          playSound('star');
+          showNotification("⭐ BINTANG EMAS! +100 MATA & TENAGA!", "text-yellow-300", "bg-amber-950/90 border-yellow-400");
+        }
+      }
 
-      // 3. Amaran Garisan Merah apabila tempo sangat laju (Danger Zone >= 2.8x)
-      const dangerEl = document.getElementById('dangerPaceBorder');
-      if (gamePace >= 2.8) {
-        dangerEl.classList.remove('border-red-500/0');
-        dangerEl.classList.add('border-red-500/80', 'animate-pulse');
-      } else {
-        dangerEl.classList.remove('border-red-500/80', 'animate-pulse');
-        dangerEl.classList.add('border-red-500/0');
+      // Makanan (Brokoli vs Junk Food)
+      for (let it of worldItems) {
+        if (!it.collected && Math.hypot(hx - it.x, hy - it.y) < 36) {
+          it.collected = true;
+          if (it.type === 'veggie') {
+            score += 35;
+            hero.energy = Math.min(100, hero.energy + 35);
+            statsCollected.veggies++;
+            playSound('veggie');
+            showNotification("🥦 BROKOLI SIHAT! +TENAGA PENUH & PANTAS!", "text-emerald-300", "bg-emerald-950/90 border-emerald-400");
+          } else {
+            hero.hearts -= 1;
+            hero.energy = Math.max(0, hero.energy - 30);
+            statsCollected.junk++;
+            playSound('hurt');
+            showNotification("🍔 JUNK FOOD! -1 NYAWA HATI & LESU!", "text-red-400", "bg-red-950/90 border-red-500");
+            if (hero.hearts <= 0) {
+              triggerGameOver("Kesihatan Merosot Akibat Makanan Tidak Sihat!");
+              return;
+            }
+          }
+        }
       }
     }
 
-    function drawCyberBackground() {
-      ctx.strokeStyle = 'rgba(16, 185, 129, 0.08)';
-      ctx.lineWidth = 1;
+    // Render Keseluruhan Seni Bina Permainan (100% Mengikut Rujukan)
+    function render() {
+      ctx.clearRect(0, 0, V_WIDTH, V_HEIGHT);
 
-      for (let x = 0; x < canvas.width; x += 38) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
-
-      // Ground Line
-      ctx.strokeStyle = '#10b981';
-      ctx.lineWidth = 3;
-      ctx.shadowColor = '#10b981';
-      ctx.shadowBlur = 10;
-      ctx.beginPath();
-      ctx.moveTo(0, canvas.height - 14);
-      ctx.lineTo(canvas.width, canvas.height - 14);
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-    }
-
-    // Lukisan Vektor Superhero Cilik
-    function drawSuperhero(x, y, w, h, dir, step) {
       ctx.save();
-      ctx.translate(x + w / 2, y + h / 2);
-      ctx.scale(dir, 1);
 
-      const bounce = Math.sin(step) * 2;
+      // 1. Latar Belakang Langit Waktu Senja (Twilight Gradient)
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, V_HEIGHT);
+      skyGrad.addColorStop(0, '#02182b');
+      skyGrad.addColorStop(0.55, '#073b61');
+      skyGrad.addColorStop(0.85, '#1e5f8a');
+      skyGrad.addColorStop(1, '#2c7aa0');
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, V_WIDTH, V_HEIGHT);
 
-      // Jubah Merah
-      ctx.fillStyle = '#dc2626';
-      ctx.beginPath();
-      ctx.moveTo(-10, -10 + bounce);
-      ctx.quadraticCurveTo(-26 - Math.cos(step) * 5, 8 + bounce, -22, 22 + bounce);
-      ctx.lineTo(-4, 12 + bounce);
-      ctx.closePath();
-      ctx.fill();
-
-      // Seluar Pendek Biru & Kasut Teal
-      const legOffset = Math.sin(step) * 4;
-      ctx.fillStyle = '#1d4ed8';
-      ctx.fillRect(-10, 8 + bounce, 8, 10);
-      ctx.fillRect(2, 8 + bounce, 8, 10);
-
-      // Kaki
-      ctx.fillStyle = '#fbcfe8';
-      ctx.fillRect(-9, 18 + bounce, 6, 6 + legOffset);
-      ctx.fillRect(3, 18 + bounce, 6, 6 - legOffset);
-
-      // Kasut Teal
-      ctx.fillStyle = '#0d9488';
-      ctx.beginPath();
-      ctx.roundRect(-11, 24 + bounce + legOffset, 10, 5, 2);
-      ctx.roundRect(1, 24 + bounce - legOffset, 10, 5, 2);
-      ctx.fill();
-
-      // Baju Hijau Superhero
-      ctx.fillStyle = '#22c55e';
-      ctx.beginPath();
-      ctx.roundRect(-12, -8 + bounce, 24, 18, 4);
-      ctx.fill();
-
-      // Emblem Oren
-      ctx.fillStyle = '#f97316';
-      ctx.beginPath();
-      ctx.arc(0, 0 + bounce, 4.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Penumbuk Tangan
-      ctx.fillStyle = '#fbcfe8';
-      ctx.beginPath();
-      ctx.arc(14, 0 + bounce - legOffset, 3.5, 0, Math.PI * 2);
-      ctx.arc(-14, 0 + bounce + legOffset, 3.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Kepala & Wajah Ceria
-      ctx.fillStyle = '#fbcfe8';
-      ctx.beginPath();
-      ctx.arc(0, -17 + bounce, 11, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Rambut Perang
-      ctx.fillStyle = '#5c2c16';
-      ctx.beginPath();
-      ctx.arc(0, -20 + bounce, 12, Math.PI * 1, Math.PI * 2.1);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(-8, -26 + bounce);
-      ctx.lineTo(2, -30 + bounce);
-      ctx.lineTo(6, -24 + bounce);
-      ctx.fill();
-
-      // Mata & Senyuman
-      ctx.fillStyle = '#0f172a';
-      ctx.fillRect(3, -18 + bounce, 2.5, 3.5);
-      ctx.strokeStyle = '#991b1b';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.arc(4, -13 + bounce, 3.5, 0.1, Math.PI * 0.9);
-      ctx.stroke();
-
-      // Lingkaran Perisai Shield (Jika Aktif)
-      if (player.shieldTime > 0) {
-        ctx.strokeStyle = '#22d3ee';
-        ctx.lineWidth = 3;
-        ctx.shadowColor = '#06b6d4';
-        ctx.shadowBlur = 15;
-        ctx.beginPath();
-        ctx.arc(0, 0 + bounce, 32, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.shadowBlur = 0;
+      // Bintang-bintang kecil di langit senja
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      for (let i = 0; i < 20; i++) {
+        const sx = (i * 73 - (cameraX * 0.05)) % V_WIDTH;
+        const sy = (i * 23) % 140;
+        ctx.fillRect(sx < 0 ? sx + V_WIDTH : sx, sy, 2, 2);
       }
+
+      // 2. Bandar Metropolitan Waktu Senja (Parallax Skyline)
+      drawCitySkyline(cameraX * 0.25);
+
+      // Gerakkan konteks mengikut Kamera Dunia
+      ctx.translate(-cameraX, 0);
+
+      // 3. Lukis Platform (Tanah Batu Berumput & Batang Kayu Balak)
+      for (let plat of platforms) {
+        if (plat.x + plat.w < cameraX - 50 || plat.x > cameraX + V_WIDTH + 50) continue;
+
+        if (plat.type === 'ground') {
+          // Batu bata tanah berwarna coklat gelap
+          ctx.fillStyle = '#451a03';
+          ctx.fillRect(plat.x, plat.y, plat.w, plat.h);
+
+          // Tekstur corak bata
+          ctx.strokeStyle = '#291307';
+          ctx.lineWidth = 2;
+          for (let by = plat.y + 16; by < plat.y + plat.h; by += 22) {
+            ctx.beginPath();
+            ctx.moveTo(plat.x, by);
+            ctx.lineTo(plat.x + plat.w, by);
+            ctx.stroke();
+          }
+
+          // Lapisan Rumput Hijau Tebal di atas permukaan tanah
+          ctx.fillStyle = '#22c55e';
+          ctx.fillRect(plat.x, plat.y, plat.w, 14);
+
+          // Hujung rumput berjurai
+          ctx.fillStyle = '#16a34a';
+          for (let gx = plat.x; gx < plat.x + plat.w; gx += 12) {
+            ctx.beginPath();
+            ctx.moveTo(gx, plat.y + 14);
+            ctx.lineTo(gx + 6, plat.y + 20);
+            ctx.lineTo(gx + 12, plat.y + 14);
+            ctx.fill();
+          }
+        } else if (plat.type === 'log') {
+          // Platform Batang Kayu Balak (Wooden Log)
+          ctx.fillStyle = '#78350f';
+          ctx.beginPath();
+          ctx.roundRect(plat.x, plat.y, plat.w, plat.h, 10);
+          ctx.fill();
+
+          // Keratan rentas bulat kayu di hujung kiri/kanan
+          ctx.fillStyle = '#b45309';
+          ctx.beginPath();
+          ctx.ellipse(plat.x + 8, plat.y + plat.h / 2, 6, plat.h / 2 - 2, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Rumput hijau tebal di atas batang balak
+          ctx.fillStyle = '#22c55e';
+          ctx.beginPath();
+          ctx.roundRect(plat.x, plat.y - 2, plat.w, 10, 4);
+          ctx.fill();
+        }
+      }
+
+      // 4. Lukis Syiling Emas
+      for (let c of worldCoins) {
+        if (!c.collected && c.x > cameraX - 30 && c.x < cameraX + V_WIDTH + 30) {
+          ctx.fillStyle = '#f59e0b';
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, 9, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#fef08a';
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, 6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // 5. Lukis Bintang Emas Bersinar (Star)
+      for (let s of worldStars) {
+        if (!s.collected && s.x > cameraX - 40 && s.x < cameraX + V_WIDTH + 40) {
+          drawGlowStar(s.x, s.y);
+        }
+      }
+
+      // 6. Lukis Item Makanan (Brokoli Sihat Bersinar & Junk Food)
+      for (let it of worldItems) {
+        if (!it.collected && it.x > cameraX - 40 && it.x < cameraX + V_WIDTH + 40) {
+          // Aura bercahaya
+          ctx.save();
+          ctx.shadowColor = it.color;
+          ctx.shadowBlur = 15;
+          ctx.font = '28px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(it.emoji, it.x, it.y);
+          ctx.restore();
+        }
+      }
+
+      // 7. Jejak Tenaga Cyan (Blue Dash Trails) di Belakang Wira
+      for (let tr of hero.trail) {
+        ctx.save();
+        ctx.globalAlpha = tr.alpha * 0.55;
+        drawAnimeHero(tr.x, tr.y, tr.dir, 0, true);
+        ctx.restore();
+      }
+
+      // 8. Lukis Watak Wira Anime (Sut Taktikal Biru-Hitam Seperti Gambar)
+      drawAnimeHero(hero.x, hero.y, hero.direction, hero.animTimer, false);
 
       ctx.restore();
     }
 
-    // Kemas kini HUD
-    function updateHUD() {
-      const hpPct = Math.round(player.hp);
-      document.getElementById('hpValue').innerText = `${hpPct}%`;
-      document.getElementById('hpBar').style.width = `${hpPct}%`;
+    // Lukis Bandaraya Metropolitan Waktu Senja (City Skyline)
+    function drawCitySkyline(offset) {
+      const buildings = [
+        { x: 30, w: 75, h: 220 },
+        { x: 120, w: 90, h: 280 },
+        { x: 230, w: 65, h: 180 },
+        { x: 310, w: 100, h: 250 },
+        { x: 430, w: 85, h: 300 },
+        { x: 535, w: 70, h: 190 },
+        { x: 625, w: 95, h: 260 },
+        { x: 740, w: 80, h: 210 }
+      ];
 
-      const stamPct = Math.round(player.stamina);
-      document.getElementById('staminaValue').innerText = `${stamPct}%`;
-      document.getElementById('staminaBar').style.width = `${stamPct}%`;
+      ctx.save();
+      for (let b of buildings) {
+        let drawX = (b.x - offset) % (V_WIDTH + 150);
+        if (drawX < -100) drawX += V_WIDTH + 150;
 
-      // Status Kelajuan Tempo Permainan
-      const paceEl = document.getElementById('gamePaceValue');
-      const paceVal = gamePace.toFixed(1);
-      if (gamePace >= 3.0) {
-        paceEl.innerText = `${paceVal}x (EKSTREM!)`;
-        paceEl.className = 'text-red-400 font-black animate-pulse';
-      } else if (gamePace >= 2.0) {
-        paceEl.innerText = `${paceVal}x (Pantas)`;
-        paceEl.className = 'text-orange-400 font-extrabold';
-      } else if (gamePace >= 1.4) {
-        paceEl.innerText = `${paceVal}x (Sederhana)`;
-        paceEl.className = 'text-yellow-300 font-bold';
-      } else {
-        paceEl.innerText = `${paceVal}x (Selesa)`;
-        paceEl.className = 'text-emerald-300 font-bold';
+        // Bangunan biru gelap silhouette
+        ctx.fillStyle = '#0f2744';
+        ctx.fillRect(drawX, V_HEIGHT - b.h - 70, b.w, b.h);
+
+        // Bumbung menara runcing
+        ctx.fillStyle = '#16385e';
+        ctx.beginPath();
+        ctx.moveTo(drawX, V_HEIGHT - b.h - 70);
+        ctx.lineTo(drawX + b.w / 2, V_HEIGHT - b.h - 100);
+        ctx.lineTo(drawX + b.w, V_HEIGHT - b.h - 70);
+        ctx.fill();
+
+        // Tingkap bercahaya kuning/oren
+        ctx.fillStyle = '#fde047';
+        for (let wy = V_HEIGHT - b.h - 50; wy < V_HEIGHT - 90; wy += 26) {
+          for (let wx = drawX + 12; wx < drawX + b.w - 12; wx += 20) {
+            if ((wx + wy) % 3 === 0) {
+              ctx.fillRect(wx, wy, 8, 12);
+            }
+          }
+        }
       }
-
-      // Status Penglihatan
-      const visPct = Math.round(player.vision);
-      let visDesc = "Jelas";
-      if (visPct < 40) visDesc = "Kabus & Kabur!";
-      else if (visPct < 70) visDesc = "Sederhana";
-      document.getElementById('visionText').innerText = `${visPct}% (${visDesc})`;
-
-      document.getElementById('hudScore').innerText = score;
+      ctx.restore();
     }
 
-    // Game Over & Penyimpanan Data
+    // Lukisan Bintang Emas Terapung
+    function drawGlowStar(cx, cy) {
+      ctx.save();
+      ctx.shadowColor = '#facc15';
+      ctx.shadowBlur = 18;
+      ctx.fillStyle = '#fde047';
+
+      const spikes = 5;
+      const outerRadius = 18;
+      const innerRadius = 8;
+      let rot = Math.PI / 2 * 3;
+      let step = Math.PI / spikes;
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - outerRadius);
+      for (let i = 0; i < spikes; i++) {
+        let x = cx + Math.cos(rot) * outerRadius;
+        let y = cy + Math.sin(rot) * outerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+      }
+      ctx.lineTo(cx, cy - outerRadius);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Lukisan Watak Wira Anime (Sut Taktikal Biru-Hitam Seperti Gambar Rujukan)
+    function drawAnimeHero(x, y, dir, anim, isGhost) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(dir, 1);
+
+      const legAnim = Math.sin(anim) * 10;
+
+      // 1. Kaki & But Taktikal
+      ctx.fillStyle = isGhost ? '#38bdf8' : '#091522';
+      // Kaki Belakang
+      ctx.fillRect(-12, -22, 9, 22 - legAnim);
+      // Kaki Depan
+      ctx.fillRect(3, -22, 9, 22 + legAnim);
+
+      // Jalur Neon Cyan Kasut
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillRect(-12, -6 - legAnim, 9, 4);
+      ctx.fillRect(3, -6 + legAnim, 9, 4);
+
+      // 2. Badan (Sut Taktikal Hitam dengan Jalur Biru Bercahaya)
+      ctx.fillStyle = isGhost ? '#38bdf8' : '#0b192c';
+      ctx.beginPath();
+      ctx.roundRect(-12, -42, 24, 24, 5);
+      ctx.fill();
+
+      // Jalur Cyan Dada
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillRect(-8, -34, 16, 4);
+      ctx.fillRect(-2, -38, 4, 12);
+
+      // 3. Tangan Berlari
+      ctx.fillStyle = isGhost ? '#38bdf8' : '#081320';
+      ctx.beginPath();
+      ctx.arc(14, -32 + legAnim, 5, 0, Math.PI * 2);
+      ctx.arc(-14, -32 - legAnim, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 4. Kepala & Wajah Anime
+      ctx.fillStyle = isGhost ? '#e0f2fe' : '#fed7aa';
+      ctx.beginPath();
+      ctx.arc(0, -48, 11, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Mata Biru Anime
+      ctx.fillStyle = '#0284c7';
+      ctx.fillRect(3, -50, 3, 4);
+
+      // 5. Rambut Hitam Anime Berpacak (Spiky Anime Hair)
+      ctx.fillStyle = isGhost ? '#0284c7' : '#090d16';
+      ctx.beginPath();
+      ctx.arc(0, -52, 12, Math.PI, Math.PI * 2);
+      ctx.fill();
+      // Pacak Rambut Belakang & Depan
+      ctx.beginPath();
+      ctx.moveTo(-10, -54);
+      ctx.lineTo(-18, -58);
+      ctx.lineTo(-8, -48);
+      ctx.lineTo(8, -63);
+      ctx.lineTo(6, -50);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    // Kemas Kini Paparan HUD
+    function updateHUD() {
+      // 1. Nyawa Hati
+      const heartsContainer = document.getElementById('heartsContainer');
+      let heartsHtml = '';
+      for (let i = 0; i < 3; i++) {
+        if (i < hero.hearts) {
+          heartsHtml += '<i class="fa-solid fa-heart animate-pulse"></i>';
+        } else {
+          heartsHtml += '<i class="fa-regular fa-heart text-slate-600"></i>';
+        }
+      }
+      heartsContainer.innerHTML = heartsHtml;
+
+      // 2. Bar Tenaga Hijau
+      const energyPct = Math.round(hero.energy);
+      document.getElementById('energyBar').style.width = `${energyPct}%`;
+
+      // 3. Skor
+      document.getElementById('hudScore').innerText = score;
+
+      // 4. Masa Randik (MM:SS)
+      const mins = Math.floor(timeRemaining / 60);
+      const secs = Math.floor(timeRemaining % 60);
+      const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      document.getElementById('hudTime').innerText = timeStr;
+    }
+
+    // Tamat Permainan (Game Over)
     function triggerGameOver(reason) {
       isGameRunning = false;
       cancelAnimationFrame(animationFrameId);
+      stopBgm();
       playSound('gameover');
-
-      // Reset filter visual
-      canvas.style.filter = 'none';
 
       document.getElementById('deathReason').innerText = reason;
       document.getElementById('resNameClass').innerText = `${currentPlayerName} (${currentPlayerClass})`;
       document.getElementById('resFinalScore').innerText = score;
-      document.getElementById('resTimeAlive').innerText = `${Math.round(gameTime)} Saat`;
+      document.getElementById('resDistance').innerText = `${Math.floor(hero.x / 20)} Meter`;
 
       document.getElementById('gameOverScreen').classList.remove('hidden');
 
-      saveLocalRecord(currentPlayerName, currentPlayerClass, score, Math.round(gameTime));
+      saveLocalRecord(currentPlayerName, currentPlayerClass, score);
       renderLeaderboard();
-
       submitToGoogleSheet();
     }
 
-    function saveLocalRecord(name, cls, finalScore, timeAlive) {
+    function saveLocalRecord(name, cls, finalScore) {
       const storageKey = `nutrihero_ranking_${config.schoolName.replace(/\s+/g, '_')}`;
       let records = [];
       try {
@@ -1149,7 +1261,6 @@
         name: name,
         class: cls,
         score: finalScore,
-        time: timeAlive,
         date: new Date().toLocaleDateString('ms-MY')
       });
 
@@ -1188,7 +1299,7 @@
           <div class="flex items-center gap-2 truncate">
             <span class="w-8 font-hud ${badgeColor}">${medal}</span>
             <span class="font-semibold text-white truncate max-w-[130px]">${rec.name}</span>
-            <span class="text-[10px] text-emerald-400/80">(${rec.class})</span>
+            <span class="text-[10px] text-sky-400">(${rec.class})</span>
           </div>
           <div class="font-hud font-bold text-amber-300 ml-2">
             ${rec.score} <span class="text-[10px] text-gray-400">mata</span>
@@ -1216,9 +1327,9 @@
         nama: currentPlayerName,
         kelas: currentPlayerClass,
         skor: score,
-        masaBertahan: Math.round(gameTime),
+        masaBertahan: 90 - Math.floor(timeRemaining),
         sayur: statsCollected.veggies,
-        buah: statsCollected.fruits,
+        buah: statsCollected.stars,
         junk: statsCollected.junk,
         timestamp: new Date().toISOString()
       };
@@ -1240,7 +1351,7 @@
       });
     }
 
-    // Admin Functions
+    // Fungsi Admin
     function openAdminModal() {
       document.getElementById('adminModal').classList.remove('hidden');
       document.getElementById('adminAuthSection').classList.remove('hidden');
@@ -1300,7 +1411,6 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       loadSettings();
-      resizeCanvas();
     });
   </script>
 </body>
