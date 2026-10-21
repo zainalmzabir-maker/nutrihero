@@ -51,7 +51,6 @@
       overflow-y: auto !important;
     }
 
-    /* Gaya Butang Sentuh Gamepad */
     .touch-pad-btn {
       background: linear-gradient(180deg, rgba(2, 132, 199, 0.85) 0%, rgba(3, 40, 75, 0.95) 100%);
       border: 2.5px solid #38bdf8;
@@ -76,7 +75,6 @@
       box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
     }
 
-    /* Butang Apung Horizontal Menyerlah */
     .floating-rotate-btn {
       border: 2.5px solid #fef08a;
       box-shadow: 0 0 20px rgba(250, 204, 21, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5);
@@ -87,7 +85,7 @@
       50% { box-shadow: 0 0 26px rgba(250, 204, 21, 0.95), inset 0 0 14px rgba(255, 255, 255, 0.8); }
     }
 
-    /* GAYA LEVEL GRID: MENYALA & BERKUNCI */
+    /* GAYA KOTAK LEVEL GRID */
     .lvl-card-cleared {
       background: linear-gradient(135deg, rgba(6, 78, 59, 0.85) 0%, rgba(4, 120, 87, 0.95) 100%);
       border: 2px solid #34d399;
@@ -370,7 +368,7 @@
     </div>
   </main>
 
-  <!-- SKRIN MULA / START SCREEN (GRID 20 LEVEL DENGAN SISTEM MENYALA & BERKUNCI) -->
+  <!-- SKRIN MULA / START SCREEN (DENGAN ARAHAN STRUKTUR & MEKANIK PERMAINAN) -->
   <div id="startScreen" class="fixed inset-0 bg-slate-950/95 z-40 backdrop-blur-md mobile-scroll-screen p-3 sm:p-4 flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-md flex flex-col items-center py-4 text-center">
       
@@ -391,9 +389,57 @@
       <h2 class="text-xl sm:text-2xl font-black font-hud text-cyan-300 tracking-wider mb-0.5">
         20 LEVEL MISI KUASA NUTRISI
       </h2>
-      <p id="regSchoolName" class="text-xs font-bold text-sky-400 mb-3 tracking-wide font-hud">
+      <p id="regSchoolName" class="text-xs font-bold text-sky-400 mb-2.5 tracking-wide font-hud">
         SMK KAMARUL ARIFFIN
       </p>
+
+      <!-- KOTAK ARAHAN MEKANIK & STRUKTUR PERMAINAN (JELAS & RINGKAS) -->
+      <div class="w-full bg-slate-900/90 border-2 border-cyan-400/50 rounded-2xl p-2.5 mb-3 text-left shadow-xl">
+        <div class="flex items-center justify-between pb-1.5 border-b border-cyan-500/30 text-xs font-hud font-extrabold text-amber-300">
+          <span class="flex items-center gap-1.5">
+            <i class="fa-solid fa-book-open-reader text-cyan-400"></i> PANDUAN RINGKAS EJEN (CARA BERMAIN)
+          </span>
+          <span class="text-[9px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-500/40">4 LANGKAH</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 mt-2 text-[10px] sm:text-[11px] leading-tight">
+          <!-- Langkah 1 -->
+          <div class="bg-blue-950/70 p-2 rounded-xl border border-cyan-500/30">
+            <div class="font-hud font-bold text-cyan-300 flex items-center gap-1 mb-0.5">
+              <span class="w-4 h-4 rounded-full bg-cyan-500 text-slate-950 text-[10px] flex items-center justify-center font-black">1</span>
+              <span>CARI 4 NUTRIEN</span>
+            </div>
+            <p class="text-sky-200/90">Kumpul 🍌 Karbohidrat, 🥚 Protein, 🥦 Vitamin & 💧 Hidrasi.</p>
+          </div>
+
+          <!-- Langkah 2 -->
+          <div class="bg-blue-950/70 p-2 rounded-xl border border-emerald-500/40">
+            <div class="font-hud font-bold text-emerald-300 flex items-center gap-1 mb-0.5">
+              <span class="w-4 h-4 rounded-full bg-emerald-400 text-slate-950 text-[10px] flex items-center justify-center font-black">2</span>
+              <span>TEKAN [E] / IMBAS</span>
+            </div>
+            <p class="text-emerald-100/90">Dekati makanan, imbas & jawab kuiz untuk pulihkan tenaga.</p>
+          </div>
+
+          <!-- Langkah 3 -->
+          <div class="bg-blue-950/70 p-2 rounded-xl border border-red-500/40">
+            <div class="font-hud font-bold text-red-300 flex items-center gap-1 mb-0.5">
+              <span class="w-4 h-4 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-black">3</span>
+              <span>ELAK JUNK FOOD</span>
+            </div>
+            <p class="text-red-200/90">Awas raksasa 🍔🍟 & jurang! Sentuhan menolak 25 tenaga/nyawa.</p>
+          </div>
+
+          <!-- Langkah 4 -->
+          <div class="bg-blue-950/70 p-2 rounded-xl border border-amber-500/40">
+            <div class="font-hud font-bold text-amber-300 flex items-center gap-1 mb-0.5">
+              <span class="w-4 h-4 rounded-full bg-amber-400 text-slate-950 text-[10px] flex items-center justify-center font-black">4</span>
+              <span>MASUK PORTAL</span>
+            </div>
+            <p class="text-amber-100/90">Bila kuasa 4/4 lengkap, masuk portal 🌀 untuk buka level baharu!</p>
+          </div>
+        </div>
+      </div>
 
       <!-- Input Nama & Kelas -->
       <div class="w-full grid grid-cols-2 gap-2 mb-3 text-left">
@@ -416,12 +462,10 @@
           <span id="levelProgressStatusText" class="text-[10px] text-emerald-400 font-bold">1 / 20 Terbuka</span>
         </div>
 
-        <!-- 20 Kotak Grid Level (5 Kolum x 4 Baris) -->
-        <div id="levelGridContainer" class="grid grid-cols-5 gap-1.5 sm:gap-2 max-h-48 overflow-y-auto p-1">
+        <div id="levelGridContainer" class="grid grid-cols-5 gap-1.5 sm:gap-2 max-h-40 overflow-y-auto p-1">
           <!-- Dijana Secara Dinamik Oleh JavaScript -->
         </div>
 
-        <!-- Info Level Yang Dipilih -->
         <div class="mt-2 pt-1.5 border-t border-cyan-500/20 flex items-center justify-between text-[11px] font-hud">
           <span class="text-sky-300">Level Dipilih:</span>
           <span id="selectedLevelTitleText" class="font-extrabold text-amber-300 truncate max-w-[200px]">Level 1: Taman Neo-City</span>
@@ -594,8 +638,8 @@
     </div>
   </div>
 
-  <!-- PANEL ADMIN (DENGAN KAWALAN RESET & BUKA SEMUA LEVEL) -->
-  <div id="adminModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-[70] p-4 mobile-scroll-screen flex flex-col items-center justify-start sm:justify-center">
+  <!-- PANEL ADMIN (DENGAN LAPISAN Z-[70] TERTINGGI) -->
+  <div id="adminModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[70] p-4 mobile-scroll-screen flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-md bg-slate-950 border-2 border-cyan-400 rounded-3xl p-5 shadow-2xl relative text-left">
       <div class="flex justify-between items-center pb-3 border-b border-cyan-500/30 mb-4">
         <div class="flex items-center gap-2 text-amber-300 font-hud font-bold text-lg">
@@ -630,7 +674,6 @@
           <input type="text" id="adminSheetIdInput" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/40 rounded-xl text-white text-xs mt-1 font-mono focus:outline-none focus:border-amber-400" />
         </div>
 
-        <!-- Kawalan Kemajuan Level Khas Guru/Admin -->
         <div class="bg-blue-950/60 p-2.5 rounded-xl border border-cyan-500/30 space-y-2 mt-2">
           <span class="font-hud font-bold text-amber-300 block">KAWALAN KEMAJUAN LEVEL:</span>
           <div class="grid grid-cols-2 gap-2">
@@ -833,16 +876,6 @@
 
   <!-- DATA 20 LEVEL & SISTEM LEVEL LOCK / UNLOCK -->
   <script>
-    const DEFAULT_CONFIG = {
-      schoolName: "SMK KAMARUL ARIFFIN",
-      gasUrl: "https://script.google.com/macros/s/AKfycbyopBR5lKZkeuM8cuDgg8thJIbr06Y91PZxpXwi8xtR10Hw0_-Wnjhb10KNKjNe4_PUhA/exec",
-      sheetId: "1rNA79MYKOV6f1g-UBtd0XzPGfZsIw27Ds9au9jcZuqQ",
-      adminPass: "adminnutrihero"
-    };
-
-    let config = { ...DEFAULT_CONFIG };
-
-    // Definisi 20 Level Lengkap
     const GAME_LEVELS = [
       {
         level: 1,
@@ -1126,7 +1159,6 @@
       }
     ];
 
-    // PENGURUSAN STATUS KEMAJUAN LEVEL (LOCAL STORAGE)
     let unlockedLevel = 1;
     let clearedLevels = [];
     let selectedStartLevel = 1;
@@ -1141,7 +1173,6 @@
         clearedLevels = [];
       }
 
-      // Default level terpilih ialah level tertinggi yang terbuka
       selectedStartLevel = unlockedLevel;
     }
 
@@ -1150,7 +1181,6 @@
       localStorage.setItem('vitax_cleared_levels', JSON.stringify(clearedLevels));
     }
 
-    // BINA GRID 20 LEVEL (MENYALA HIJAU/EMAS UNTUK YANG SELESAI, KUNCI UNTUK YANG BELUM)
     function renderLevelGridUI() {
       loadLevelProgress();
       const container = document.getElementById('levelGridContainer');
@@ -1168,18 +1198,16 @@
         card.className = "flex flex-col items-center justify-center p-2 rounded-xl transition duration-150 relative text-center ";
 
         if (isCleared) {
-          // LEVEL TELAH LEPAS (MENYALA HIJAU-EMAS NEON DENGAN BINTANG ⭐)
           card.className += "lvl-card-cleared ";
           card.innerHTML = `
             <div class="absolute -top-1.5 -right-1.5 text-[11px] drop-shadow-[0_0_6px_rgba(250,204,21,1)]">⭐</div>
             <span class="font-hud font-black text-sm text-white">${lvl.level}</span>
             <span class="text-[8px] font-hud font-bold text-emerald-200 uppercase tracking-tighter">Lepas</span>
           `;
-          card.title = `Level ${lvl.level}: ${lvl.title} (Selesai - Boleh dimainkan semula)`;
+          card.title = `Level ${lvl.level}: ${lvl.title} (Selesai - Boleh main semula)`;
           card.onclick = () => selectLevel(lvl.level);
 
         } else if (isUnlocked) {
-          // LEVEL SEMASA AKTIF TERBUKA (MENYALA BIRU CYAN BERDENYUT)
           card.className += "lvl-card-current ";
           card.innerHTML = `
             <span class="font-hud font-black text-sm text-white">${lvl.level}</span>
@@ -1189,7 +1217,6 @@
           card.onclick = () => selectLevel(lvl.level);
 
         } else {
-          // LEVEL BERKUNCI (MALAP & TIDAK BOLEH DIBUKA)
           card.className += "lvl-card-locked ";
           card.innerHTML = `
             <i class="fa-solid fa-lock text-xs text-slate-400 mb-0.5"></i>
@@ -1225,7 +1252,6 @@
       renderLevelGridUI();
     }
 
-    // FUNGSI ADMIN: BUKA SEMUA 20 LEVEL ATAU RESET KEMAJUAN
     function adminUnlockAllLevels() {
       unlockedLevel = 20;
       clearedLevels = Array.from({ length: 20 }, (_, i) => i + 1);
@@ -1504,7 +1530,6 @@
         return;
       }
 
-      // Pastikan level yang hendak dimainkan benar-benar terbuka
       if (selectedStartLevel > unlockedLevel && !clearedLevels.includes(selectedStartLevel)) {
         alert(`Level ${selectedStartLevel} masih berkunci! Sila selesaikan level sebelumnya.`);
         return;
@@ -2064,12 +2089,10 @@
       playSound('win');
       triggerHaptic([40, 30, 40, 30, 80]);
 
-      // Rekodkan level ini sebagai selesai
       if (!clearedLevels.includes(currentLevel)) {
         clearedLevels.push(currentLevel);
       }
 
-      // Buka level seterusnya sekiranya belum terbuka
       if (currentLevel < 20 && unlockedLevel <= currentLevel) {
         unlockedLevel = currentLevel + 1;
       }
