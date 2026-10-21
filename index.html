@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>EJEN VITA-X: MISI KUASA NUTRISI</title>
+  <title>EJEN VITA-X: 20 LEVEL MISI KUASA NUTRISI</title>
   
   <!-- Tailwind CSS & Font Awesome -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -87,9 +87,7 @@
       50% { box-shadow: 0 0 26px rgba(250, 204, 21, 0.95), inset 0 0 14px rgba(255, 255, 255, 0.8); }
     }
 
-    /* ======================================================== */
-    /* GAYA CRAMP / PADAT KETIKA SKRIN MOD HORIZONTAL / LANDSCAPE */
-    /* ======================================================== */
+    /* KETIKA MOD LANDSCAPE DI TELEFON */
     @media (orientation: landscape) and (max-height: 560px), (max-height: 500px) {
       body {
         padding: 0 !important;
@@ -98,11 +96,9 @@
         height: 100vh !important;
         height: 100dvh !important;
       }
-      /* Sembunyikan header atas untuk jimat ruang */
       header.main-header, footer {
         display: none !important;
       }
-      /* Butang floating orientasi pindah ke bahagian tepi yang kemas */
       #btnFloatingOrient {
         top: 6px !important;
         right: 8px !important;
@@ -114,8 +110,6 @@
         width: 100vw !important;
         height: 100vh !important;
         height: 100dvh !important;
-        padding: 0 !important;
-        margin: 0 !important;
       }
       .game-border {
         border-radius: 0 !important;
@@ -127,14 +121,11 @@
         flex-direction: column !important;
         justify-content: space-between !important;
       }
-      /* Kemaskan bar HUD menjadi sangat padat 1 baris */
       .hud-panel {
         padding: 2px 8px !important;
         margin-bottom: 2px !important;
-        gap: 4px !important;
         border-radius: 12px !important;
       }
-      /* Kanvas saiz automatik mengikut ruang kosong tengah */
       .canvas-container {
         flex: 1 1 auto !important;
         min-height: 0 !important;
@@ -145,7 +136,6 @@
       #gameCanvas {
         object-fit: contain !important;
       }
-      /* Pad kawalan mudah alih disusun padat di bawah */
       .controls-container {
         padding-top: 2px !important;
         padding-bottom: 2px !important;
@@ -153,10 +143,6 @@
       .touch-pad-btn {
         width: 48px !important;
         height: 48px !important;
-        border-radius: 14px !important;
-      }
-      .touch-pad-btn span {
-        font-size: 8px !important;
       }
       .touch-pad-btn i {
         font-size: 18px !important;
@@ -183,9 +169,9 @@
 </head>
 <body class="text-white flex flex-col items-center justify-start p-1 sm:p-3 select-none">
 
-  <!-- BUTANG APUNG TUKAR SKRIN HORIZONTAL (SANGAT JELAS DENGAN AURA NEON EMAS) -->
+  <!-- BUTANG APUNG TUKAR SKRIN HORIZONTAL -->
   <button id="btnFloatingOrient" onclick="toggleScreenOrientationMode()" class="floating-rotate-btn fixed top-3 right-3 sm:top-4 sm:right-6 z-40 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 font-hud font-extrabold text-[11px] sm:text-xs px-3.5 py-2 rounded-full flex items-center gap-1.5 shadow-2xl transition transform active:scale-95" title="Tukar Mod Melintang / Menegak">
-    <i id="floatingOrientIcon" class="fa-solid fa-arrows-rotate text-sm text-slate-950 animate-spin-slow"></i>
+    <i id="floatingOrientIcon" class="fa-solid fa-arrows-rotate text-sm text-slate-950"></i>
     <span id="floatingOrientText">PUSING HORIZONTAL</span>
   </button>
 
@@ -197,7 +183,7 @@
       </div>
       <div>
         <h1 class="text-xs sm:text-base font-black tracking-wider font-hud text-cyan-300 leading-tight">
-          EJEN VITA-X: MISI KUASA NUTRISI
+          EJEN VITA-X: 20 LEVEL NUTRISI
         </h1>
         <p id="displaySchoolHeader" class="text-[10px] sm:text-xs font-bold text-sky-400 truncate max-w-[140px] sm:max-w-xs">
           SMK KAMARUL ARIFFIN
@@ -206,21 +192,17 @@
     </div>
     
     <div class="flex items-center gap-1.5 sm:gap-2 mr-28 sm:mr-36">
-      <!-- Butang Refresh Atas -->
-      <button onclick="refreshGamePage()" title="Muat Semula Laman (Refresh)" class="w-8 h-8 sm:w-9 sm:h-9 bg-blue-950 hover:bg-blue-900 text-cyan-300 border border-cyan-400/50 rounded-xl text-xs font-bold font-hud transition flex items-center justify-center shadow" aria-label="Refresh">
+      <button onclick="refreshGamePage()" title="Muat Semula (Refresh)" class="w-8 h-8 sm:w-9 sm:h-9 bg-blue-950 hover:bg-blue-900 text-cyan-300 border border-cyan-400/50 rounded-xl text-xs font-bold font-hud transition flex items-center justify-center shadow">
         <i class="fa-solid fa-rotate-right"></i>
       </button>
-      <!-- Butang Jeda (Pause) -->
-      <button onclick="togglePauseGame()" title="Jeda Permainan" class="w-8 h-8 sm:w-9 sm:h-9 bg-blue-950 hover:bg-blue-900 text-amber-300 border border-amber-400/50 rounded-xl text-xs font-bold font-hud transition flex items-center justify-center shadow" aria-label="Pause">
+      <button onclick="togglePauseGame()" title="Jeda Permainan" class="w-8 h-8 sm:w-9 sm:h-9 bg-blue-950 hover:bg-blue-900 text-amber-300 border border-amber-400/50 rounded-xl text-xs font-bold font-hud transition flex items-center justify-center shadow">
         <i id="pauseIcon" class="fa-solid fa-pause"></i>
       </button>
-      <!-- Butang Admin -->
       <button onclick="openAdminModal()" title="Panel Pentadbir" class="px-2.5 sm:px-3 py-1.5 bg-blue-950 hover:bg-blue-900 text-cyan-300 border border-cyan-500/40 rounded-xl text-[11px] sm:text-xs font-bold font-hud transition flex items-center gap-1 shadow">
         <i class="fa-solid fa-shield-halved text-amber-400"></i>
         <span>ADMIN</span>
       </button>
-      <!-- Audio Toggle -->
-      <button id="soundBtn" onclick="toggleSound()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-950 hover:bg-blue-900 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-xs transition" aria-label="Audio">
+      <button id="soundBtn" onclick="toggleSound()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-950 hover:bg-blue-900 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-xs transition">
         <i class="fa-solid fa-volume-high"></i>
       </button>
     </div>
@@ -233,10 +215,14 @@
       
       <!-- Top HUD Banner[cite: 5] -->
       <div class="w-full hud-panel rounded-2xl px-2 sm:px-3 py-1 sm:py-1.5 mb-1.5 flex flex-wrap items-center justify-between gap-1 sm:gap-2">
-        <div class="flex items-center space-x-1">
+        <div class="flex items-center space-x-1.5">
           <div class="bg-gradient-to-r from-blue-600 to-cyan-500 px-2 py-0.5 rounded-lg border border-cyan-300 font-hud font-extrabold text-[10px] sm:text-xs tracking-wider shadow">
             EJEN <span class="text-amber-300">VITA-X</span>
           </div>
+          <!-- Lencana Level Semasa -->
+          <span id="hudLevelBadge" class="bg-amber-400 text-slate-950 font-hud font-black px-2 py-0.5 rounded-md text-[10px] sm:text-xs shadow">
+            LVL 1/20
+          </span>
         </div>
 
         <!-- Tenaga & Nyawa -->
@@ -265,33 +251,33 @@
           <span id="hudScore" class="font-hud font-extrabold text-amber-300 text-xs sm:text-sm tracking-wider">0000</span>
         </div>
 
-        <!-- 4 Ikon Status Kuasa Nutrien (0/1) -->
+        <!-- 4 Ikon Status Kuasa Nutrien (0/1)[cite: 5] -->
         <div class="flex items-center space-x-1.5 bg-black/60 px-2 py-0.5 rounded-xl border border-cyan-400/40">
           <span class="text-[9px] font-hud font-bold text-sky-300 hidden sm:inline">Kuasa:</span>
           
-          <div id="badgeNutri1" class="flex items-center space-x-0.5 opacity-40 transition-opacity" title="Tenaga: Pisang">
-            <span class="text-xs">🍌</span>
+          <div id="badgeNutri1" class="flex items-center space-x-0.5 opacity-40 transition-opacity">
+            <span id="badgeIcon1" class="text-xs">🍌</span>
             <span id="badgeCount1" class="text-[9px] font-hud font-bold text-white">0/1</span>
           </div>
-          <div id="badgeNutri2" class="flex items-center space-x-0.5 opacity-40 transition-opacity" title="Kekuatan: Telur">
-            <span class="text-xs">🥚</span>
+          <div id="badgeNutri2" class="flex items-center space-x-0.5 opacity-40 transition-opacity">
+            <span id="badgeIcon2" class="text-xs">🥚</span>
             <span id="badgeCount2" class="text-[9px] font-hud font-bold text-white">0/1</span>
           </div>
-          <div id="badgeNutri3" class="flex items-center space-x-0.5 opacity-40 transition-opacity" title="Perlindungan: Brokoli">
-            <span class="text-xs">🥦</span>
+          <div id="badgeNutri3" class="flex items-center space-x-0.5 opacity-40 transition-opacity">
+            <span id="badgeIcon3" class="text-xs">🥦</span>
             <span id="badgeCount3" class="text-[9px] font-hud font-bold text-white">0/1</span>
           </div>
-          <div id="badgeNutri4" class="flex items-center space-x-0.5 opacity-40 transition-opacity" title="Hidrasi: Air">
-            <span class="text-xs">💧</span>
+          <div id="badgeNutri4" class="flex items-center space-x-0.5 opacity-40 transition-opacity">
+            <span id="badgeIcon4" class="text-xs">💧</span>
             <span id="badgeCount4" class="text-[9px] font-hud font-bold text-white">0/1</span>
           </div>
         </div>
 
-        <!-- Misi Progres -->
-        <div class="flex items-center space-x-1 bg-blue-900/60 px-2 py-0.5 rounded-xl border border-sky-400/40">
-          <div class="flex flex-col">
-            <span class="text-[8px] font-hud font-bold text-cyan-300 leading-tight">Neo-City</span>
-            <div class="w-10 sm:w-14 h-1.5 bg-black/80 rounded-full overflow-hidden mt-0.5">
+        <!-- Tajuk & Progres Misi Level -->
+        <div class="flex items-center space-x-1 bg-blue-900/60 px-2 py-0.5 rounded-xl border border-sky-400/40 max-w-[130px] sm:max-w-none truncate">
+          <div class="flex flex-col truncate">
+            <span id="hudMissionTitle" class="text-[8px] sm:text-[9px] font-hud font-bold text-cyan-300 leading-tight truncate">Level 1: Taman Neo-City</span>
+            <div class="w-12 sm:w-16 h-1.5 bg-black/80 rounded-full overflow-hidden mt-0.5">
               <div id="missionProgressBar" class="h-full bg-cyan-400" style="width: 5%;"></div>
             </div>
           </div>
@@ -303,12 +289,12 @@
       <div class="canvas-container relative w-full aspect-[16/9] max-h-[460px] rounded-2xl overflow-hidden border-2 border-sky-500/50 bg-slate-950 flex items-center justify-center">
         <canvas id="gameCanvas" class="w-full h-full block"></canvas>
         
-        <!-- Papan Info VITA-BOT -->
-        <div class="pointer-events-none absolute top-2 left-2 flex items-start space-x-2 max-w-[200px] sm:max-w-xs">
+        <!-- Papan Info VITA-BOT[cite: 5] -->
+        <div class="pointer-events-none absolute top-2 left-2 flex items-start space-x-2 max-w-[210px] sm:max-w-xs">
           <img src="https://api.dicebear.com/7.x/bottts/svg?seed=VitaBot&backgroundColor=0284c7" alt="VITA-BOT" class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl border border-cyan-400 bg-slate-900/90 shadow-lg flex-shrink-0" />
           <div class="bg-slate-900/90 border border-cyan-400/80 rounded-xl px-2 py-0.5 shadow-lg text-[8px] sm:text-[10px] text-cyan-200 leading-snug">
             <span class="font-hud font-extrabold text-amber-300 block">VITA-BOT:</span>
-            <span id="vitaBotMsg">Kumpul 4 makanan berkhasiat, aktifkan kuasa dan pergi ke portal!</span>
+            <span id="vitaBotMsg">Imbas 4 makanan nutrien, aktifkan portal penamat!</span>
           </div>
         </div>
 
@@ -318,9 +304,8 @@
         </div>
       </div>
 
-      <!-- PANEL KAWALAN SKRIN SENTUH TELEFON (VIRTUAL GAMEPAD)[cite: 4, 5] -->
+      <!-- PANEL KAWALAN SKRIN SENTUH TELEFON[cite: 4, 5] -->
       <div class="controls-container w-full flex items-center justify-between px-2 sm:px-6 pt-2 pb-0.5 select-none">
-        <!-- Pad Arah Kiri -->
         <div class="flex items-center space-x-2 sm:space-x-4">
           <button id="btnLeft" class="touch-pad-btn w-13 h-13 sm:w-16 sm:h-16 rounded-2xl flex flex-col items-center justify-center text-white text-2xl shadow-xl active:scale-90" aria-label="Gerak Kiri">
             <i class="fa-solid fa-caret-left text-xl sm:text-3xl text-cyan-200"></i>
@@ -332,7 +317,6 @@
           </button>
         </div>
 
-        <!-- Pad Tindakan Kanan[cite: 4, 5] -->
         <div class="flex items-center space-x-2 sm:space-x-4">
           <button id="btnScanTouch" class="touch-pad-btn action-scan-btn w-13 h-13 sm:w-16 sm:h-16 rounded-2xl flex flex-col items-center justify-center text-white shadow-xl active:scale-90" aria-label="Imbas Makanan">
             <i class="fa-solid fa-qrcode text-lg sm:text-2xl text-emerald-100"></i>
@@ -348,7 +332,7 @@
     </div>
   </main>
 
-  <!-- SKRIN MULA / START SCREEN (FIXED OVERLAY DENGAN BUTANG REFRESH JELAS) -->
+  <!-- SKRIN MULA (START SCREEN: PILIH DARI LEVEL 1 HINGGA 20) -->
   <div id="startScreen" class="fixed inset-0 bg-slate-950/95 z-50 backdrop-blur-md mobile-scroll-screen p-4 flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-sm flex flex-col items-center py-6 text-center">
       
@@ -356,52 +340,93 @@
         VITA-X
       </div>
       <h2 class="text-2xl sm:text-3xl font-black font-hud text-cyan-300 tracking-wider mb-0.5">
-        EJEN VITA-X: MISI KUASA NUTRISI
+        EJEN VITA-X: 20 LEVEL MISI
       </h2>
-      <p id="regSchoolName" class="text-xs font-bold text-sky-400 mb-4 tracking-wide font-hud">
+      <p id="regSchoolName" class="text-xs font-bold text-sky-400 mb-3 tracking-wide font-hud">
         SMK KAMARUL ARIFFIN
       </p>
 
-      <div class="w-full space-y-3 mb-4 text-left">
+      <div class="w-full space-y-2.5 mb-4 text-left">
         <div>
           <label class="text-xs font-bold text-sky-300 font-hud">NAMA EJEN / PESERTA</label>
-          <input type="text" id="inputPlayerName" placeholder="Contoh: Ejen Adam" class="w-full px-3.5 py-2.5 bg-slate-900 border-2 border-cyan-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
+          <input type="text" id="inputPlayerName" placeholder="Contoh: Ejen Adam" class="w-full px-3.5 py-2 bg-slate-900 border-2 border-cyan-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
         </div>
         <div>
           <label class="text-xs font-bold text-sky-300 font-hud">KELAS / TINGKATAN</label>
-          <input type="text" id="inputPlayerClass" placeholder="Contoh: 1 Wira / Tingkatan 1" class="w-full px-3.5 py-2.5 bg-slate-900 border-2 border-cyan-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
+          <input type="text" id="inputPlayerClass" placeholder="Contoh: 1 Wira / Tingkatan 1" class="w-full px-3.5 py-2 bg-slate-900 border-2 border-cyan-500/50 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400 transition" />
+        </div>
+        <!-- Pilihan Mula Dari Level 1 Hingga 20 -->
+        <div>
+          <label class="text-xs font-bold text-amber-300 font-hud">PILIH LEVEL MISI (1 - 20)</label>
+          <select id="selectStartLevel" class="w-full px-3 py-2 bg-slate-900 border-2 border-amber-400/60 rounded-xl text-amber-300 text-xs font-hud font-bold focus:outline-none transition">
+            <!-- Dijana Secara Automatik Dari 1 hingga 20 -->
+          </select>
         </div>
       </div>
 
-      <!-- Butang Mula & Butang Refresh Utama -->
       <div class="w-full space-y-2 mb-3">
-        <button onclick="startGame()" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black font-hud text-base sm:text-lg rounded-2xl shadow-xl shadow-cyan-500/50 transition transform active:scale-95 flex items-center justify-center gap-2 border border-cyan-300/60">
+        <button onclick="startGame()" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black font-hud text-base rounded-2xl shadow-xl shadow-cyan-500/50 transition transform active:scale-95 flex items-center justify-center gap-2 border border-cyan-300/60">
           <i class="fa-solid fa-play"></i>
           <span>MULA MISI (START)</span>
         </button>
 
-        <!-- Butang Refresh Main Page -->
-        <button onclick="refreshGamePage()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-sky-300 font-hud font-bold text-xs sm:text-sm rounded-xl border border-cyan-500/40 shadow transition flex items-center justify-center gap-2 active:scale-95">
+        <button onclick="refreshGamePage()" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-sky-300 font-hud font-bold text-xs rounded-xl border border-cyan-500/40 shadow transition flex items-center justify-center gap-2 active:scale-95">
           <i class="fa-solid fa-rotate-right text-amber-400"></i>
           <span>MUAT SEMULA LAMAN (REFRESH)</span>
         </button>
       </div>
 
-      <div class="mt-2 grid grid-cols-2 gap-2 text-[11px] text-sky-200/90 w-full text-left">
-        <div class="bg-blue-950/70 p-2.5 rounded-xl border border-cyan-500/30">
-          <span class="text-amber-300 font-extrabold block">🔄 Mod Horizontal:</span>
-          Tekan butang kuning di atas untuk pusing skrin melintang & muatkan paparan penuh.
+      <div class="mt-2 grid grid-cols-2 gap-2 text-[10px] text-sky-200/90 w-full text-left">
+        <div class="bg-blue-950/70 p-2 rounded-xl border border-cyan-500/30">
+          <span class="text-amber-300 font-extrabold block">🎮 20 Level Penuh:</span>
+          Setiap level mengandungi cabaran nutrien berbeza.
         </div>
-        <div class="bg-blue-950/70 p-2.5 rounded-xl border border-cyan-500/30">
-          <span class="text-cyan-400 font-extrabold block">🎯 Misi Anda:</span>
-          Imbas 4 makanan berkhasiat & masuk ke portal penamat[cite: 5].
+        <div class="bg-blue-950/70 p-2 rounded-xl border border-cyan-500/30">
+          <span class="text-cyan-400 font-extrabold block">🔄 Mod Skrin:</span>
+          Tekan butang kuning di atas untuk pusing horizontal.
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- POP-UP MODAL PENGIMBAS NUTRISI (FIXED OVERLAY)[cite: 5] -->
+  <!-- SKRIN TAHNIAH SELESAI LEVEL (PERALIHAN LEVEL 1 -> 20)[cite: 4] -->
+  <div id="levelClearScreen" class="hidden fixed inset-0 bg-slate-950/95 z-50 backdrop-blur-md mobile-scroll-screen p-4 flex flex-col items-center justify-start sm:justify-center">
+    <div class="my-auto w-full max-w-sm flex flex-col items-center py-6 text-center">
+      <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-400 to-yellow-300 border-2 border-yellow-200 flex items-center justify-center text-slate-950 text-2xl mb-1 shadow-lg shadow-yellow-500/40 animate-bounce">
+        ⭐
+      </div>
+      <h3 id="lvlClearTitle" class="text-xl sm:text-2xl font-black font-hud text-amber-300 mb-0.5">LEVEL 1 SELESAI!</h3>
+      <p id="lvlClearSub" class="text-xs text-emerald-400 font-bold mb-3">Portal Aktif & Semua 4 Nutrien Berjaya Diimbas![cite: 4, 5]</p>
+      
+      <div class="w-full bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-3 mb-4 text-xs text-left">
+        <div class="flex justify-between py-1 border-b border-slate-800">
+          <span class="text-sky-300">Level Tamat:</span>
+          <span id="lvlClearName" class="font-bold text-white">-</span>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-800">
+          <span class="text-sky-300">Skor Terkumpul:</span>
+          <span id="lvlClearScore" class="font-hud font-bold text-amber-300 text-sm">0</span>
+        </div>
+        <div class="flex justify-between py-1">
+          <span class="text-sky-300">Baki Tenaga:</span>
+          <span id="lvlClearEnergy" class="font-bold text-green-400">80/100</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2 w-full">
+        <button onclick="goToNextLevel()" class="w-full py-3 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 text-slate-950 font-black font-hud text-sm sm:text-base rounded-xl shadow-xl transition flex items-center justify-center gap-2">
+          <span>TERUSKAN KE LEVEL SETERUSNYA</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <button onclick="backToMenu()" class="w-full py-2 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-bold font-hud text-xs rounded-xl transition">
+          KEMBALI KE MENU
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POP-UP MODAL PENGIMBAS NUTRISI[cite: 5] -->
   <div id="modalPengimbas" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 p-4 mobile-scroll-screen flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-lg bg-slate-900 border-2 border-cyan-400 rounded-3xl p-4 sm:p-6 shadow-2xl relative text-left">
       
@@ -418,16 +443,16 @@
       <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 mb-4">
         <div class="sm:col-span-3 space-y-2">
           <p id="quizQuestion" class="text-xs sm:text-sm font-bold text-white mb-2">
-            Apakah fungsi utama karbohidrat?[cite: 5]
+            Apakah fungsi utama nutrien ini?
           </p>
           <div id="quizOptionsContainer" class="space-y-1.5"></div>
         </div>
 
         <div class="sm:col-span-2 bg-blue-950/70 border border-cyan-500/30 rounded-2xl p-2.5 text-xs flex flex-col justify-between">
           <div>
-            <span class="font-hud font-bold text-amber-300 block mb-1">MAKLUMAT:</span>
+            <span class="font-hud font-bold text-amber-300 block mb-1">MAKLUMAT SAINS:</span>
             <p id="quizFactText" class="text-[10px] sm:text-[11px] text-sky-200 leading-tight">
-              Karbohidrat ialah sumber tenaga utama badan[cite: 5].
+              Sumber nutrisi penting untuk kesihatan optimum.
             </p>
           </div>
           <div id="quizResultStatus" class="mt-2 text-center font-hud font-bold text-[11px] py-1 px-2 rounded-xl bg-black/40 text-sky-300">
@@ -445,14 +470,14 @@
     </div>
   </div>
 
-  <!-- SKRIN KEJAYAAN (FIXED OVERLAY)[cite: 4] -->
+  <!-- SKRIN KEMENANGAN AKHIR LEVEL 20 (MEGA VICTORY)[cite: 4] -->
   <div id="victoryScreen" class="hidden fixed inset-0 bg-slate-950/95 z-50 backdrop-blur-md mobile-scroll-screen p-4 flex flex-col items-center justify-start sm:justify-center">
-    <div class="my-auto w-full max-w-xs flex flex-col items-center py-6 text-center">
-      <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-400 text-2xl mb-1 animate-bounce">
+    <div class="my-auto w-full max-w-sm flex flex-col items-center py-6 text-center">
+      <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-400 text-3xl mb-2 animate-bounce">
         🏆
       </div>
-      <h3 class="text-xl sm:text-2xl font-black font-hud text-amber-300 mb-0.5">TAHNIAH! MISI BERJAYA![cite: 4]</h3>
-      <p class="text-[11px] sm:text-xs text-emerald-400 font-bold mb-3">4 Kuasa Nutrien Berjaya Diaktifkan & Sampai ke Portal[cite: 4, 5]</p>
+      <h3 class="text-2xl sm:text-3xl font-black font-hud text-amber-300 mb-0.5">TAHNIAH! SEMUA 20 LEVEL TAMAT![cite: 4]</h3>
+      <p class="text-xs text-emerald-400 font-bold mb-3">Anda adalah Wira Nutrisi Sejati EJEN VITA-X![cite: 4]</p>
       
       <div class="w-full bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-3 mb-4 text-xs text-left">
         <div class="flex justify-between py-1 border-b border-slate-800">
@@ -460,12 +485,8 @@
           <span id="vicPlayerName" class="font-bold text-white">-</span>
         </div>
         <div class="flex justify-between py-1 border-b border-slate-800">
-          <span class="text-sky-300">Skor Misi:</span>
+          <span class="text-sky-300">Jumlah Skor 20 Level:</span>
           <span id="vicFinalScore" class="font-hud font-bold text-amber-300 text-sm">0</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-800">
-          <span class="text-sky-300">Masa Operasi:</span>
-          <span id="vicTimeTaken" class="font-bold text-white">0s</span>
         </div>
         <div class="flex justify-between py-1">
           <span class="text-sky-300">Status Google Sheet:</span>
@@ -474,7 +495,7 @@
       </div>
 
       <div class="flex gap-2 w-full">
-        <button onclick="restartGame()" class="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-white font-black font-hud text-xs sm:text-sm rounded-xl shadow-lg transition">
+        <button onclick="startGame()" class="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-white font-black font-hud text-xs sm:text-sm rounded-xl shadow-lg transition">
           MAIN SEMULA
         </button>
         <button onclick="backToMenu()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-bold font-hud text-xs sm:text-sm rounded-xl transition">
@@ -484,18 +505,18 @@
     </div>
   </div>
 
-  <!-- SKRIN MISI GAGAL (FIXED OVERLAY) -->
+  <!-- SKRIN MISI GAGAL -->
   <div id="gameOverScreen" class="hidden fixed inset-0 bg-slate-950/95 z-50 backdrop-blur-md mobile-scroll-screen p-4 flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-xs flex flex-col items-center py-6 text-center">
       <div class="w-12 h-12 rounded-2xl bg-red-600/30 border border-red-500/50 flex items-center justify-center text-red-400 text-2xl mb-2 animate-pulse">
         <i class="fa-solid fa-heart-crack"></i>
       </div>
       <h3 class="text-xl font-black font-hud text-red-400 mb-0.5">MISI GAGAL!</h3>
-      <p id="failReasonText" class="text-xs text-amber-300 font-bold mb-4">Kehabisan Tenaga atau Terkena Serangan</p>
+      <p id="failReasonText" class="text-xs text-amber-300 font-bold mb-4">Kehabisan Tenaga atau Nyawa</p>
 
       <div class="flex gap-2 w-full">
-        <button onclick="restartGame()" class="flex-1 py-2.5 bg-gradient-to-r from-red-600 to-orange-500 text-white font-black font-hud text-xs sm:text-sm rounded-xl shadow-lg transition">
-          CUBA LAGI
+        <button onclick="restartCurrentLevel()" class="flex-1 py-2.5 bg-gradient-to-r from-red-600 to-orange-500 text-white font-black font-hud text-xs sm:text-sm rounded-xl shadow-lg transition">
+          CUBA LAGI LEVEL INI
         </button>
         <button onclick="backToMenu()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-bold font-hud text-xs sm:text-sm rounded-xl transition">
           MENU
@@ -504,7 +525,7 @@
     </div>
   </div>
 
-  <!-- PANEL ADMIN (FIXED OVERLAY) -->
+  <!-- PANEL ADMIN -->
   <div id="adminModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 p-4 mobile-scroll-screen flex flex-col items-center justify-start sm:justify-center">
     <div class="my-auto w-full max-w-md bg-slate-950 border-2 border-cyan-500 rounded-3xl p-5 shadow-2xl relative text-left">
       <div class="flex justify-between items-center pb-3 border-b border-cyan-500/30 mb-4">
@@ -518,7 +539,7 @@
       </div>
 
       <div id="adminAuthSection" class="space-y-3">
-        <p class="text-xs text-sky-300">Sila masukkan kata laluan admin:</p>
+        <p class="text-xs text-sky-300">Masukkan kata laluan admin:</p>
         <input type="password" id="adminPasswordInput" placeholder="Kata laluan admin" class="w-full px-3 py-2 bg-slate-900 border border-cyan-500/40 rounded-xl text-white text-sm focus:outline-none focus:border-amber-400" />
         <button onclick="verifyAdminPassword()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold font-hud rounded-xl transition text-sm">
           LOG MASUK
@@ -551,10 +572,10 @@
   </div>
 
   <footer class="mt-2 text-[10px] sm:text-[11px] text-sky-400/70 text-center font-hud">
-    EJEN VITA-X Prototaip v1.0 &bull; RBT & Gamifikasi Digital &bull; SMK Kamarul Ariffin[cite: 4]
+    EJEN VITA-X Prototaip v1.0 &bull; Modul Gamifikasi Sains & RBT Tingkatan 1[cite: 2, 4] &bull; SMK Kamarul Ariffin
   </footer>
 
-  <!-- SISTEM AUDIO 8-BIT SINTETIK -->
+  <!-- SISTEM AUDIO SINTETIK 8-BIT -->
   <script>
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
@@ -693,7 +714,13 @@
       egg: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f95a.svg'),
       broccoli: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f966.svg'),
       water: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f4a7.svg'),
+      apple: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f34e.svg'),
+      fish: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f41f.svg'),
+      milk: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f95b.svg'),
+      bread: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f35e.svg'),
       burgerEnemy: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f354.svg'),
+      friesEnemy: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f35f.svg'),
+      sodaEnemy: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f964.svg'),
       coin: loadSvgImage('https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1fa99.svg')
     };
 
@@ -719,7 +746,7 @@
     heroImg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(HERO_SVG.trim());
   </script>
 
-  <!-- ENJIN UTAMA PERMAINAN & KAWALAN ORIENTASI -->
+  <!-- DATA 20 LEVEL EJEN VITA-X & ENJIN PERMAINAN -->
   <script>
     const DEFAULT_CONFIG = {
       schoolName: "SMK KAMARUL ARIFFIN",
@@ -729,6 +756,310 @@
     };
 
     let config = { ...DEFAULT_CONFIG };
+
+    // DEFINISI PENUH 20 LEVEL BERJADUAL
+    const GAME_LEVELS = [
+      {
+        level: 1,
+        title: "Taman Neo-City (Asas Nutrisi)",
+        zone: "Zon 1: Asas Makronutrien",
+        portalX: 2200,
+        skyColors: ['#02182b', '#03395c', '#0e6288'],
+        enemyCount: 3,
+        enemySpeed: 1.2,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Pisang (Karbohidrat)', q: 'Apakah fungsi utama karbohidrat?', fact: 'Karbohidrat ialah sumber tenaga utama.', opts: [{t:'Membekalkan tenaga aktiviti', c:true}, {t:'Membina sel otot luka', c:false}, {t:'Menjaga suhu badan', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Telur (Protein)', q: 'Apakah fungsi utama protein?', fact: 'Protein penting bagi pembinaan sel & tisu.', opts: [{t:'Penebat haba kulit', c:false}, {t:'Membina sel dan baiki tisu otot', c:true}, {t:'Melarutkan vitamin C', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Brokoli (Vitamin & Serat)', q: 'Mengapakah brokoli penting?', fact: 'Sayur mengandungi serat lancar pencernaan.', opts: [{t:'Serat pencernaan & imuniti', c:true}, {t:'Tambah kolesterol', c:false}, {t:'Ganti minum air', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Kosong (Hidrasi)', q: 'Berapa saranan minum air kosong sehari?', fact: 'Air mengawal suhu tubuh & angkut nutrien.', opts: [{t:'1 gelas seminggu', c:false}, {t:'6 hingga 8 gelas sehari', c:true}, {t:'Bila tekak pedih sahaja', c:false}] }
+        ]
+      },
+      {
+        level: 2,
+        title: "Lembah Karbohidrat Kompleks",
+        zone: "Zon 1: Asas Makronutrien",
+        portalX: 2300,
+        skyColors: ['#031d38', '#074872', '#1b7999'],
+        enemyCount: 3,
+        enemySpeed: 1.3,
+        quizzes: [
+          { id: 'pisang', icon: '🍞', sprite: 'bread', name: 'Roti Gandum Penuh', q: 'Apakah kelebihan karbohidrat kompleks berbanding gula ringkas?', fact: 'Karbohidrat kompleks melepaskan tenaga secara beransur-ansur.', opts: [{t:'Memberi rasa kenyang lebih lama & tenaga berpanjangan', c:true}, {t:'Menaikkan gula darah mendadak', c:false}, {t:'Merangsang gigi cepat rosak', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Telur Rebus', q: 'Berapa gram protein anggaran dalam sebiji telur gred A?', fact: 'Sebiji telur membekalkan sekitar 6-7g protein berkualiti tinggi.', opts: [{t:'Sekitar 6 hingga 7 gram', c:true}, {t:'50 gram', c:false}, {t:'0 gram', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Bayam & Brokoli', q: 'Apakah mineral penting dalam sayur berdaun hijau gelap?', fact: 'Bayam & brokoli kaya dengan zat besi pembina hemoglobin darah.', opts: [{t:'Zat Besi (Iron)', c:true}, {t:'Natrium garam', c:false}, {t:'Sulfur toksik', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Mineral Segar', q: 'Apakah simptom utama kekurangan air (dehidrasi)?', fact: 'Dehidrasi menyebabkan sakit kepala, letih dan air kencing pekat.', opts: [{t:'Rasa bertenaga berlebihan', c:false}, {t:'Sakit kepala, letih & dahaga', c:true}, {t:'Suhu badan menurun mendadak', c:false}] }
+        ]
+      },
+      {
+        level: 3,
+        title: "Kubu Protein Perkasa",
+        zone: "Zon 1: Asas Makronutrien",
+        portalX: 2400,
+        skyColors: ['#021226', '#093a5e', '#166280'],
+        enemyCount: 4,
+        enemySpeed: 1.4,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Ubi Keledek', q: 'Ubi keledek mengandungi karbohidrat dan kaya dengan vitamin apakah?', fact: 'Ubi keledek kaya dengan Vitamin A untuk kesihatan mata.', opts: [{t:'Vitamin A', c:true}, {t:'Vitamin K semata-mata', c:false}, {t:'Tiada vitamin', c:false}] },
+          { id: 'telur', icon: '🐟', sprite: 'fish', name: 'Ikan Tenggiri', q: 'Ikan membekalkan protein dan asid lemak penting bernama?', fact: 'Ikan membekalkan asid lemak Omega-3 untuk otak dan jantung.', opts: [{t:'Asid Lemak Trans', c:false}, {t:'Asid Lemak Omega-3', c:true}, {t:'Kolesterol jahat', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Brokoli Hijau', q: 'Apakah vitamin dalam brokoli yang membantu penyerapan zat besi?', fact: 'Vitamin C meningkatkan penyerapan zat besi dalam usus.', opts: [{t:'Vitamin C', c:true}, {t:'Vitamin D', c:false}, {t:'Kalsium', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Elektrolit Semula Jadi', q: 'Apakah minuman semula jadi kaya elektrolit untuk hidrasi?', fact: 'Air kelapa kaya kalium dan natrium semula jadi.', opts: [{t:'Air kelapa muda', c:true}, {t:'Air soda berkarbonat', c:false}, {t:'Kopi manis pekat', c:false}] }
+        ]
+      },
+      {
+        level: 4,
+        title: "Dusun Vitamin & Mineral",
+        zone: "Zon 1: Asas Makronutrien",
+        portalX: 2400,
+        skyColors: ['#011b2b', '#07486e', '#1e788e'],
+        enemyCount: 4,
+        enemySpeed: 1.45,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Pisang Emas', q: 'Mineral apakah dalam pisang yang mengelakkan kekejangan otot?', fact: 'Kalium (Potassium) dalam pisang mengawal fungsi otot dan saraf.', opts: [{t:'Kalium (Potassium)', c:true}, {t:'Klorin', c:false}, {t:'Merkuri', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Telur Separuh Masak', q: 'Bahagian telur manakah yang mengandungi paling banyak protein?', fact: 'Putih telur (albumen) mengandungi hampir seluruh protein tanpa lemak.', opts: [{t:'Putih telur', c:true}, {t:'Kulit telur', c:false}, {t:'Hanya kuning telur', c:false}] },
+          { id: 'brokoli', icon: '🍎', sprite: 'apple', name: 'Epal Merah', q: 'Pepatah "An apple a day..." merujuk kepada khasiat apa pada epal?', fact: 'Epal kaya antioksidan dan serat pektin untuk kesihatan jantung.', opts: [{t:'Serat pektin & antioksidan', c:true}, {t:'Kandungan minyak tinggi', c:false}, {t:'Bahan pengawet', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Suam', q: 'Mengapakah minum air kosong secukupnya penting semasa bersenam?', fact: 'Air menggantikan peluh yang hilang untuk mengelak strok haba.', opts: [{t:'Mengelakkan strok haba & kekejangan', c:true}, {t:'Menambahkan berat badan serta-merta', c:false}, {t:'Menghalang pernafasan', c:false}] }
+        ]
+      },
+      {
+        level: 5,
+        title: "Puncak Hidrasi Tulen",
+        zone: "Zon 1: Asas Makronutrien",
+        portalX: 2500,
+        skyColors: ['#031427', '#083a63', '#16698f'],
+        enemyCount: 4,
+        enemySpeed: 1.5,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Oatmeal Bertenaga', q: 'Oatmeal tergolong dalam karbohidrat yang kaya dengan serat?', fact: 'Oat kaya dengan beta-glukan yang menurunkan kolesterol darah.', opts: [{t:'Beta-glukan pelindung jantung', c:true}, {t:'Lemak tepu beku', c:false}, {t:'Garam natrium', c:false}] },
+          { id: 'telur', icon: '🥛', sprite: 'milk', name: 'Susu Segar', q: 'Susu membekalkan protein dan mineral kalsium untuk?', fact: 'Kalsium membina ketumpatan tulang dan gigi yang kuat.', opts: [{t:'Kekuatan tulang dan gigi', c:true}, {t:'Menaikkan suhu badan', c:false}, {t:'Merencatkan sel otak', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Brokoli Kukus', q: 'Mengapa brokoli lebih baik dikukus berbanding digoreng?', fact: 'Mengukus mengekalkan nutrien larut air dan vitamin C.', opts: [{t:'Mengekalkan nutrien dan tanpa minyak berlebihan', c:true}, {t:'Supaya rasanya masin', c:false}, {t:'Untuk mematikan semua serat', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Bersih', q: 'Berapa peratus anggaran tubuh manusia terdiri daripada air?', fact: 'Kira-kira 60% hingga 70% tubuh manusia ialah air.', opts: [{t:'Sekitar 60% - 70%', c:true}, {t:'Hanya 10%', c:false}, {t:'99%', c:false}] }
+        ]
+      },
+      {
+        level: 6,
+        title: "Dataran Suku-Suku Separuh",
+        zone: "Zon 2: Pinggan Sihat & Piramid",
+        portalX: 2500,
+        skyColors: ['#021b2b', '#0d4a5c', '#1f7e75'],
+        enemyCount: 4,
+        enemySpeed: 1.5,
+        quizzes: [
+          { id: 'pisang', icon: '🍚', sprite: 'banana', name: 'Suku Karbohidrat', q: 'Dalam konsep Pinggan Sihat Malaysia, berapa bahagian pinggan untuk nasi?', fact: 'Suku pinggan diperuntukkan untuk bijirin seperti nasi/roti.', opts: [{t:'Suku (1/4) Pinggan', c:true}, {t:'Penuh pinggan', c:false}, {t:'Separuh pinggan', c:false}] },
+          { id: 'telur', icon: '🍗', sprite: 'egg', name: 'Suku Protein', q: 'Berapa bahagian pinggan untuk ikan, ayam atau telur?', fact: 'Suku pinggan (1/4) diperuntukkan untuk lauk protein.', opts: [{t:'Suku (1/4) Pinggan', c:true}, {t:'Tiga suku pinggan', c:false}, {t:'Tiada langsung', c:false}] },
+          { id: 'brokoli', icon: '🥗', sprite: 'broccoli', name: 'Separuh Sayur & Buah', q: 'Berapa bahagian pinggan perlu dipenuhi sayur-sayuran dan buah?', fact: 'Separuh (1/2) pinggan wajib diisi sayur-sayuran dan buah-buahan!', opts: [{t:'Separuh (1/2) Pinggan', c:true}, {t:'Hanya satu sudu', c:false}, {t:'Suku pinggan', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Kosong Pengiring', q: 'Minuman terbaik sebagai pengiring pinggan sihat ialah?', fact: 'Air kosong ialah pilihan sifar kalori terbaik.', opts: [{t:'Air kosong / mineral', c:true}, {t:'Teh tarik manis', c:false}, {t:'Minuman tenaga gas', c:false}] }
+        ]
+      },
+      {
+        level: 7,
+        title: "Zon Serat Pelawas",
+        zone: "Zon 2: Pinggan Sihat & Piramid",
+        portalX: 2500,
+        skyColors: ['#061a1f', '#0c4440', '#1c7554'],
+        enemyCount: 5,
+        enemySpeed: 1.55,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Pisang Berangan', q: 'Apakah fungsi serat tidak larut air dalam sistem pencernaan?', fact: 'Serat melawaskan pembuangan dan mencegah masalah sembelit.', opts: [{t:'Mencegah sembelit & lancarkan usus', c:true}, {t:'Menghakis dinding perut', c:false}, {t:'Menghentikan pencernaan', c:false}] },
+          { id: 'telur', icon: '🥜', sprite: 'egg', name: 'Kekacang & Protein', q: 'Kekacang seperti badam dan kacang tanah membekalkan apa selain protein?', fact: 'Kekacang membekalkan serat dan lemak sihat tak tepu.', opts: [{t:'Serat dan lemak tak tepu sihat', c:true}, {t:'Bahan kimia racun', c:false}, {t:'Gula buatan', c:false}] },
+          { id: 'brokoli', icon: '🥕', sprite: 'broccoli', name: 'Lobak Merah', q: 'Lobak merah mengandungi pigmen beta-karotena untuk kesihatan?', fact: 'Beta-karotena ditukar menjadi Vitamin A untuk ketajaman penglihatan.', opts: [{t:'Penglihatan mata yang tajam', c:true}, {t:'Mewarnakan kuku', c:false}, {t:'Menghilangkan gigi', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Cukup', q: 'Sekiranya makan banyak serat tetapi kurang minum air, apakah berlaku?', fact: 'Serat memerlukan air untuk berfungsi; kurang air menyebabkan sembelit.', opts: [{t:'Boleh menyebabkan najis keras & sembelit', c:true}, {t:'Badan menjadi terlalu kurus', c:false}, {t:'Tiada kesan langsung', c:false}] }
+        ]
+      },
+      {
+        level: 8,
+        title: "Makmal Kalsium & Tulang",
+        zone: "Zon 2: Pinggan Sihat & Piramid",
+        portalX: 2600,
+        skyColors: ['#021b33', '#0a4266', '#147094'],
+        enemyCount: 5,
+        enemySpeed: 1.6,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Beras Perang', q: 'Mengapa beras perang lebih bernutrisi daripada beras putih biasa?', fact: 'Beras perang mengekalkan lapisan kulit ari yang kaya vitamin B.', opts: [{t:'Kaya lapisan kulit ari, serat & vitamin B', c:true}, {t:'Beras perang tiada kalori', c:false}, {t:'Sebab ia manis bergula', c:false}] },
+          { id: 'telur', icon: '🧀', sprite: 'egg', name: 'Keju & Dadih', q: 'Kekurangan kalsium pada usia remaja boleh menyebabkan risiko?', fact: 'Kurang kalsium meningkatkan risiko tulang rapuh (osteoporosis).', opts: [{t:'Tulang rapuh (Osteoporosis)', c:true}, {t:'Gout', c:false}, {t:'Selesema', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Bunga Kubis', q: 'Sayur silangan seperti kubis dan brokoli kaya sebatian?', fact: 'Kaya sulforaphane yang membantu menentang kerosakan sel.', opts: [{t:'Antioksidan fitonutrien', c:true}, {t:'Minyak tepu', c:false}, {t:'Bahan kolesterol', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Bersih', q: 'Apakah warna air kencing yang menandakan badan terhidrasi dengan baik?', fact: 'Warna kuning cair atau jernih menandakan hidrasi cukup.', opts: [{t:'Kuning pucat atau jernih', c:true}, {t:'Kuning gelap pekat', c:false}, {t:'Warna merah pekat', c:false}] }
+        ]
+      },
+      {
+        level: 9,
+        title: "Lembah Lemak Baik",
+        zone: "Zon 2: Pinggan Sihat & Piramid",
+        portalX: 2600,
+        skyColors: ['#051829', '#0f3d57', '#1a6f8a'],
+        enemyCount: 5,
+        enemySpeed: 1.6,
+        quizzes: [
+          { id: 'pisang', icon: '🌽', sprite: 'banana', name: 'Jagung Segar', q: 'Jagung membekalkan karbohidrat dan pigmen lutein yang bagus untuk?', fact: 'Lutein dan zeaxanthin melindungi retina mata.', opts: [{t:'Kesihatan retina mata', c:true}, {t:'Kesihatan kuku kaki', c:false}, {t:'Tumbesaran misai', c:false}] },
+          { id: 'telur', icon: '🥑', sprite: 'egg', name: 'Buah Avokado', q: 'Avokado terkenal dengan kandungan lemak apakah?', fact: 'Avokado kaya lemak tak tepu tunggal yang mesra jantung.', opts: [{t:'Lemak sihat tak tepu (Monounsaturated)', c:true}, {t:'Lemak trans beracun', c:false}, {t:'Minyak gris jentera', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Brokoli Hijau', q: 'Berapa hidangan sayur disarankan diambil setiap hari?', fact: 'Kementerian Kesihatan menyarankan sekurang-kurangnya 3 hidangan sayur sehari.', opts: [{t:'Sekurang-kurangnya 3 hidangan sehari', c:true}, {t:'1 hidangan seminggu', c:false}, {t:'0 hidangan', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Mineral', q: 'Bolehkah minuman kopi dan teh manis menggantikan air kosong sepenuhnya?', fact: 'Kafein bersifat diuretik dan gula tambahan boleh memudaratkan.', opts: [{t:'Tidak boleh, kerana gula dan kafein boleh menyahhidratkan', c:true}, {t:'Boleh, rasanya lebih sedap', c:false}, {t:'Boleh, kopi tiada kesan', c:false}] }
+        ]
+      },
+      {
+        level: 10,
+        title: "Runtuhan Gula Tersembunyi",
+        zone: "Zon 2: Pinggan Sihat & Piramid",
+        portalX: 2700,
+        skyColors: ['#140b24', '#2d1447', '#501f66'],
+        enemyCount: 5,
+        enemySpeed: 1.65,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Pisang Asli', q: 'Mengapa gula semula jadi dalam buah lebih sihat daripada gula pasir?', fact: 'Buah mengandungi serat yang melambatkan penyerapan gula.', opts: [{t:'Disertai serat & mikronutrien penting', c:true}, {t:'Sebab buah tiada kalori langsung', c:false}, {t:'Sebab buah tidak manis', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Protein Tanpa Lemak', q: 'Kerap mengambil makanan bergula tinggi boleh membawa risiko penyakit?', fact: 'Pengambilan gula berlebihan boleh menyebabkan obesiti & diabetes melitus.', opts: [{t:'Diabetes Melitus (Kencing Manis) & Obesiti', c:true}, {t:'Rabun dekat', c:false}, {t:'Patah tulang', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Sayuran Hijau', q: 'Had pengambilan gula tambahan harian maksimum yang disyorkan WHO ialah?', fact: 'WHO menyarankan kurang daripada 10 sudu teh (atau 5 sudu teh untuk kesihatan optimum).', opts: [{t:'Tidak melebihi 10 sudu teh (50g) sehari', c:true}, {t:'50 sudu teh', c:false}, {t:'Sebanyak yang mampu', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Kosong Penyelamat', q: 'Berapa sudu teh anggaran gula dalam satu tin minuman berkarbonat?', fact: 'Satu tin soda mengandungi sehingga 7-9 sudu teh gula tersembunyi!', opts: [{t:'7 hingga 9 sudu teh gula', c:true}, {t:'0 sudu teh', c:false}, {t:'1/2 sudu teh', c:false}] }
+        ]
+      },
+      {
+        level: 11,
+        title: "Stesen Kiraan Kalori",
+        zone: "Zon 3: Kalori & Tenaga Seimbang",
+        portalX: 2700,
+        skyColors: ['#03182b', '#06395b', '#0d678d'],
+        enemyCount: 5,
+        enemySpeed: 1.7,
+        quizzes: [
+          { id: 'pisang', icon: '🍚', sprite: 'banana', name: 'Nasi Putih Segenggam', q: '1 gram karbohidrat membekalkan anggaran berapa nilai tenaga?', fact: '1 gram karbohidrat membekalkan 4 kilokalori (kcal).', opts: [{t:'4 kcal tenaga', c:true}, {t:'9 kcal tenaga', c:false}, {t:'20 kcal tenaga', c:false}] },
+          { id: 'telur', icon: '🥩', sprite: 'egg', name: 'Dada Ayam Bakar', q: '1 gram protein membekalkan anggaran berapa nilai tenaga?', fact: '1 gram protein membekalkan 4 kilokalori (kcal).', opts: [{t:'4 kcal tenaga', c:true}, {t:'9 kcal tenaga', c:false}, {t:'1 kcal tenaga', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Sayur Rendah Kalori', q: '1 gram lemak membekalkan anggaran berapa nilai tenaga?', fact: 'Lemak adalah padat tenaga, membekalkan 9 kilokalori setiap gram.', opts: [{t:'9 kcal tenaga', c:true}, {t:'2 kcal tenaga', c:false}, {t:'4 kcal tenaga', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Kosong', q: 'Berapakah jumlah kalori yang terkandung dalam segelas air kosong?', fact: 'Air kosong ialah 0 kcal (sifar kalori).', opts: [{t:'0 kcal (Sifar Kalori)', c:true}, {t:'100 kcal', c:false}, {t:'50 kcal', c:false}] }
+        ]
+      },
+      {
+        level: 12,
+        title: "Lintasan Garam & Natrium",
+        zone: "Zon 3: Kalori & Tenaga Seimbang",
+        portalX: 2800,
+        skyColors: ['#041d30', '#0a4261', '#146e8c'],
+        enemyCount: 5,
+        enemySpeed: 1.7,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Kentang Bakar Asli', q: 'Mengapa kentang rebus/bakar lebih baik berbanding kentang goreng cip?', fact: 'Kentang goreng mengandungi garam dan minyak teroksida yang tinggi.', opts: [{t:'Bebas lebihan garam natrium dan minyak trans', c:true}, {t:'Kerana cip kentang ada racun', c:false}, {t:'Kentang bakar tiada rasa', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Telur Ayam Kampung', q: 'Pengambilan garam (natrium) secara berlebihan dikaitkan dengan risiko penyakit?', fact: 'Lebihan garam meningkatkan tekanan darah tinggi (hipertensi).', opts: [{t:'Tekanan Darah Tinggi (Hipertensi)', c:true}, {t:'Rabun warna', c:false}, {t:'Gastrik', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Ulam-ulaman Kampung', q: 'Berapakah had pengambilan garam harian yang disarankan WHO?', fact: 'WHO menyarankan kurang daripada 1 sudu teh garam (kira-kira 2000mg natrium).', opts: [{t:'Kurang daripada 1 sudu teh (5g) sehari', c:true}, {t:'5 sudu makan', c:false}, {t:'Tiada had', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Tulen', q: 'Minum air secukupnya membantu buah pinggang untuk menyingkirkan apa?', fact: 'Air membantu buah pinggang membuang lebihan garam dan toksin melalui urin.', opts: [{t:'Menyingkirkan lebihan garam natrium & toksin', c:true}, {t:'Membuang sel darah merah', c:false}, {t:'Menyingkirkan kalsium tulang', c:false}] }
+        ]
+      },
+      {
+        level: 13,
+        title: "Jambatan Makanan Segar",
+        zone: "Zon 3: Kalori & Tenaga Seimbang",
+        portalX: 2800,
+        skyColors: ['#021b2b', '#093c54', '#156a7d'],
+        enemyCount: 6,
+        enemySpeed: 1.75,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Buah Segar Tempatan', q: 'Apakah contoh makanan yang diproses secara ultra (Ultra-Processed Food)?', fact: 'Sosej, mi segera dan nugget ialah makanan diproses ultra.', opts: [{t:'Sosej, nugget & mi segera', c:true}, {t:'Ikan segar pasar', c:false}, {t:'Pisang baru dipetik', c:false}] },
+          { id: 'telur', icon: '🐟', sprite: 'fish', name: 'Ikan Kembung Segar', q: 'Apakah risiko bahan pengawet natrium nitrit dalam daging diproses?', fact: 'Pengambilan kerap daging diproses meningkatkan risiko kanser usus.', opts: [{t:'Meningkatkan risiko kanser kolorektal (usus)', c:true}, {t:'Menjadikan kulit lebih putih', c:false}, {t:'Tiada risiko langsung', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Salad Timun', q: 'Mengapakah timun mengandungi sifat hidrasi yang sangat tinggi?', fact: 'Timun mengandungi kira-kira 95% kandungan air.', opts: [{t:'Mengandungi kira-kira 95% air', c:true}, {t:'Kerana timun masin', c:false}, {t:'Timun mengandungi minyak', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Kosong', q: 'Apakah alternatif terbaik menggantikan minuman tin manis semasa rehat?', fact: 'Membawa botol air kosong sendiri dari rumah ialah langkah paling sihat.', opts: [{t:'Membawa botol air kosong dari rumah', c:true}, {t:'Membeli air kordial berperisa', c:false}, {t:'Minum air paip yang belum dimasak', c:false}] }
+        ]
+      },
+      {
+        level: 14,
+        title: "Gua Antioksidan",
+        zone: "Zon 3: Kalori & Tenaga Seimbang",
+        portalX: 2900,
+        skyColors: ['#120826', '#261247', '#421a69'],
+        enemyCount: 6,
+        enemySpeed: 1.75,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Biji Chia & Oat', q: 'Apakah fungsi utama antioksidan kepada sel-sel badan manusia?', fact: 'Antioksidan meneutralkan radikal bebas yang merosakkan sel.', opts: [{t:'Meneutralkan radikal bebas dan cegah penuaan sel', c:true}, {t:'Membekalkan kalori jahat', c:false}, {t:'Menghakis tulang', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Telur Omega', q: 'Apakah fungsi asid amino dalam protein selepas dihadam?', fact: 'Asid amino ialah blok binaan untuk sintesis protein badan.', opts: [{t:'Blok binaan untuk menghasilkan enzim & otot', c:true}, {t:'Bahan pembakar paru-paru', c:false}, {t:'Minyak pelincir sendi sahaja', c:false}] },
+          { id: 'brokoli', icon: '🫐', sprite: 'broccoli', name: 'Beri & Buah Naga', q: 'Buah berwarna ungu atau merah gelap kaya dengan antioksidan jenis?', fact: 'Warna ungu/merah gelap kaya dengan antosianin.', opts: [{t:'Antosianin (Anthocyanin)', c:true}, {t:'Klorofil semata-mata', c:false}, {t:'Bahan pewarna tiruan', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Kosong Bersih', q: 'Proses penyingkiran sisa buangan tubuh melalui peluh dan air kencing dinamakan?', fact: 'Penyingkiran sisa buangan metabolisme dinamakan perkumuhan.', opts: [{t:'Perkumuhan (Excretion)', c:true}, {t:'Penyerapan', c:false}, {t:'Respirasi', c:false}] }
+        ]
+      },
+      {
+        level: 15,
+        title: "Tebing Sarapan Sihat",
+        zone: "Zon 3: Kalori & Tenaga Seimbang",
+        portalX: 2900,
+        skyColors: ['#021b2e', '#074261', '#14768f'],
+        enemyCount: 6,
+        enemySpeed: 1.8,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Bijirin Sarapan Penuh', q: 'Mengapakah murid sekolah tidak digalakkan meninggalkan sarapan pagi?', fact: 'Sarapan membekalkan glukosa untuk fokus belajar dan tenaga memulakan hari.', opts: [{t:'Meningkatkan fokus ingatan di dalam kelas & bertenaga', c:true}, {t:'Supaya boleh tidur lebih lama', c:false}, {t:'Tiada kesan langsung', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Telur Hancur Sihat', q: 'Kombinasi sarapan terbaik merangkumi gabungan nutrien apakah?', fact: 'Gabungan karbohidrat kompleks + protein + buah menghasilkan tenaga berterusan.', opts: [{t:'Karbohidrat kompleks + Protein + Buah', c:true}, {t:'Minyak goreng + Gula pasir', c:false}, {t:'Hanya keropok cip masin', c:false}] },
+          { id: 'brokoli', icon: '🍅', sprite: 'broccoli', name: 'Tomato Segar', q: 'Tomato kaya dengan antioksidan likopena (lycopene) yang baik untuk?', fact: 'Likopena melindungi sel jantung dan mengurangkan keradangan.', opts: [{t:'Kesihatan sistem kardiovaskular & jantung', c:true}, {t:'Mencantikkan kuku sahaja', c:false}, {t:'Merencatkan sel', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Segelas Air Pagi', q: 'Mengapa digalakkan minum segelas air suam sejurus bangun tidur?', fact: 'Minum air waktu pagi mengaktifkan organ dalaman dan menggantikan cecair.', opts: [{t:'Mengaktifkan metabolisme & rehidrasi badan', c:true}, {t:'Supaya rasa mengantuk semula', c:false}, {t:'Tiada sebab', c:false}] }
+        ]
+      },
+      {
+        level: 16,
+        title: "Laluan Hidrasi Sukan",
+        zone: "Zon 4: Pertahanan Kesihatan & Misi Akhir",
+        portalX: 3000,
+        skyColors: ['#021626', '#083c5e', '#166982'],
+        enemyCount: 6,
+        enemySpeed: 1.85,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Pisang Pra-Latihan', q: 'Mengapakah atlet kerap memakan pisang 30 minit sebelum beraksi?', fact: 'Gula semula jadi dan kalium pisang cepat diserap untuk tenaga.', opts: [{t:'Membekalkan tenaga segera & elak kejang otot', c:true}, {t:'Membantu tidur nyenyak', c:false}, {t:'Menurunkan stamina', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Susu Coklat Pemulihan', q: 'Mengapa susu coklat sering dijadikan minuman pemulihan pasca sukan?', fact: 'Nisbah karbohidrat dan protein 3:1 memulihkan glikogen otot pantas.', opts: [{t:'Nisbah karbohidrat & protein ideal pulihkan otot', c:true}, {t:'Kerana warna coklat cantik', c:false}, {t:'Untuk menggantikan nasi tengah hari', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Sayuran Rehidrasi', q: 'Apakah mineral penting yang keluar bersama peluh semasa bersenam?', fact: 'Peluh mengandungi natrium, kalium dan klorida (elektrolit).', opts: [{t:'Natrium dan Kalium (Elektrolit)', c:true}, {t:'Hanya kalsium', c:false}, {t:'Zat besi tulen', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Sejuk', q: 'Berapa minit sekali atlet disarankan meneguk air semasa aktiviti cergas?', fact: 'Minum 150-200ml air setiap 15-20 minit senaman cergas.', opts: [{t:'Setiap 15 hingga 20 minit', c:true}, {t:'Hanya selepas pengsan', c:false}, {t:'3 jam sekali', c:false}] }
+        ]
+      },
+      {
+        level: 17,
+        title: "Kota Bebas Lemak Trans",
+        zone: "Zon 4: Pertahanan Kesihatan & Misi Akhir",
+        portalX: 3000,
+        skyColors: ['#120524', '#2a0e4a', '#4c1778'],
+        enemyCount: 6,
+        enemySpeed: 1.85,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Ubi Rebus Asli', q: 'Apakah bahaya utama Lemak Trans (Trans Fat) kepada salur darah?', fact: 'Lemak trans meningkatkan kolesterol jahat (LDL) dan menyumbat arteri.', opts: [{t:'Meningkatkan kolesterol jahat (LDL) & risiko serangan jantung', c:true}, {t:'Menyejukkan salur darah', c:false}, {t:'Menguatkan otot jantung', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Ikan Bakar Tanpa Minyak', q: 'Lemak trans lazimnya terhasil daripada proses minyak apakah?', fact: 'Proses penghidrogenan separa minyak sayuran menghasilkan lemak trans.', opts: [{t:'Penghidrogenan minyak sayuran industri', c:true}, {t:'Pemerasan sejuk buah zaitun', c:false}, {t:'Pemanasan wap air tulen', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Kailan Bawang Putih', q: 'Bawang putih mengandungi sebatian allicin yang berfungsi sebagai?', fact: 'Allicin mengurangkan tekanan darah dan menyokong imuniti.', opts: [{t:'Penurun tekanan darah & anti-bakteria semula jadi', c:true}, {t:'Perisa kimia tiruan', c:false}, {t:'Bahan pengawet berbahaya', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Kosong', q: 'Makanan bergoreng celup minyak kitar semula mengandungi banyak apa?', fact: 'Minyak yang digoreng berulang kali menghasilkan asid lemak bebas dan karsinogen.', opts: [{t:'Bahan karsinogen dan radikal bebas toksik', c:true}, {t:'Vitamin A semula jadi', c:false}, {t:'Mineral kalsium', c:false}] }
+        ]
+      },
+      {
+        level: 18,
+        title: "Labirin Label Nutrisi",
+        zone: "Zon 4: Pertahanan Kesihatan & Misi Akhir",
+        portalX: 3100,
+        skyColors: ['#021b30', '#064263', '#11718c'],
+        enemyCount: 7,
+        enemySpeed: 1.9,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Biji Bunga Matahari', q: 'Dalam senarai ramuan label makanan, bahan apakah diletakkan paling hadapan?', fact: 'Senarai ramuan disusun mengikut urutan berat terbanyak hingga tersedikit.', opts: [{t:'Bahan yang paling banyak kandungannya dalam produk', c:true}, {t:'Bahan paling mahal harganya', c:false}, {t:'Bahan kimia pengawet sahaja', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Tempe & Tauhu', q: 'Tempe dihasilkan daripada kacang soya yang difermentasi, membekalkan apa?', fact: 'Tempe kaya protein tumbuhan, serat dan probiotik untuk usus.', opts: [{t:'Protein tumbuhan & probiotik baik untuk usus', c:true}, {t:'Lemak trans tepu tinggi', c:false}, {t:'Hanya garam natrium', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Sayur Salad Campur', q: 'Apakah maksud logo "Pilihan Lebih Sihat" (Healthier Choice) pada bungkusan?', fact: 'Logo ini menandakan produk menepati kriteria nutrisi KKM berbanding produk setara.', opts: [{t:'Menepati piawaian nutrisi KKM (kurang gula/garam/lemak)', c:true}, {t:'Produk ubat-ubatan hospital', c:false}, {t:'Makanan untuk orang sakit sahaja', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Mineral Tulen', q: 'Apakah perkataan lain yang merujuk kepada gula tersembunyi pada label?', fact: 'Sirap jagung tinggi fruktosa, maltosa, sukrosa dan dekstrosa ialah jenis gula.', opts: [{t:'Sirap Fruktosa, Maltosa, Dekstrosa & Sukrosa', c:true}, {t:'Natrium bikarbonat', c:false}, {t:'Asid askorbik', c:false}] }
+        ]
+      },
+      {
+        level: 19,
+        title: "Benteng Imuniti Perkasa",
+        zone: "Zon 4: Pertahanan Kesihatan & Misi Akhir",
+        portalX: 3100,
+        skyColors: ['#031826', '#093a54', '#14687a'],
+        enemyCount: 7,
+        enemySpeed: 1.9,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Halia & Kunyit', q: 'Bahan herba masakan seperti kunyit mengandungi kurkumin yang berfungsi?', fact: 'Kurkumin adalah anti-radang yang kuat untuk menguatkan daya tahan tubuh.', opts: [{t:'Anti-radang dan penguat sistem imunisasi', c:true}, {t:'Menaikkan gula dalam darah', c:false}, {t:'Membuat badan jadi lemah', c:false}] },
+          { id: 'telur', icon: '🐟', sprite: 'fish', name: 'Ikan Salmon & Sardin', q: 'Vitamin apakah yang boleh disintesis oleh kulit dengan bantuan cahaya matahari pagi?', fact: 'Cahaya matahari pagi membantu sintesis Vitamin D untuk imuniti dan tulang.', opts: [{t:'Vitamin D', c:true}, {t:'Vitamin C', c:false}, {t:'Vitamin B12', c:false}] },
+          { id: 'brokoli', icon: '🍊', sprite: 'broccoli', name: 'Buah Oren & Jambu Batu', q: 'Buah tempatan manakah mengandungi Vitamin C lebih tinggi daripada oren?', fact: 'Jambu batu mengandungi Vitamin C berganda-ganda lebih tinggi daripada buah oren.', opts: [{t:'Jambu Batu (Guava)', c:true}, {t:'Buah durian', c:false}, {t:'Buah kelapa', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Kosong Secukupnya', q: 'Bagaimanakah air menyokong sistem imuniti tubuh?', fact: 'Air menghasilkan cecair limfa yang mengangkut sel darah putih melawan kuman.', opts: [{t:'Membentuk cecair limfa yang membawa sel darah putih', c:true}, {t:'Membekalkan kalori', c:false}, {t:'Menyejukkan virus', c:false}] }
+        ]
+      },
+      {
+        level: 20,
+        title: "Markas Agung Raja Junk Food",
+        zone: "Zon 4: Pertarungan Akhir VITA-X!",
+        portalX: 3200,
+        skyColors: ['#1c0404', '#420b0b', '#6b1313'],
+        enemyCount: 8,
+        enemySpeed: 2.0,
+        quizzes: [
+          { id: 'pisang', icon: '🍌', sprite: 'banana', name: 'Kuasa Tenaga Bersih VITA-X', q: 'Mengapa gaya hidup aktif fizikal mesti dipadankan dengan pemakanan seimbang?', fact: 'Gabungan senaman dan diet seimbang membina kesihatan fizikal dan mental cemerlang.', opts: [{t:'Untuk keseimbangan tenaga, kesihatan optimum & cegah penyakit', c:true}, {t:'Hanya supaya boleh makan fast food setiap hari', c:false}, {t:'Tiada kaitan antara pemakanan dan senaman', c:false}] },
+          { id: 'telur', icon: '🥚', sprite: 'egg', name: 'Perisai Protein Sejati', q: 'Apakah bahaya utama tabiat kerap mengambil makanan rapu (junk food)?', fact: 'Junk food tinggi lemak tepu, garam dan gula yang boleh merosakkan organ badan.', opts: [{t:'Menyebabkan obesiti, penyakit jantung, kelesuan & kurang nutrien', c:true}, {t:'Menjadikan murid lebih bijak', c:false}, {t:'Menambah ketinggian dengan cepat', c:false}] },
+          { id: 'brokoli', icon: '🥦', sprite: 'broccoli', name: 'Teras Fitonutrien Mega', q: 'Apakah amalan harian terbaik untuk kekal sebagai Ejen Nutrisi Cemerlang?', fact: 'Makan mengikut Pinggan Sihat, cukup air, aktif bersenam dan tidur teratur.', opts: [{t:'Makan pinggan sihat suku-suku separuh, minum air & bersenam', c:true}, {t:'Skip waktu makan dan minum manis sahaja', c:false}, {t:'Makan ubat kurus tanpa kawalan doktor', c:false}] },
+          { id: 'air', icon: '💧', sprite: 'water', name: 'Air Hidrasi Utama VITA-X', q: 'Ikrar seorang Ejen VITA-X untuk generasi sihat negara ialah?', fact: 'Generasi Sihat, Minda Cerdas, Negara Kuat!', opts: [{t:'"Makan Sihat, Hidup Sihat, Negara Kuat!"', c:true}, {t:'"Makan manis selagi boleh!"', c:false}, {t:'"Tidak perlu bersenam langsung"', c:false}] }
+        ]
+      }
+    ];
 
     function loadSettings() {
       const s = localStorage.getItem('vitax_school');
@@ -742,42 +1073,43 @@
       document.getElementById('regSchoolName').innerText = config.schoolName;
     }
 
-    // FUNGSI REFRESH LAMAN UTAMA
+    function initLevelSelectorUI() {
+      const sel = document.getElementById('selectStartLevel');
+      sel.innerHTML = '';
+      GAME_LEVELS.forEach(lvl => {
+        const opt = document.createElement('option');
+        opt.value = lvl.level;
+        opt.innerText = `Level ${lvl.level}: ${lvl.title}`;
+        sel.appendChild(opt);
+      });
+    }
+
     function refreshGamePage() {
       if (confirm("Adakah anda mahu memuat semula (refresh) permainan?")) {
         window.location.reload();
       }
     }
 
-    // FUNGSI TUKAR MOD MELINTANG (HORIZONTAL) & SKRIN PENUH
     async function toggleScreenOrientationMode() {
       triggerHaptic(25);
       try {
         if (!document.fullscreenElement) {
           const docEl = document.documentElement;
-          if (docEl.requestFullscreen) {
-            await docEl.requestFullscreen();
-          } else if (docEl.webkitRequestFullscreen) {
-            await docEl.webkitRequestFullscreen();
-          }
+          if (docEl.requestFullscreen) await docEl.requestFullscreen();
+          else if (docEl.webkitRequestFullscreen) await docEl.webkitRequestFullscreen();
 
           if (screen.orientation && screen.orientation.lock) {
             await screen.orientation.lock('landscape').catch(() => {});
           }
         } else {
-          if (document.exitFullscreen) {
-            await document.exitFullscreen();
-          } else if (document.webkitExitFullscreen) {
-            await document.webkitExitFullscreen();
-          }
+          if (document.exitFullscreen) await document.exitFullscreen();
+          else if (document.webkitExitFullscreen) await document.webkitExitFullscreen();
 
           if (screen.orientation && screen.orientation.unlock) {
             screen.orientation.unlock();
           }
         }
-      } catch (err) {
-        console.warn("Info orientasi:", err);
-      }
+      } catch (err) {}
       setTimeout(kemaskiniButangApungUI, 150);
     }
 
@@ -823,61 +1155,7 @@
       invincibleTimer: 0
     };
 
-    const QUIZ_DATA = {
-      pisang: {
-        id: 'pisang',
-        nama: 'PISANG (KARBOHIDRAT)',
-        icon: '🍌',
-        soalan: 'Apakah fungsi utama karbohidrat dalam pemakanan seharian?[cite: 5]',
-        pilihan: [
-          { text: 'A. Membekalkan tenaga utama untuk aktiviti[cite: 5]', correct: true },
-          { text: 'B. Membina dan membaiki tisu otot yang luka[cite: 5]', correct: false },
-          { text: 'C. Mengekalkan keseimbangan cecair badan sahaja[cite: 5]', correct: false }
-        ],
-        fakta: 'Karbohidrat ialah sumber tenaga utama badan. Pisang memberi tenaga segera untuk kekal cergas![cite: 5]',
-        tenagaBonus: 20
-      },
-      telur: {
-        id: 'telur',
-        nama: 'TELUR / AYAM (PROTEIN)',
-        icon: '🥚',
-        soalan: 'Apakah fungsi penting protein kepada tubuh badan seorang ejen?',
-        pilihan: [
-          { text: 'A. Melarutkan vitamin larut lemak', correct: false },
-          { text: 'B. Membina sel tisu dan memulihkan otot yang rosak', correct: true },
-          { text: 'C. Menjadi penebat haba di bawah kulit', correct: false }
-        ],
-        fakta: 'Protein amat penting bagi proses tumbesaran dan membina kekuatan otot fizikal!',
-        tenagaBonus: 20
-      },
-      brokoli: {
-        id: 'brokoli',
-        nama: 'BROKOLI (VITAMIN & SERAT)',
-        icon: '🥦',
-        soalan: 'Mengapakah sayur-sayuran hijau seperti brokoli perlu dimakan?',
-        pilihan: [
-          { text: 'A. Mengandungi serat untuk pencernaan dan vitamin untuk ketahanan imuniti', correct: true },
-          { text: 'B. Menambah paras kolesterol dalam salur darah', correct: false },
-          { text: 'C. Menggantikan keperluan minum air kosong', correct: false }
-        ],
-        fakta: 'Sayuran membekalkan serat dan antioksidan untuk sistem imuniti yang ampuh menentang penyakit!',
-        tenagaBonus: 20
-      },
-      air: {
-        id: 'air',
-        nama: 'BOTOL AIR (HIDRASI)',
-        icon: '💧',
-        soalan: 'Berapakah saranan pengambilan air kosong setiap hari untuk mengekalkan hidrasi?',
-        pilihan: [
-          { text: 'A. Hanya 1 cawan selepas makan malam', correct: false },
-          { text: 'B. 6 hingga 8 gelas sehari (sekitar 2 liter)', correct: true },
-          { text: 'C. Minum hanya apabila tekak terasa sangat perit', correct: false }
-        ],
-        fakta: 'Air mengangkut nutrien ke seluruh sel dan mengawal suhu badan agar kekal segar!',
-        tenagaBonus: 20
-      }
-    };
-
+    let currentLevel = 1;
     let isGameRunning = false;
     let isGamePaused = false;
     let cameraX = 0;
@@ -981,46 +1259,78 @@
       }
     }
 
-    function setupLevel() {
+    // PENJANA DUNIA LEVEL (LEVEL 1 HINGGA 20)
+    function setupLevel(lvlNum) {
+      currentLevel = lvlNum;
+      const lvlData = GAME_LEVELS[lvlNum - 1] || GAME_LEVELS[0];
+
+      portal.x = lvlData.portalX;
+      portal.y = 280;
+
+      // Platform susunan mencabar mengikut level
       platforms = [
         { x: 0, y: 360, w: 750, h: 90, type: 'ground' },
-        { x: 830, y: 360, w: 600, h: 90, type: 'ground' },
-        { x: 1520, y: 360, w: 850, h: 90, type: 'ground' },
+        { x: 830, y: 360, w: 650, h: 90, type: 'ground' },
+        { x: 1560, y: 360, w: 700, h: 90, type: 'ground' },
+        { x: 2340, y: 360, w: 1000, h: 90, type: 'ground' },
+        // Platform Kayu Balak
         { x: 260, y: 260, w: 130, h: 26, type: 'log' },
         { x: 500, y: 210, w: 140, h: 26, type: 'log' },
         { x: 1020, y: 260, w: 150, h: 26, type: 'log' },
-        { x: 1300, y: 200, w: 140, h: 26, type: 'log' },
-        { x: 1750, y: 250, w: 150, h: 26, type: 'log' }
+        { x: 1280, y: 210, w: 140, h: 26, type: 'log' },
+        { x: 1750, y: 260, w: 150, h: 26, type: 'log' },
+        { x: 2000, y: 210, w: 140, h: 26, type: 'log' }
       ];
 
+      // 4 Item Makanan Sesuai Dengan Soalan Level Semasa
       foodItems = [
-        { id: 'pisang', x: 320, y: 225, size: 34, scanned: false },
-        { id: 'brokoli', x: 650, y: 325, size: 34, scanned: false },
-        { id: 'telur', x: 1100, y: 225, size: 32, scanned: false },
-        { id: 'air', x: 1370, y: 165, size: 32, scanned: false }
+        { id: 'pisang', x: 320, y: 225, size: 34, scanned: false, info: lvlData.quizzes[0] },
+        { id: 'telur', x: 1100, y: 225, size: 32, scanned: false, info: lvlData.quizzes[1] },
+        { id: 'brokoli', x: 1820, y: 225, size: 34, scanned: false, info: lvlData.quizzes[2] },
+        { id: 'air', x: 2070, y: 175, size: 32, scanned: false, info: lvlData.quizzes[3] }
       ];
 
-      burgerEnemies = [
-        { x: 440, y: 325, w: 38, h: 36, minX: 400, maxX: 580, vx: 1.2 },
-        { x: 1180, y: 325, w: 38, h: 36, minX: 1140, maxX: 1380, vx: 1.5 },
-        { x: 1850, y: 325, w: 38, h: 36, minX: 1780, maxX: 1980, vx: 1.6 }
-      ];
+      // Kemas kini ikon pada HUD mengikut tema level
+      document.getElementById('badgeIcon1').innerText = lvlData.quizzes[0].icon;
+      document.getElementById('badgeIcon2').innerText = lvlData.quizzes[1].icon;
+      document.getElementById('badgeIcon3').innerText = lvlData.quizzes[2].icon;
+      document.getElementById('badgeIcon4').innerText = lvlData.quizzes[3].icon;
 
-      coins = [
-        { x: 180, y: 320, collected: false },
-        { x: 210, y: 320, collected: false },
-        { x: 240, y: 320, collected: false },
-        { x: 540, y: 170, collected: false },
-        { x: 570, y: 170, collected: false },
-        { x: 920, y: 320, collected: false },
-        { x: 950, y: 320, collected: false },
-        { x: 1650, y: 320, collected: false }
-      ];
+      // Musuh Junk Food Dinamik (Bilangan & Kelajuan Bertambah Mengikut Level)
+      burgerEnemies = [];
+      const enemySprites = [SPRITES.burgerEnemy, SPRITES.friesEnemy, SPRITES.sodaEnemy];
+      for (let i = 0; i < lvlData.enemyCount; i++) {
+        const segX = 400 + (i * 350);
+        burgerEnemies.push({
+          x: segX + 40,
+          y: 325,
+          w: 38,
+          h: 36,
+          minX: segX,
+          maxX: segX + 180,
+          vx: lvlData.enemySpeed * (i % 2 === 0 ? 1 : -1),
+          sprite: enemySprites[i % enemySprites.length]
+        });
+      }
+
+      // Taburan Syiling Emas
+      coins = [];
+      for (let cx = 160; cx < portal.x - 100; cx += 140) {
+        coins.push({ x: cx, y: 320, collected: false });
+        if (cx % 280 === 0) {
+          coins.push({ x: cx + 25, y: 260, collected: false });
+        }
+      }
+
+      nutrientPowers = { pisang: false, telur: false, brokoli: false, air: false };
+      document.getElementById('hudLevelBadge').innerText = `LVL ${lvlNum}/20`;
+      document.getElementById('hudMissionTitle').innerText = `Lvl ${lvlNum}: ${lvlData.title}`;
     }
 
     function startGame() {
       const nameInput = document.getElementById('inputPlayerName').value.trim();
       const classInput = document.getElementById('inputPlayerClass').value.trim();
+      const chosenLevel = parseInt(document.getElementById('selectStartLevel').value) || 1;
 
       if (!nameInput) {
         alert("Sila masukkan nama ejen sebelum memulakan misi.");
@@ -1036,34 +1346,17 @@
       document.getElementById('startScreen').classList.add('hidden');
       document.getElementById('gameOverScreen').classList.add('hidden');
       document.getElementById('victoryScreen').classList.add('hidden');
+      document.getElementById('levelClearScreen').classList.add('hidden');
 
-      resetGame();
+      score = 0;
+      resetGameForLevel(chosenLevel);
       isGameRunning = true;
       isGamePaused = false;
       lastTime = performance.now();
       requestAnimationFrame(gameLoop);
     }
 
-    function restartGame() {
-      document.getElementById('gameOverScreen').classList.add('hidden');
-      document.getElementById('victoryScreen').classList.add('hidden');
-      resetGame();
-      startBgm();
-      isGameRunning = true;
-      isGamePaused = false;
-      lastTime = performance.now();
-      requestAnimationFrame(gameLoop);
-    }
-
-    function backToMenu() {
-      stopBgm();
-      document.getElementById('gameOverScreen').classList.add('hidden');
-      document.getElementById('victoryScreen').classList.add('hidden');
-      document.getElementById('startScreen').classList.remove('hidden');
-      resetGame();
-    }
-
-    function resetGame() {
+    function resetGameForLevel(lvlNum) {
       player.x = 80;
       player.y = 280;
       player.vx = 0;
@@ -1074,12 +1367,44 @@
       player.invincibleTimer = 0;
 
       cameraX = 0;
-      score = 0;
       gameTime = 0;
 
-      nutrientPowers = { pisang: false, telur: false, brokoli: false, air: false };
-      setupLevel();
+      setupLevel(lvlNum);
       updateHUD();
+      document.getElementById('vitaBotMsg').innerText = `Selamat datang ke ${GAME_LEVELS[lvlNum-1].title}! Kumpul 4 nutrien dan masuk ke portal.`;
+    }
+
+    function restartCurrentLevel() {
+      document.getElementById('gameOverScreen').classList.add('hidden');
+      resetGameForLevel(currentLevel);
+      startBgm();
+      isGameRunning = true;
+      isGamePaused = false;
+      lastTime = performance.now();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function goToNextLevel() {
+      document.getElementById('levelClearScreen').classList.add('hidden');
+      if (currentLevel < 20) {
+        resetGameForLevel(currentLevel + 1);
+        startBgm();
+        isGameRunning = true;
+        isGamePaused = false;
+        lastTime = performance.now();
+        requestAnimationFrame(gameLoop);
+      } else {
+        triggerMegaVictory();
+      }
+    }
+
+    function backToMenu() {
+      stopBgm();
+      document.getElementById('gameOverScreen').classList.add('hidden');
+      document.getElementById('victoryScreen').classList.add('hidden');
+      document.getElementById('levelClearScreen').classList.add('hidden');
+      document.getElementById('startScreen').classList.remove('hidden');
+      isGameRunning = false;
     }
 
     function cubaImbasMakanan() {
@@ -1099,19 +1424,20 @@
       if (targetItem) {
         playSound('scan');
         triggerHaptic(30);
-        bukaPengimbasModal(targetItem.id);
+        bukaPengimbasModal(targetItem);
       }
     }
 
-    function bukaPengimbasModal(nutrientId) {
+    function bukaPengimbasModal(foodItem) {
       isQuizOpen = true;
-      activeQuizNutrient = QUIZ_DATA[nutrientId];
+      activeQuizNutrient = foodItem;
+      const quiz = foodItem.info;
 
       const modal = document.getElementById('modalPengimbas');
-      document.getElementById('quizIcon').innerText = activeQuizNutrient.icon;
-      document.getElementById('quizTitle').innerText = `PENGIMBAS: ${activeQuizNutrient.nama}`;
-      document.getElementById('quizQuestion').innerText = activeQuizNutrient.soalan;
-      document.getElementById('quizFactText').innerText = activeQuizNutrient.fakta;
+      document.getElementById('quizIcon').innerText = quiz.icon;
+      document.getElementById('quizTitle').innerText = `PENGIMBAS: ${quiz.name}`;
+      document.getElementById('quizQuestion').innerText = quiz.q;
+      document.getElementById('quizFactText').innerText = quiz.fact;
       
       const statusEl = document.getElementById('quizResultStatus');
       statusEl.innerText = "Sila pilih jawapan yang betul:";
@@ -1122,11 +1448,11 @@
       const container = document.getElementById('quizOptionsContainer');
       container.innerHTML = '';
 
-      activeQuizNutrient.pilihan.forEach((opt) => {
+      quiz.opts.forEach((opt) => {
         const btn = document.createElement('button');
         btn.className = "w-full text-left p-2.5 rounded-xl border border-cyan-500/40 bg-slate-800 hover:bg-cyan-950 font-bold text-xs sm:text-sm text-white transition flex items-center justify-between";
-        btn.innerText = opt.text;
-        btn.onclick = () => jawabSoalan(opt.correct, btn);
+        btn.innerText = opt.t;
+        btn.onclick = () => jawabSoalan(opt.c, btn);
         container.appendChild(btn);
       });
 
@@ -1144,17 +1470,15 @@
         btnElement.classList.remove('border-cyan-500/40', 'bg-slate-800');
         btnElement.classList.add('border-green-400', 'bg-green-950/80', 'text-green-300');
         
-        statusEl.innerText = `✅ TAHNIAH! +${activeQuizNutrient.tenagaBonus} Tenaga & Kuasa Diaktifkan![cite: 4, 5]`;
+        statusEl.innerText = `✅ TAHNIAH! +20 Tenaga & Kuasa Diaktifkan!`;
         statusEl.className = "mt-2 text-center font-hud font-bold text-xs py-1 px-2 rounded-xl bg-green-950 border border-green-500 text-green-300";
 
-        player.energy = Math.min(100, player.energy + activeQuizNutrient.tenagaBonus);
+        player.energy = Math.min(100, player.energy + 20);
         score += 100;
         nutrientPowers[activeQuizNutrient.id] = true;
+        activeQuizNutrient.scanned = true;
 
-        const food = foodItems.find(f => f.id === activeQuizNutrient.id);
-        if (food) food.scanned = true;
-
-        document.getElementById('vitaBotMsg').innerText = `Hebat! Kuasa ${activeQuizNutrient.nama} telah aktif. Teruskan ke portal penamat![cite: 5]`;
+        document.getElementById('vitaBotMsg').innerText = `Hebat! Kuasa ${activeQuizNutrient.info.name} telah aktif. Teruskan ke portal penamat!`;
       } else {
         playSound('hurt');
         triggerHaptic(60);
@@ -1165,8 +1489,7 @@
         statusEl.className = "mt-2 text-center font-hud font-bold text-xs py-1 px-2 rounded-xl bg-red-950 border border-red-500 text-red-300";
 
         nutrientPowers[activeQuizNutrient.id] = true;
-        const food = foodItems.find(f => f.id === activeQuizNutrient.id);
-        if (food) food.scanned = true;
+        activeQuizNutrient.scanned = true;
       }
 
       updateHUD();
@@ -1188,7 +1511,7 @@
       if (!isQuizOpen && !isGamePaused) {
         gameTime += dt;
 
-        player.energy = Math.max(0, player.energy - dt * 0.8);
+        player.energy = Math.max(0, player.energy - dt * (0.8 + currentLevel * 0.03));
         if (player.energy <= 0) {
           player.hearts -= 1;
           player.energy = 50;
@@ -1244,7 +1567,7 @@
           player.hearts -= 1;
           playSound('hurt');
           if (player.hearts <= 0) {
-            triggerGameOver("Terjatuh ke dalam jurang toksik!");
+            triggerGameOver("Terjatuh ke dalam jurang!");
             return;
           } else {
             player.x = Math.max(60, cameraX + 80);
@@ -1253,6 +1576,7 @@
           }
         }
 
+        // Musuh Junk Food
         for (let em of burgerEnemies) {
           em.x += em.vx;
           if (em.x < em.minX || em.x > em.maxX) em.vx *= -1;
@@ -1266,12 +1590,12 @@
             player.invincibleTimer = 1.2;
             playSound('hurt');
             triggerHaptic(50);
-            document.getElementById('vitaBotMsg').innerText = "Awas! Serangan Burger Mengurangkan 25 Tenaga![cite: 4]";
+            document.getElementById('vitaBotMsg').innerText = "Awas! Serangan Junk Food Mengurangkan 25 Tenaga!";
             if (player.energy <= 0) {
               player.hearts -= 1;
               player.energy = 40;
               if (player.hearts <= 0) {
-                triggerGameOver("Tewas akibat serangan raksasa burger![cite: 4]");
+                triggerGameOver("Tewas akibat serangan raksasa makanan rapu!");
                 return;
               }
             }
@@ -1287,13 +1611,14 @@
           }
         }
 
+        // Semak Syarat Kemenangan Level Semasa
         const semuaKuasaLengkap = Object.values(nutrientPowers).every(v => v === true);
         if (Math.hypot(player.x - (portal.x + portal.w / 2), player.y - (portal.y + portal.h / 2)) < 60) {
           if (semuaKuasaLengkap) {
-            triggerVictory();
+            triggerLevelClear();
             return;
           } else {
-            document.getElementById('vitaBotMsg').innerText = "Portal berkunci! Sila lengkapkan keempat-empat Kuasa Nutrien dahulu.[cite: 4, 5]";
+            document.getElementById('vitaBotMsg').innerText = "Portal berkunci! Sila lengkapkan keempat-empat Kuasa Nutrien dahulu.";
           }
         }
 
@@ -1342,20 +1667,20 @@
       ctx.save();
       ctx.translate(-cameraX, 0);
 
-      // Papan tanda Zon 1[cite: 5]
+      // Papan tanda Zon
       ctx.fillStyle = '#78350f';
       ctx.fillRect(50, 290, 8, 70);
       ctx.fillStyle = '#b45309';
       ctx.beginPath();
-      ctx.roundRect(15, 260, 95, 34, 6);
+      ctx.roundRect(15, 260, 105, 34, 6);
       ctx.fill();
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 9px Chakra Petch';
       ctx.textAlign = 'center';
-      ctx.fillText('ZON 1', 62, 274);
-      ctx.fillText('TAMAN NUTRISI', 62, 287);
+      ctx.fillText(`LEVEL ${currentLevel}`, 67, 274);
+      ctx.fillText(`ZON VITA-X`, 67, 287);
 
-      // Platform[cite: 5]
+      // Platform
       for (let p of platforms) {
         if (p.x + p.w < cameraX - 50 || p.x > cameraX + V_WIDTH + 50) continue;
 
@@ -1388,7 +1713,7 @@
         }
       }
 
-      // Makanan & Lencana IMBAS[cite: 5]
+      // 4 Makanan Mengikut Level Semasa
       for (let f of foodItems) {
         if (!f.scanned && f.x > cameraX - 40 && f.x < cameraX + V_WIDTH + 40) {
           ctx.fillStyle = '#0284c7';
@@ -1404,24 +1729,25 @@
           ctx.textAlign = 'center';
           ctx.fillText('IMBAS', f.x, f.y - 30);
 
-          const spriteImg = SPRITES[f.id];
+          const spriteKey = f.info.sprite;
+          const spriteImg = SPRITES[spriteKey] || SPRITES.banana;
           if (spriteImg && spriteImg.complete) {
             ctx.drawImage(spriteImg, f.x - f.size / 2, f.y - f.size / 2, f.size, f.size);
           }
         }
       }
 
-      // Musuh Burger[cite: 4, 5]
+      // Musuh Junk Food
       for (let em of burgerEnemies) {
         if (em.x > cameraX - 40 && em.x < cameraX + V_WIDTH + 40) {
-          ctx.drawImage(SPRITES.burgerEnemy, em.x - em.w / 2, em.y - em.h / 2, em.w, em.h);
+          ctx.drawImage(em.sprite, em.x - em.w / 2, em.y - em.h / 2, em.w, em.h);
           ctx.fillStyle = '#dc2626';
           ctx.beginPath(); ctx.arc(em.x - 16, em.y + 4, 7, 0, Math.PI * 2); ctx.fill();
           ctx.beginPath(); ctx.arc(em.x + 16, em.y + 4, 7, 0, Math.PI * 2); ctx.fill();
         }
       }
 
-      // Portal[cite: 4, 5]
+      // Portal
       drawPortal(portal.x, portal.y, portal.w, portal.h);
 
       // Hero
@@ -1447,19 +1773,20 @@
     }
 
     function drawNeoCityBackground(offset) {
+      const lvlData = GAME_LEVELS[currentLevel - 1] || GAME_LEVELS[0];
       const grad = ctx.createLinearGradient(0, 0, 0, V_HEIGHT);
-      grad.addColorStop(0, '#02182b');
-      grad.addColorStop(0.6, '#03395c');
-      grad.addColorStop(1, '#0e6288');
+      grad.addColorStop(0, lvlData.skyColors[0]);
+      grad.addColorStop(0.6, lvlData.skyColors[1]);
+      grad.addColorStop(1, lvlData.skyColors[2]);
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, V_WIDTH, V_HEIGHT);
 
       const bldgs = [
-        { x: 30, w: 90, h: 260, text: 'MAKAN SIHAT' },
-        { x: 180, w: 110, h: 300, text: 'HIDUP SIHAT' },
-        { x: 360, w: 95, h: 240, text: 'GENERASI SIHAT' },
-        { x: 520, w: 100, h: 280, text: 'NEGARA KUAT' },
-        { x: 700, w: 120, h: 320, text: 'VITA-X' }
+        { x: 30, w: 90, h: 260, text: 'VITA-X' },
+        { x: 180, w: 110, h: 300, text: 'MAKAN SIHAT' },
+        { x: 360, w: 95, h: 240, text: `LEVEL ${currentLevel}` },
+        { x: 520, w: 100, h: 280, text: 'GENERASI SIHAT' },
+        { x: 700, w: 120, h: 320, text: 'NEGARA KUAT' }
       ];
 
       for (let b of bldgs) {
@@ -1540,12 +1867,12 @@
           el.classList.remove('opacity-40');
           el.classList.add('opacity-100');
           cnt.innerText = '1/1';
-          cnt.className = 'text-[9px] font-hud font-bold text-green-300';
+          cnt.className = 'text-[9px] sm:text-[10px] font-hud font-bold text-green-300';
         } else {
           el.classList.add('opacity-40');
           el.classList.remove('opacity-100');
           cnt.innerText = '0/1';
-          cnt.className = 'text-[9px] font-hud font-bold text-white';
+          cnt.className = 'text-[9px] sm:text-[10px] font-hud font-bold text-white';
         }
       });
 
@@ -1562,24 +1889,36 @@
       document.getElementById('failReasonText').innerText = reason;
       document.getElementById('gameOverScreen').classList.remove('hidden');
 
-      hantarKeGoogleSheet(false);
+      hantarKeGoogleSheet(false, currentLevel);
     }
 
-    function triggerVictory() {
+    function triggerLevelClear() {
       isGameRunning = false;
       stopBgm();
       playSound('win');
       triggerHaptic([40, 30, 40, 30, 80]);
 
-      document.getElementById('vicPlayerName').innerText = `${currentPlayerName} (${currentPlayerClass})`;
-      document.getElementById('vicFinalScore').innerText = score;
-      document.getElementById('vicTimeTaken').innerText = `${Math.round(gameTime)} Saat`;
-      document.getElementById('victoryScreen').classList.remove('hidden');
+      hantarKeGoogleSheet(true, currentLevel);
 
-      hantarKeGoogleSheet(true);
+      if (currentLevel >= 20) {
+        triggerMegaVictory();
+        return;
+      }
+
+      document.getElementById('lvlClearTitle').innerText = `LEVEL ${currentLevel} SELESAI!`;
+      document.getElementById('lvlClearName').innerText = GAME_LEVELS[currentLevel - 1].title;
+      document.getElementById('lvlClearScore').innerText = score;
+      document.getElementById('lvlClearEnergy').innerText = `${Math.round(player.energy)}/100`;
+      document.getElementById('levelClearScreen').classList.remove('hidden');
     }
 
-    function hantarKeGoogleSheet(isMenang) {
+    function triggerMegaVictory() {
+      document.getElementById('vicPlayerName').innerText = `${currentPlayerName} (${currentPlayerClass})`;
+      document.getElementById('vicFinalScore').innerText = score;
+      document.getElementById('victoryScreen').classList.remove('hidden');
+    }
+
+    function hantarKeGoogleSheet(isMenang, lvlNum) {
       const statusEl = document.getElementById('vicSheetStatus');
       if (statusEl) {
         statusEl.innerText = "Sedang Dihantar...";
@@ -1598,7 +1937,7 @@
         nyawa: player.hearts,
         masaDiambil: Math.round(gameTime),
         kuasaNutrien: `${totalKuasa}/4`,
-        keputusan: isMenang ? "Berjaya (Misi Selesai)" : "Gagal"
+        keputusan: isMenang ? `Berjaya Selesai (Level ${lvlNum})` : `Gagal (Level ${lvlNum})`
       };
 
       fetch(config.gasUrl, {
@@ -1671,7 +2010,8 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       loadSettings();
-      setupLevel();
+      initLevelSelectorUI();
+      setupLevel(1);
       kemaskiniButangApungUI();
     });
   </script>
